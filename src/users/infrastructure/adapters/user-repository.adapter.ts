@@ -1,6 +1,4 @@
-import { UserRepositoryPort } from "src/users/application";
-
-
+import { UserRepositoryPort } from "../../application";
 export class UserRepositoryAdapter implements UserRepositoryPort {
     findUserByid(id: string): Promise<any> {
         throw new Error("Method not implemented.");
