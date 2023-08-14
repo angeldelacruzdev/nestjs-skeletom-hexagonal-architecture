@@ -1,11 +1,14 @@
-import { UserRepositoryPort } from "../ports";
+import { UserResponseDto } from '../dtos';
+import { FindUserRepositoryPort } from '../ports';
 
 export class FindUserUseCase {
-    constructor(
-        private readonly userRepository: UserRepositoryPort
-    ) { }
+  constructor(private readonly userRepository: FindUserRepositoryPort) {}
 
-    async execute(id: string): Promise<any> {
-        return await this.userRepository.findUserByid(id)
-    }
+  async findUserByid(id: string): Promise<UserResponseDto> {
+    return await this.userRepository.findUserByid(id);
+  }
+
+  async findAll(): Promise<UserResponseDto[]> {
+    return await this.userRepository.findAll();
+  }
 }

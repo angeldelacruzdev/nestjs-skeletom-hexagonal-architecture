@@ -1,21 +1,67 @@
-import { Module } from "@nestjs/common";
-import { UserRepositoryAdapter } from "./infrastructure";
-import { FindUserUseCase, USER_REPOSITORY_PORT, UserRepositoryPort } from "./application";
-import { UserController } from "./http-server/user.controller";
-
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import {
+  CreateUserRepositoryAdapter,
+  FindUserRepositoryAdapter,
+} from './infrastructure';
+import {
+  CreateUserRepositoryPort,
+  CreateUserUseCase,
+  FindUserUseCase,
+  CREATE_REPOSITORY_PORT,
+  UserRepositoryPort,
+  FIND_REPOSITORY_PORT,
+  FindUserRepositoryPort,
+  UPDATE_USER_REPOSITORY_PORT,
+  UpdateUserUseCase,
+  UpdateUserRepository,
+} from './application';
+import { UserController } from './http-server/user.controller';
+import { UserEntity } from './domain/entities';
+import {
+  EXCEPTION_HANDLER_PORT,
+  NestjsExceptionHandlerAdapter,
+} from '../common/exceptions';
+import { UpdateUserRepositoryAdapter } from './infrastructure/adapters/update-user-repository.adapter';
 
 @Module({
-    providers: [
-        {
-            provide: USER_REPOSITORY_PORT,
-            useClass: UserRepositoryAdapter,
-        },
-        {
-            provide: FindUserUseCase,
-            useFactory: (userRepository: UserRepositoryPort) => new FindUserUseCase(userRepository),
-            inject: [USER_REPOSITORY_PORT]
-        }
-    ],
-    controllers: [UserController],
+  imports: [TypeOrmModule.forFeature([UserEntity])],
+  providers: [
+    {
+      provide: EXCEPTION_HANDLER_PORT,
+      useClass: NestjsExceptionHandlerAdapter, // Provee el manejador de excepciones
+    },
+    {
+      provide: FIND_REPOSITORY_PORT,
+      useClass: FindUserRepositoryAdapter,
+    },
+    {
+      provide: CREATE_REPOSITORY_PORT,
+      useClass: CreateUserRepositoryAdapter,
+    },
+    {
+      provide: UPDATE_USER_REPOSITORY_PORT,
+      useClass: UpdateUserRepositoryAdapter,
+    },
+    {
+      provide: FindUserUseCase,
+      useFactory: (findUserRepositoryPort: FindUserRepositoryPort) =>
+        new FindUserUseCase(findUserRepositoryPort),
+      inject: [FIND_REPOSITORY_PORT],
+    },
+    {
+      provide: CreateUserUseCase,
+      useFactory: (createRepository: CreateUserRepositoryPort) =>
+        new CreateUserUseCase(createRepository),
+      inject: [CREATE_REPOSITORY_PORT],
+    },
+    {
+      provide: UpdateUserUseCase,
+      useFactory: (createRepository: UpdateUserRepository) =>
+        new UpdateUserUseCase(createRepository),
+      inject: [UPDATE_USER_REPOSITORY_PORT],
+    },
+  ],
+  controllers: [UserController],
 })
-export class UserModule { }
+export class UserModule {}

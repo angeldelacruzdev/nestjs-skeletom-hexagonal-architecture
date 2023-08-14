@@ -1,0 +1,39 @@
+import { Inject } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UserResponseDto, FindUserRepositoryPort } from '../../application';
+import {
+  EXCEPTION_HANDLER_PORT,
+  ExceptionHandlerPort,
+} from '../../../common/exceptions';
+import { UserEntity } from '../../domain/entities';
+import { UserMapper } from '../mappers/user.mapper';
+
+export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+    @Inject(EXCEPTION_HANDLER_PORT)
+    private readonly exceptionHandler: ExceptionHandlerPort,
+  ) {}
+
+  async findAll(): Promise<UserResponseDto[]> {
+    try {
+      const response = await this.userRepository.find();
+      return await Promise.all(response.map(UserMapper.toDto));
+    } catch (error) {
+      return this.exceptionHandler.handle(error);
+    }
+  }
+
+  async findUserByid(id: string): Promise<UserResponseDto> {
+    try {
+      const response = await this.userRepository.findOne({
+        where: { id: +id },
+      });
+      return UserMapper.toDto(response);
+    } catch (error) {
+      return this.exceptionHandler.handle(error);
+    }
+  }
+}

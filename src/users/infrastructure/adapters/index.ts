@@ -1,3 +1,4 @@
-import { UserRepositoryAdapter } from "./user-repository.adapter";
+import { FindUserRepositoryAdapter } from './find-user-repository.adapter';
+import { CreateUserRepositoryAdapter } from './create-user-repository.adapter';
 
-export { UserRepositoryAdapter }
+export { CreateUserRepositoryAdapter, FindUserRepositoryAdapter };

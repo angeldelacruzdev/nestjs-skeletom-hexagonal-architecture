@@ -1,6 +1,6 @@
 export class UserResponseDto {
-  id: string;
-  username: string;
+  id: number;
+  user_name: string;
   email: string;
   password: string;
   rt_hash: string;
