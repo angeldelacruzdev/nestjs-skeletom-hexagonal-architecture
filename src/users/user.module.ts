@@ -3,26 +3,28 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   CreateUserRepositoryAdapter,
   FindUserRepositoryAdapter,
+  UpdateUserRepositoryAdapter,
 } from './infrastructure';
 import {
   CreateUserRepositoryPort,
   CreateUserUseCase,
   FindUserUseCase,
   CREATE_REPOSITORY_PORT,
-  UserRepositoryPort,
   FIND_REPOSITORY_PORT,
   FindUserRepositoryPort,
   UPDATE_USER_REPOSITORY_PORT,
   UpdateUserUseCase,
   UpdateUserRepository,
+  DELETE_USER_REPOSITORY_PORT,
+  DeleteUserUserCase,
 } from './application';
 import { UserController } from './http-server/user.controller';
 import { UserEntity } from './domain/entities';
 import {
   EXCEPTION_HANDLER_PORT,
+  ExceptionHandlerPort,
   NestjsExceptionHandlerAdapter,
 } from '../common/exceptions';
-import { UpdateUserRepositoryAdapter } from './infrastructure/adapters/update-user-repository.adapter';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
@@ -44,6 +46,10 @@ import { UpdateUserRepositoryAdapter } from './infrastructure/adapters/update-us
       useClass: UpdateUserRepositoryAdapter,
     },
     {
+      provide: DELETE_USER_REPOSITORY_PORT,
+      useClass: UpdateUserRepositoryAdapter,
+    },
+    {
       provide: FindUserUseCase,
       useFactory: (findUserRepositoryPort: FindUserRepositoryPort) =>
         new FindUserUseCase(findUserRepositoryPort),
@@ -61,7 +67,15 @@ import { UpdateUserRepositoryAdapter } from './infrastructure/adapters/update-us
         new UpdateUserUseCase(createRepository),
       inject: [UPDATE_USER_REPOSITORY_PORT],
     },
+    {
+      provide: DeleteUserUserCase,
+      useFactory: (createRepository: UpdateUserRepository, findUserRepositoryPort: FindUserRepositoryPort, exceptionHandlerPort: ExceptionHandlerPort) => {
+        const findUserUseCase = new FindUserUseCase(findUserRepositoryPort)
+        return new DeleteUserUserCase(createRepository, findUserUseCase, exceptionHandlerPort)
+      },
+      inject: [UPDATE_USER_REPOSITORY_PORT, FIND_REPOSITORY_PORT, EXCEPTION_HANDLER_PORT],
+    },
   ],
   controllers: [UserController],
 })
-export class UserModule {}
+export class UserModule { }

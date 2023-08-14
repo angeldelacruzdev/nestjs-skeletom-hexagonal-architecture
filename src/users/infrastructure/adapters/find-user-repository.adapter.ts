@@ -15,7 +15,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     private readonly userRepository: Repository<UserEntity>,
     @Inject(EXCEPTION_HANDLER_PORT)
     private readonly exceptionHandler: ExceptionHandlerPort,
-  ) {}
+  ) { }
 
   async findAll(): Promise<UserResponseDto[]> {
     try {
@@ -26,7 +26,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     }
   }
 
-  async findUserByid(id: string): Promise<UserResponseDto> {
+  async findUserByid(id: number): Promise<UserResponseDto> {
     try {
       const response = await this.userRepository.findOne({
         where: { id: +id },

@@ -1,4 +1,4 @@
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
 import {
   NestjsExceptionHandlerAdapter,
@@ -13,4 +13,4 @@ import {
     },
   ],
 })
-export class CommonModule {}
+export class CommonModule { }
