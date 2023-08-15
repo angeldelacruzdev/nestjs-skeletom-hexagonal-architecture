@@ -17,6 +17,22 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     private readonly exceptionHandler: ExceptionHandlerPort,
   ) { }
 
+  async findByEmail(email: string): Promise<UserResponseDto> {
+    try {
+      const response = await this.userRepository.findOne({
+        where: { email: email },
+      });
+
+      if (response.id) {
+        return UserMapper.toDto(response);
+      }
+      return null;
+
+    } catch (error) {
+      return this.exceptionHandler.handle(error);
+    }
+  }
+
   async findAll(): Promise<UserResponseDto[]> {
     try {
       const response = await this.userRepository.find();

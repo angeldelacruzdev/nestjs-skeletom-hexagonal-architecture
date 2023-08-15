@@ -4,6 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { LoginDto, LoginRepositoryPort, LoginResponseDto } from "./../../../auth/application";
 import { Repository } from "typeorm";
 import { UserEntity } from "./../../../users/domain";
+import { FindUserRepositoryAdapter } from "../../../users/infrastructure";
 
 export class LoginRepositoryAdapter implements LoginRepositoryPort {
     constructor(
@@ -14,7 +15,12 @@ export class LoginRepositoryAdapter implements LoginRepositoryPort {
     ) { }
 
 
-    login(dto: LoginDto): Promise<LoginResponseDto> {
-        throw new Error("Method not implemented.");
+    async login(dto: LoginDto): Promise<LoginResponseDto> {
+        try {
+
+            throw new Error("Method not implemented.");
+        } catch (error) {
+            return this.exceptionHandler.handle(error)
+        }
     }
 }

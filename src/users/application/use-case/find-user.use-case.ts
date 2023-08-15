@@ -11,4 +11,8 @@ export class FindUserUseCase {
   async findAll(): Promise<UserResponseDto[]> {
     return await this.userRepository.findAll();
   }
+
+  async findByEmail(email: string): Promise<UserResponseDto> {
+    return await this.userRepository.findByEmail(email)
+  }
 }
