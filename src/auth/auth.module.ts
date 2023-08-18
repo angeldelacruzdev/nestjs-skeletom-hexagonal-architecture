@@ -16,6 +16,7 @@ import { FindUserRepositoryAdapter } from './../users/infrastructure';
         JwtModule.registerAsync({
             useFactory: () => ({
                 secret: process.env.SECRET,
+                signOptions: { expiresIn: "24h" },
             })
         }),
         TypeOrmModule.forFeature([UserEntity])

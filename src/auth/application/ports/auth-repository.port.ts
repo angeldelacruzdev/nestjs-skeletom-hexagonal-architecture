@@ -1,6 +1,6 @@
-import { LoginDto, LoginResponseDto, TokenDto } from "../dtos";
+import { AuthDto, LoginDto, LoginResponseDto, TokenDto } from "../dtos";
 
 export interface AuthRepositoryPort {
-    login(dto: { id: number, email: string }): Promise<TokenDto>;
-    refreshToken(user: LoginDto): Promise<{ refresh_token: string }>;
+    login(dto: AuthDto): Promise<TokenDto>;
+    refreshToken(user: AuthDto): Promise<TokenDto>;
 }

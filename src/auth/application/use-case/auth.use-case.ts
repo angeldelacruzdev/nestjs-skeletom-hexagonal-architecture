@@ -1,6 +1,6 @@
 import { ExceptionHandlerPort } from "@common/exceptions";
 import { FindUserUseCase } from "../../../users/application";
-import { AuthResponseDto, LoginDto, LoginResponseDto } from "../dtos";
+import { AuthResponseDto, LoginDto, LoginResponseDto, RefreshTokenDto } from "../dtos";
 import { AuthRepositoryPort } from "../ports";
 import { AuthMapper } from "../mappers";
 
@@ -22,6 +22,16 @@ export class AuthUseCase {
         } catch (error) {
             return this.exceptionHandlerPort.handle(error)
         }
+    }
+
+
+    async refreshToken(dto: RefreshTokenDto): Promise<AuthResponseDto> {
+        const response = await this.findUserUseCase.findUserByid(dto.id);
+        if (!response) {
+            throw new Error("Ha olvidada la contraseña o no está disponible.");
+        }
+        const token = await this.repository.refreshToken({ id: response.id, email: response.email })
+        return AuthMapper.toDto(response, token)
     }
 
 }
