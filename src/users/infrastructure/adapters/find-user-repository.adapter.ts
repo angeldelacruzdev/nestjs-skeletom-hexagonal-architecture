@@ -23,9 +23,10 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
         where: { email: email },
       });
 
-      if (response.id) {
+      if (response) {
         return UserMapper.toDto(response);
       }
+    
       return null;
 
     } catch (error) {

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 
-import { AT_STRATEGIEST, LOGIN_USER_REPOSITORY, LoginRepositoryPort, LoginUseCase, RT_STRATEGIEST } from './application';
+import { AT_STRATEGIEST, AuthRepositoryPort, LOGIN_USER_REPOSITORY, AuthUseCase, RT_STRATEGIEST } from './application';
 import { AtStrategiest, RtStrategiest } from '../jwt/strategies';
 import { AuthController } from './http-server/auth.controller';
-import { LoginRepositoryAdapter } from './infrastructure/adapters/login-repository.adapter';
+import { AuthRepositoryAdapter } from './infrastructure/adapters/auth-repository.adapter';
 import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort, NestjsExceptionHandlerAdapter } from './../common/exceptions';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './../users/domain';
@@ -35,17 +35,17 @@ import { FindUserRepositoryAdapter } from './../users/infrastructure';
         },
         {
             provide: LOGIN_USER_REPOSITORY,
-            useClass: LoginRepositoryAdapter
+            useClass: AuthRepositoryAdapter
         },
         {
             provide: FIND_REPOSITORY_PORT,
             useClass: FindUserRepositoryAdapter,
         },
         {
-            provide: LoginUseCase,
-            useFactory: (loginRepostory: LoginRepositoryPort, findUserRepositoryPort: FindUserRepositoryPort, exceptionHandlerPort: ExceptionHandlerPort) => {
+            provide: AuthUseCase,
+            useFactory: (repository: AuthRepositoryPort, findUserRepositoryPort: FindUserRepositoryPort, exceptionHandlerPort: ExceptionHandlerPort) => {
                 const findUserUseCase = new FindUserUseCase(findUserRepositoryPort)
-                return new LoginUseCase(loginRepostory, findUserUseCase, exceptionHandlerPort)
+                return new AuthUseCase(repository, findUserUseCase, exceptionHandlerPort)
             },
             inject: [LOGIN_USER_REPOSITORY, FIND_REPOSITORY_PORT, EXCEPTION_HANDLER_PORT],
         },

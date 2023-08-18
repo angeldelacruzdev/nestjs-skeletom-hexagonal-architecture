@@ -1,24 +1,24 @@
 import { ExceptionHandlerPort } from "@common/exceptions";
 import { FindUserUseCase } from "../../../users/application";
-import { LoginDto, LoginResponseDto } from "../dtos";
-import { LoginRepositoryPort } from "../ports";
+import { AuthResponseDto, LoginDto, LoginResponseDto } from "../dtos";
+import { AuthRepositoryPort } from "../ports";
+import { AuthMapper } from "../mappers";
 
-export class LoginUseCase {
+export class AuthUseCase {
     constructor(
-        private readonly loginRepositoryPort: LoginRepositoryPort,
+        private readonly repository: AuthRepositoryPort,
         private readonly findUserUseCase: FindUserUseCase,
         private readonly exceptionHandlerPort: ExceptionHandlerPort
     ) { }
 
-    async login(dto: LoginDto): Promise<LoginResponseDto> {
+    async login(dto: LoginDto): Promise<AuthResponseDto> {
         try {
             const responseFind = await this.findUserUseCase.findByEmail(dto.email);
-            console.log(responseFind)
             if (!responseFind) {
                 throw new Error("Ha olvidada la contraseña o no está disponible.");
             }
-
-            return await this.loginRepositoryPort.login(dto);
+            const token = await this.repository.login({ id: responseFind.id, email: responseFind.email });
+            return AuthMapper.toDto(responseFind, token)
         } catch (error) {
             return this.exceptionHandlerPort.handle(error)
         }

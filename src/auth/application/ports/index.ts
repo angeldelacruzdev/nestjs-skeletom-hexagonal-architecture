@@ -1,3 +1,3 @@
-import { LoginRepositoryPort } from "./login-repository.port";
+import { AuthRepositoryPort } from "./auth-repository.port";
 
-export { LoginRepositoryPort }
+export { AuthRepositoryPort }

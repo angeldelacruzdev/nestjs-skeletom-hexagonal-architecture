@@ -1,3 +1,3 @@
-import { LoginUseCase } from "./login.use-case";
+import { AuthUseCase } from "./auth.use-case";
 
-export { LoginUseCase }
+export { AuthUseCase }
