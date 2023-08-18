@@ -1,8 +1,7 @@
 import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort } from "../../../common/exceptions";
 import { Inject } from "@nestjs/common";
 import { JwtService } from '@nestjs/jwt';
-import { LoginDto, AuthRepositoryPort, LoginResponseDto } from "../../application";
-
+import { AuthDto, AuthRepositoryPort, TokenDto } from "../../application";
 
 export class AuthRepositoryAdapter implements AuthRepositoryPort {
     constructor(
@@ -10,12 +9,24 @@ export class AuthRepositoryAdapter implements AuthRepositoryPort {
         @Inject(EXCEPTION_HANDLER_PORT)
         private readonly exceptionHandler: ExceptionHandlerPort,
     ) { }
-    refreshToken(user: LoginDto): Promise<{ refresh_token: string; }> {
-        throw new Error("Method not implemented."); // NOTE: agregar el refresh token desde un endoint
+
+    refreshToken(dto: AuthDto): Promise<TokenDto> {
+        try {
+            return this.generateTokens(dto);
+        } catch (error) {
+            return this.exceptionHandler.handle(error)
+        }
     }
 
-    async login({ id, email }: { id: number, email: string }): Promise<{ access_token: string, refresh_token: string; }> {
+    async login(dto: AuthDto): Promise<TokenDto> {
+        try {
+            return this.generateTokens(dto);
+        } catch (error) {
+            return this.exceptionHandler.handle(error)
+        }
+    }
 
+    private async generateTokens({ id, email }: AuthDto): Promise<TokenDto> {
         try {
             const [at, rt] = await Promise.all([
                 this.jwtService.signAsync(
