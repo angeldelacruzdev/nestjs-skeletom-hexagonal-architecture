@@ -1,29 +1,30 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
 
 export class CreateUsersTable1691752766484 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'admin.users',
+        name: 'auth.user',
         columns: [
-          {
-            name: 'id',
-            type: 'bigint',
-            isPrimary: true,
-            isGenerated: true,
-          },
-          { name: 'username', type: 'varchar', length: '50' },
-          { name: 'email', type: 'varchar', length: '100', isNullable: false },
-          { name: 'password', type: 'varchar', length: '100' },
-          { name: 'rt_hash', type: 'varchar', length: '100' },
-          { name: 'is_admin', type: 'boolean', default: false },
-          { name: 'status', type: 'boolean', default: true },
+          { name: 'id', type: 'uuid', isPrimary: true, isGenerated: true, generationStrategy: 'uuid' },
+          { name: 'email', type: 'varchar', length: '150', isUnique: true },
+          { name: 'password', type: 'text' }
         ],
       }),
+      true
+    );
+
+    await queryRunner.createIndex(
+      'auth.user',
+      new TableIndex({
+        name: 'IDX_USER_EMAIL',
+        columnNames: ['email']
+      })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('admin.users');
+    await queryRunner.dropIndex('auth.user', 'IDX_EMAIL');
+    await queryRunner.dropTable('auth.user');
   }
 }

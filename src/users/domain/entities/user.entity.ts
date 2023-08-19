@@ -1,28 +1,19 @@
-// src/users/domain/entities/user.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, Index, OneToOne, JoinColumn } from 'typeorm';
+import { UserDetailsEntity } from './user-details.entity';
 
-@Entity({ name: 'users', schema: 'admin' })
-@Index('idx_username', ['username'])
-@Index('idx_email', ['email'])
+@Entity({ name: 'user', schema: 'auth' })
+@Index('IDX_USER_EMAIL', ['email'])
 export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid') // Usar UUID como clave primaria para escalabilidad
+  id: string;
 
-  @Column({ length: 50 })
-  username: string;
-
-  @Column({ length: 100, unique: true })
+  @Column({ type: 'varchar', length: 150, unique: true })
   email: string;
 
-  @Column({ length: 100 })
+  @Column({ type: 'text' })
   password: string;
 
-  @Column({ length: 100 })
-  rt_hash: string;
-
-  @Column({ default: false })
-  is_admin: boolean;
-
-  @Column({ default: true })
-  status: boolean;
+  @OneToOne(() => UserDetailsEntity, userDetails => userDetails.user, { cascade: true })
+  @JoinColumn()
+  details: UserDetailsEntity; // Relación con los detalles del usuario
 }
