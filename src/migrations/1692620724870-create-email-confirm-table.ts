@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
 
-export class CreateUsersTable1691752766484 implements MigrationInterface {
+export class CreateEmailConfirmTable1692620724870
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'auth.user',
+        name: 'auth.email_confirm',
         columns: [
           {
             name: 'id',
@@ -13,18 +15,16 @@ export class CreateUsersTable1691752766484 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'uuid',
           },
-          { name: 'email', type: 'varchar', length: '100', isUnique: true },
-          { name: 'password', type: 'text' },
+          { name: 'userId', type: 'uuid' },
+          { name: 'email', type: 'varchar', length: '100' },
+        ],
+        foreignKeys: [
           {
-            name: 'created_at',
-            type: 'timestamp',
-            isNullable: false,
-          },
-          {
-            name: 'updated_at',
-            type: 'timestamp',
-            isNullable: false,
-            default: 'now()',
+            name: 'FK_EMAIL_CONFIRM_USER_ID',
+            columnNames: ['userId'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'user',
+            referencedSchema: 'auth',
           },
         ],
       }),
@@ -34,14 +34,14 @@ export class CreateUsersTable1691752766484 implements MigrationInterface {
     await queryRunner.createIndex(
       'auth.user',
       new TableIndex({
-        name: 'IDX_USER_EMAIL',
+        name: 'IDX_EMAILL_CONFIRM',
         columnNames: ['email'],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropIndex('auth.user', 'IDX_USER_EMAIL');
-    await queryRunner.dropTable('auth.user');
+    await queryRunner.dropIndex('auth.email_confirm', 'IDX_EMAILL_CONFIRM');
+    await queryRunner.dropTable('auth.email_confirm');
   }
 }
