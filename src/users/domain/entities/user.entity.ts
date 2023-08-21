@@ -1,9 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index, OneToOne, JoinColumn } from 'typeorm';
-import { UserDetailsEntity } from './user-details.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Index,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
+import { UserDetails } from './user-details.entity';
 
 @Entity({ name: 'user', schema: 'auth' })
 @Index('IDX_USER_EMAIL', ['email'])
-export class UserEntity {
+export class User {
   @PrimaryGeneratedColumn('uuid') // Usar UUID como clave primaria para escalabilidad
   id: string;
 
@@ -13,7 +20,15 @@ export class UserEntity {
   @Column({ type: 'text' })
   password: string;
 
-  @OneToOne(() => UserDetailsEntity, userDetails => userDetails.user, { cascade: true })
-  @JoinColumn()
-  details: UserDetailsEntity; // Relación con los detalles del usuario
+  @Column({ type: 'text' })
+  rt_hash: string;
+
+  @Column({ type: 'boolean' })
+  status: boolean;
+
+  @Column({ type: 'boolean' })
+  created_at: boolean;
+
+  @OneToOne("UserDetails", "user")
+  userDetails: UserDetails; // Relación con los detalles del usuario
 }

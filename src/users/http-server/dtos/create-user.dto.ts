@@ -1,9 +1,7 @@
-import { IsString, IsBoolean, IsEmail, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { UserDetailDto } from './../../../users/application';
 
 export class CreateUserDto {
-  @IsString()
-  user_name: string;
-
   @IsEmail()
   email: string;
 
@@ -11,8 +9,9 @@ export class CreateUserDto {
   password: string;
 
   @IsBoolean()
-  is_admin: boolean;
-
-  @IsBoolean()
   status: boolean;
+
+
+  @IsOptional()
+  details: UserDetailDto
 }

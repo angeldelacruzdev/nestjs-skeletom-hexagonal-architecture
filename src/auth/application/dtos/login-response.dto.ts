@@ -1,7 +1,7 @@
-import { TokenDto } from "./token-reponse.dto";
+import { TokenDto } from './token-reponse.dto';
 export interface LoginResponseDto {
-    id: number;
-    LoginName: string;
-    tokens: TokenDto;
-    loginDate: Date;
+  id: number;
+  LoginName: string;
+  tokens: TokenDto;
+  loginDate: Date;
 }

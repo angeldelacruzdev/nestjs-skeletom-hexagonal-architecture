@@ -17,6 +17,11 @@ export class CreateEmailConfirmTable1692620724870
           },
           { name: 'userId', type: 'uuid' },
           { name: 'email', type: 'varchar', length: '100' },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            isNullable: false,
+          },
         ],
         foreignKeys: [
           {
@@ -32,7 +37,7 @@ export class CreateEmailConfirmTable1692620724870
     );
 
     await queryRunner.createIndex(
-      'auth.user',
+      'auth.email_confirm',
       new TableIndex({
         name: 'IDX_EMAILL_CONFIRM',
         columnNames: ['email'],
@@ -42,6 +47,10 @@ export class CreateEmailConfirmTable1692620724870
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropIndex('auth.email_confirm', 'IDX_EMAILL_CONFIRM');
+    await queryRunner.dropForeignKey(
+      'auth.email_confirm',
+      'FK_EMAIL_CONFIRM_USER_ID',
+    );
     await queryRunner.dropTable('auth.email_confirm');
   }
 }

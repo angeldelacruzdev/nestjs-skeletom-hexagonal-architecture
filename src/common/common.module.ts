@@ -13,4 +13,4 @@ import {
     },
   ],
 })
-export class CommonModule { }
+export class CommonModule {}

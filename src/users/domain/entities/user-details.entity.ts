@@ -1,21 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { UserEntity } from './user.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  JoinColumn,
+  OneToOne,
+} from 'typeorm';
+import { User } from './user.entity';
+
+@Entity({ name: 'user_details', schema: 'auth' })
+export class UserDetails {
+  @PrimaryGeneratedColumn('uuid') // Usar UUID como clave primaria para escalabilidad
+  id: string;
+
+  @Column({ type: 'varchar', length: 100 })
+  firstName: string;
+
+  @Column({ type: 'varchar', length: 100 })
+  lastName: string;
 
 
-@Entity()
-export class UserDetailsEntity {
-    @PrimaryGeneratedColumn('uuid') // Usar UUID como clave primaria para escalabilidad
-    id: string;
-
-    @Column({ type: 'varchar', length: 100 })
-    firstName: string;
-
-    @Column({ type: 'varchar', length: 100 })
-    lastName: string;
-
-    // Otras columnas para más detalles
-
-    @OneToOne(() => UserEntity, user => user.details)
-    @JoinColumn()
-    user: UserEntity; // Relación con la entidad de usuario
+  @OneToOne("User", "userDetails")
+  @JoinColumn()
+  user: User; // Relación con la entidad de usuario
 }

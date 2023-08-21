@@ -6,5 +6,5 @@ export {
   SomeCustomException,
   ExceptionHandlerPort,
   NestjsExceptionHandlerAdapter,
-  EXCEPTION_HANDLER_PORT
+  EXCEPTION_HANDLER_PORT,
 };

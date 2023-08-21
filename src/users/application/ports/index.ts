@@ -9,5 +9,5 @@ export {
   CreateUserRepositoryPort,
   FindUserRepositoryPort,
   UpdateUserRepository,
-  DeleteUserRepositoryPort
+  DeleteUserRepositoryPort,
 };

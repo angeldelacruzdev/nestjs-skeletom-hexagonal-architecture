@@ -10,15 +10,16 @@ import {
   CreateUserRepositoryPort,
 } from '../../application';
 
-import { UserEntity } from '../../domain/entities';
 import { UserMapper } from '../mappers/user.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Inject } from '@nestjs/common';
 
+import { User } from './../../../users/domain/entities/user.entity';
+
 export class CreateUserRepositoryAdapter implements CreateUserRepositoryPort {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     @Inject(EXCEPTION_HANDLER_PORT)
     private readonly exceptionHandler: ExceptionHandlerPort,
   ) {}
@@ -27,8 +28,10 @@ export class CreateUserRepositoryAdapter implements CreateUserRepositoryPort {
     try {
       const entity = await UserMapper.toEntity(dto);
       const response = await this.userRepository.save(entity);
+      console.log(response)
       return UserMapper.toDto(response);
     } catch (error) {
+      console.log(error)
       return this.exceptionHandler.handle(error);
     }
   }

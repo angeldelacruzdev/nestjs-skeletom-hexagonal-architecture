@@ -1,6 +1,6 @@
 import { UpdateUserDto, UserResponseDto } from '../dtos';
 
 export interface UpdateUserRepository {
-  update(id: number, dto: UpdateUserDto): Promise<UserResponseDto>;
-  updateStatus(id: number, status: boolean): Promise<UserResponseDto>;
+  update(id: string, dto: UpdateUserDto): Promise<UserResponseDto>;
+  updateStatus(id: string, status: boolean): Promise<UserResponseDto>;
 }

@@ -6,8 +6,9 @@ import {
   EXCEPTION_HANDLER_PORT,
   ExceptionHandlerPort,
 } from '../../../common/exceptions';
-import { UserEntity } from '../../domain/entities';
+
 import { UserMapper } from '../mappers/user.mapper';
+import { UserEntity } from './../../../users/domain/entities/user.entity';
 
 export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
   constructor(
@@ -15,7 +16,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     private readonly userRepository: Repository<UserEntity>,
     @Inject(EXCEPTION_HANDLER_PORT)
     private readonly exceptionHandler: ExceptionHandlerPort,
-  ) { }
+  ) {}
 
   async findByEmail(email: string): Promise<UserResponseDto> {
     try {
@@ -26,9 +27,8 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       if (response) {
         return UserMapper.toDto(response);
       }
-    
-      return null;
 
+      return null;
     } catch (error) {
       return this.exceptionHandler.handle(error);
     }
@@ -43,10 +43,10 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     }
   }
 
-  async findUserByid(id: number): Promise<UserResponseDto> {
+  async findUserByid(id: string): Promise<UserResponseDto> {
     try {
       const response = await this.userRepository.findOne({
-        where: { id: +id },
+        where: { id: id },
       });
       return UserMapper.toDto(response);
     } catch (error) {

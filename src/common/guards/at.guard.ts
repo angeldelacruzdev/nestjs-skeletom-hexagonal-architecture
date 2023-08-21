@@ -29,6 +29,8 @@ export class AtGuard extends AuthGuard('jwt') {
     if (err || !user) {
       throw err || new UnauthorizedException('Access Denied.');
     }
+
+    console.log(info);
     return user;
   }
 }

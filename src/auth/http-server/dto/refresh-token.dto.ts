@@ -1,4 +1,4 @@
 export class RefreshTokenHttpDto {
-    id: number;
-    refresh_token: string;
+  id: string;
+  refresh_token: string;
 }

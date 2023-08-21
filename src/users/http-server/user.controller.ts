@@ -6,8 +6,6 @@ import {
   VERSION_NEUTRAL,
   Body,
   Put,
-
-  ParseIntPipe,
   Delete,
 } from '@nestjs/common';
 import {
@@ -27,16 +25,12 @@ export class UserController {
     private readonly findUserUseCase: FindUserUseCase,
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
-    private readonly deleteUseCase: DeleteUserUserCase
-  ) { }
+    private readonly deleteUseCase: DeleteUserUserCase,
+  ) {}
 
   @Post()
   async create(@Body() dto: CreateUserDto): Promise<UserResponseDto> {
-    try {
-      return await this.createUserUseCase.create(dto);
-    } catch (error) {
-      console.log(error);
-    }
+    return await this.createUserUseCase.create(dto);
   }
 
   @Get()
@@ -45,20 +39,20 @@ export class UserController {
   }
 
   @Get(':id')
-  async findUserByid(@Param('id', ParseIntPipe) id: number): Promise<UserResponseDto> {
+  async findUserByid(@Param('id') id: string): Promise<UserResponseDto> {
     return await this.findUserUseCase.findUserByid(id);
   }
 
   @Put(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() dto: UpdateUserServerDto,
   ): Promise<UserResponseDto> {
     return await this.updateUserUseCase.update(id, dto);
   }
 
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number): Promise<UserResponseDto> {
+  async delete(@Param('id') id: string): Promise<UserResponseDto> {
     return await this.deleteUseCase.delete(id);
   }
 }

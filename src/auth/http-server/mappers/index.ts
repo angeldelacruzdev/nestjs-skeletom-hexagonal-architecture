@@ -1,3 +1,3 @@
-import { HttpMapper } from "./http-mapper";
+import { HttpMapper } from './http-mapper';
 
-export { HttpMapper }
+export { HttpMapper };

@@ -1,3 +1,3 @@
-import { AuthMapper } from "./auth.mapper";
+import { AuthMapper } from './auth.mapper';
 
-export { AuthMapper }
+export { AuthMapper };

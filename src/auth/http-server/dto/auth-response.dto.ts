@@ -1,6 +1,6 @@
-import { TokenDto } from "auth/application";
+import { TokenDto } from 'auth/application';
 export class AuthResponseHttpDto {
-    id: number;
-    name: string;
-    tokens: TokenDto;
+  id: number;
+  name: string;
+  tokens: TokenDto;
 }

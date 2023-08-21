@@ -5,8 +5,11 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "./build",
+    "importHelpers": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "sourceMap": true,
     "baseUrl": "./src",
     "paths": {

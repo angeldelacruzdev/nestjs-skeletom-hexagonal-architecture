@@ -1,3 +1,3 @@
-import { AuthRepositoryAdapter } from "./auth-repository.adapter";
+import { AuthRepositoryAdapter } from './auth-repository.adapter';
 
-export { AuthRepositoryAdapter }
+export { AuthRepositoryAdapter };

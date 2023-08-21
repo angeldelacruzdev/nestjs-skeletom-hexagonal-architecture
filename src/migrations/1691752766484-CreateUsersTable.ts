@@ -15,10 +15,13 @@ export class CreateUsersTable1691752766484 implements MigrationInterface {
           },
           { name: 'email', type: 'varchar', length: '100', isUnique: true },
           { name: 'password', type: 'text' },
+          { name: 'rt_hash', type: 'text' },
+          { name: 'terms', type: 'boolean', default: false },
+          { name: 'status', type: 'boolean', default: false },
           {
             name: 'created_at',
             type: 'timestamp',
-            isNullable: false,
+            default: 'now()',
           },
           {
             name: 'updated_at',

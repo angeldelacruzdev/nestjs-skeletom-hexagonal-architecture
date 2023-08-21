@@ -1,6 +1,7 @@
 import { UserDetailDto } from "users/application";
 
-export interface RegisterDto {
+export class RegisterReponseDto {
+  id: string;
   email: string;
   password: string;
   terms: boolean;

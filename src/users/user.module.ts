@@ -19,15 +19,17 @@ import {
   DeleteUserUserCase,
 } from './application';
 import { UserController } from './http-server/user.controller';
-import { UserEntity } from './domain/entities';
+
 import {
   EXCEPTION_HANDLER_PORT,
   ExceptionHandlerPort,
   NestjsExceptionHandlerAdapter,
 } from '../common/exceptions';
+import { User } from './domain/entities/user.entity';
+import { UserDetails } from './domain/entities/user-details.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [TypeOrmModule.forFeature([User, UserDetails])],
   providers: [
     {
       provide: EXCEPTION_HANDLER_PORT,
@@ -69,13 +71,25 @@ import {
     },
     {
       provide: DeleteUserUserCase,
-      useFactory: (createRepository: UpdateUserRepository, findUserRepositoryPort: FindUserRepositoryPort, exceptionHandlerPort: ExceptionHandlerPort) => {
-        const findUserUseCase = new FindUserUseCase(findUserRepositoryPort)
-        return new DeleteUserUserCase(createRepository, findUserUseCase, exceptionHandlerPort)
+      useFactory: (
+        createRepository: UpdateUserRepository,
+        findUserRepositoryPort: FindUserRepositoryPort,
+        exceptionHandlerPort: ExceptionHandlerPort,
+      ) => {
+        const findUserUseCase = new FindUserUseCase(findUserRepositoryPort);
+        return new DeleteUserUserCase(
+          createRepository,
+          findUserUseCase,
+          exceptionHandlerPort,
+        );
       },
-      inject: [UPDATE_USER_REPOSITORY_PORT, FIND_REPOSITORY_PORT, EXCEPTION_HANDLER_PORT],
+      inject: [
+        UPDATE_USER_REPOSITORY_PORT,
+        FIND_REPOSITORY_PORT,
+        EXCEPTION_HANDLER_PORT,
+      ],
     },
   ],
   controllers: [UserController],
 })
-export class UserModule { }
+export class UserModule {}
