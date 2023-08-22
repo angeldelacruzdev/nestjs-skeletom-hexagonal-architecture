@@ -1,3 +1,4 @@
+import { LOGGER_TOKEN } from './../common/logger/logger.token';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
@@ -18,6 +19,8 @@ import {
   DELETE_USER_REPOSITORY_PORT,
   DeleteUserUserCase,
 } from './application';
+import { LoggerAdapter } from './../common/logger/logger.adapter';
+ 
 import { UserController } from './http-server/user.controller';
 
 import {
@@ -34,6 +37,10 @@ import { UserDetails } from './domain/entities/user-details.entity';
     {
       provide: EXCEPTION_HANDLER_PORT,
       useClass: NestjsExceptionHandlerAdapter, // Provee el manejador de excepciones
+    },
+    {
+      provide: LOGGER_TOKEN,
+      useClass: LoggerAdapter, // Provee el manejador de excepciones
     },
     {
       provide: FIND_REPOSITORY_PORT,

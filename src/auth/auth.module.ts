@@ -1,3 +1,5 @@
+import { LoggerAdapter } from './../common/logger/logger.adapter';
+import { LOGGER_TOKEN } from './../common/logger/logger.token';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -38,6 +40,7 @@ import { UserDetails } from './../users/domain/entities/user-details.entity';
 import { RegisterUseCase } from './application/use-case/register.use-case';
 import { REGISTER_USER_REPOSITORY } from './application/token/auth-repository-token';
 import { RegisterRepositoryAdapter } from './infrastructure/adapters/register-repository.adapter';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, UserDetails]),
@@ -51,7 +54,11 @@ import { RegisterRepositoryAdapter } from './infrastructure/adapters/register-re
   providers: [
     {
       provide: EXCEPTION_HANDLER_PORT,
-      useClass: NestjsExceptionHandlerAdapter, // Provee el manejador de excepciones
+      useClass: NestjsExceptionHandlerAdapter,
+    },
+    {
+      provide: LOGGER_TOKEN,
+      useClass: LoggerAdapter, // Provee el manejador de excepciones
     },
     {
       provide: AT_STRATEGIEST,
@@ -102,9 +109,9 @@ import { RegisterRepositoryAdapter } from './infrastructure/adapters/register-re
       useFactory: (registerRepositoryPort: RegisterRepositoryPort) => {
         return new RegisterUseCase(registerRepositoryPort);
       },
-      inject: [REGISTER_USER_REPOSITORY]
-    }
+      inject: [REGISTER_USER_REPOSITORY, EXCEPTION_HANDLER_PORT],
+    },
   ],
   controllers: [AuthController],
 })
-export class AuthModule { }
+export class AuthModule {}

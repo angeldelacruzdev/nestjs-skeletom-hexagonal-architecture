@@ -5,14 +5,11 @@ import { RegisterRepositoryPort } from '../ports';
 export class RegisterUseCase {
   constructor(
     private readonly registerRepositoryPort: RegisterRepositoryPort,
-    private readonly exceptionHandlerPort: ExceptionHandlerPort,
   ) {}
 
   async register(dto: RegisterDto): Promise<any> {
-    try {
-      return await this.registerRepositoryPort.register(dto);
-    } catch (error) {
-      return this.exceptionHandlerPort.handle(error);
-    }
+    const response = await this.registerRepositoryPort.register(dto);
+
+    return response;
   }
 }

@@ -24,17 +24,18 @@ import { RegisterUseCase } from './../../auth/application/use-case/register.use-
   version: VERSION_NEUTRAL,
 })
 export class AuthController {
-  constructor(private readonly authUseCase: AuthUseCase, private readonly registerUseCase: RegisterUseCase) { }
+  constructor(
+    private readonly authUseCase: AuthUseCase,
+    private readonly registerUseCase: RegisterUseCase,
+  ) {}
 
   @Public()
   @Post()
-  @HttpCode(HttpStatus.OK)
   async login(@Body() dto: LoginHttpDto): Promise<AuthResponseHttpDto> {
     return await this.authUseCase.login(dto);
   }
   @Public()
-  @Post("register")
-  @HttpCode(HttpStatus.OK)
+  @Post('register')
   async register(@Body() dto: RegisterDto): Promise<AuthResponseHttpDto> {
     return await this.registerUseCase.register(dto);
   }
@@ -42,7 +43,6 @@ export class AuthController {
   @Public()
   @UseGuards(RtGuard)
   @Post('/refresh')
-  @HttpCode(HttpStatus.OK)
   async refreshTokens(
     @GetCurrentUser('refreshToken') refreshToken: string,
     @GetCurrentUserId() userId: number,

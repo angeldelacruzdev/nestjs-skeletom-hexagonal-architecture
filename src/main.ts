@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType, Logger } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  const logger = new Logger('Bootstrap');
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -24,6 +24,10 @@ async function bootstrap() {
     next();
   });
 
-  await app.listen(process.env.PORT || 3001);
+  await app.listen(process.env.PORT || 3001, () => {
+    logger.log(
+      `La aplicación está corriendo en http://localhost:${process.env.PORT}`,
+    );
+  });
 }
 bootstrap();
