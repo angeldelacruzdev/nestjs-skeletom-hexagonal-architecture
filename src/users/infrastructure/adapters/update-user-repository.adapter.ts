@@ -20,7 +20,7 @@ export class UpdateUserRepositoryAdapter implements UpdateUserRepository {
     private readonly userRepository: Repository<User>,
     @Inject(EXCEPTION_HANDLER_PORT)
     private readonly exceptionHandler: ExceptionHandlerPort,
-    @Inject(forwardRef(() => FIND_REPOSITORY_PORT))
+    @Inject(FIND_REPOSITORY_PORT)
     private readonly findUserRepositoryAdapter: FindUserRepositoryAdapter,
   ) { }
 

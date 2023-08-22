@@ -4,6 +4,7 @@ import {
   Column,
   Index,
   OneToOne,
+  Relation,
   JoinColumn,
 } from 'typeorm';
 import { UserDetails } from './user-details.entity';
@@ -11,7 +12,7 @@ import { UserDetails } from './user-details.entity';
 @Entity({ name: 'user', schema: 'auth' })
 @Index('IDX_USER_EMAIL', ['email'])
 export class User {
-  @PrimaryGeneratedColumn('uuid') // Usar UUID como clave primaria para escalabilidad
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', length: 150, unique: true })
@@ -29,6 +30,6 @@ export class User {
   @Column({ type: 'boolean' })
   created_at: boolean;
 
-  @OneToOne("UserDetails", "user")
-  userDetails: UserDetails; // Relación con los detalles del usuario
+  @OneToOne(() => UserDetails, (metadata) => metadata.user, { cascade: true })
+  details: Relation<UserDetails>;
 }

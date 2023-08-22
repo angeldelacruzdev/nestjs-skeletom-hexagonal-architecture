@@ -39,14 +39,14 @@ export class CreateEmailConfirmTable1692620724870
     await queryRunner.createIndex(
       'auth.email_confirm',
       new TableIndex({
-        name: 'IDX_EMAILL_CONFIRM',
+        name: 'IDX_EMAIL_CONFIRM',
         columnNames: ['email'],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropIndex('auth.email_confirm', 'IDX_EMAILL_CONFIRM');
+    await queryRunner.dropIndex('auth.email_confirm', 'IDX_EMAIL_CONFIRM');
     await queryRunner.dropForeignKey(
       'auth.email_confirm',
       'FK_EMAIL_CONFIRM_USER_ID',

@@ -4,6 +4,7 @@ import {
   Column,
   JoinColumn,
   OneToOne,
+  Relation,
 } from 'typeorm';
 import { User } from './user.entity';
 
@@ -18,8 +19,7 @@ export class UserDetails {
   @Column({ type: 'varchar', length: 100 })
   lastName: string;
 
-
-  @OneToOne("User", "userDetails")
+  @OneToOne(() => User, (user) => user.id)
   @JoinColumn()
-  user: User; // Relación con la entidad de usuario
+  user: Relation<User>; // Relación con la entidad de usuario
 }

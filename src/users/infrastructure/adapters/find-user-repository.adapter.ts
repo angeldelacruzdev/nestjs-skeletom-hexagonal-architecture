@@ -8,12 +8,12 @@ import {
 } from '../../../common/exceptions';
 
 import { UserMapper } from '../mappers/user.mapper';
-import { UserEntity } from './../../../users/domain/entities/user.entity';
+import { User } from './../../../users/domain/entities/user.entity';
 
 export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     @Inject(EXCEPTION_HANDLER_PORT)
     private readonly exceptionHandler: ExceptionHandlerPort,
   ) {}

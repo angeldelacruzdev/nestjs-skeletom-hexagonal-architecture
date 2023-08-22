@@ -13,7 +13,7 @@ export class UserMapper {
     entity.email = dto.email;
     entity.rt_hash = 'asds55511';
     entity.status = dto.status;
-    entity.userDetails = this.toEntityDetail(dto.details);
+    entity.details = this.toEntityDetail(dto.details);
     return entity;
   }
 

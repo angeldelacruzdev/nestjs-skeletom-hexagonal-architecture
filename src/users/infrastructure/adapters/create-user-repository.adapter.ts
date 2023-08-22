@@ -27,11 +27,11 @@ export class CreateUserRepositoryAdapter implements CreateUserRepositoryPort {
   async create(dto: CreateUserDto): Promise<UserResponseDto> {
     try {
       const entity = await UserMapper.toEntity(dto);
+
       const response = await this.userRepository.save(entity);
-      console.log(response)
+
       return UserMapper.toDto(response);
     } catch (error) {
-      console.log(error)
       return this.exceptionHandler.handle(error);
     }
   }

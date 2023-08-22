@@ -61,7 +61,7 @@ import { UserDetails } from './domain/entities/user-details.entity';
       provide: CreateUserUseCase,
       useFactory: (createRepository: CreateUserRepositoryPort) =>
         new CreateUserUseCase(createRepository),
-      inject: [CREATE_REPOSITORY_PORT],
+      inject: [CREATE_REPOSITORY_PORT, EXCEPTION_HANDLER_PORT],
     },
     {
       provide: UpdateUserUseCase,

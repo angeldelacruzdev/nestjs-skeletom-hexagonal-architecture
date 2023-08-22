@@ -1,3 +1,3 @@
 export interface ExceptionHandlerPort {
-  handle(exception: Error): any;
+  handle(exception: any): any;
 }
