@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-
+import { LoggerService } from '@nestjs/common';
 import {
   NestjsExceptionHandlerAdapter,
   EXCEPTION_HANDLER_PORT,
@@ -30,4 +30,4 @@ import { LOGGER_TOKEN } from './logger/logger.token';
     },
   ],
 })
-export class CommonModule {}
+export class CommonModule { }

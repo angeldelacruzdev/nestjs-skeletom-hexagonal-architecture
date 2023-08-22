@@ -1,5 +1,4 @@
-import { LoggerAdapter } from './../common/logger/logger.adapter';
-import { LOGGER_TOKEN } from './../common/logger/logger.token';
+
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -35,6 +34,9 @@ import {
   FindUserRepositoryAdapter,
 } from './../users/infrastructure';
 
+import { LoggerAdapter } from './../common/logger/logger.adapter';
+import { LOGGER_TOKEN } from './../common/logger/logger.token';
+
 import { User } from './../users/domain/entities/user.entity';
 import { UserDetails } from './../users/domain/entities/user-details.entity';
 import { RegisterUseCase } from './application/use-case/register.use-case';
@@ -56,10 +58,7 @@ import { RegisterRepositoryAdapter } from './infrastructure/adapters/register-re
       provide: EXCEPTION_HANDLER_PORT,
       useClass: NestjsExceptionHandlerAdapter,
     },
-    {
-      provide: LOGGER_TOKEN,
-      useClass: LoggerAdapter, // Provee el manejador de excepciones
-    },
+
     {
       provide: AT_STRATEGIEST,
       useClass: RtStrategiest,
@@ -83,6 +82,10 @@ import { RegisterRepositoryAdapter } from './infrastructure/adapters/register-re
     {
       provide: REGISTER_USER_REPOSITORY,
       useClass: RegisterRepositoryAdapter,
+    },
+    {
+      provide: LOGGER_TOKEN,
+      useClass: LoggerAdapter, // Provee el manejador de excepciones
     },
     {
       provide: AuthUseCase,
@@ -114,4 +117,4 @@ import { RegisterRepositoryAdapter } from './infrastructure/adapters/register-re
   ],
   controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthModule { }

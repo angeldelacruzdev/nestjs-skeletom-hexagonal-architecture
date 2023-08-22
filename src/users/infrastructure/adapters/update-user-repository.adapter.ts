@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Inject, forwardRef } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import {
   FIND_REPOSITORY_PORT,
@@ -22,7 +22,7 @@ export class UpdateUserRepositoryAdapter implements UpdateUserRepository {
     private readonly exceptionHandler: ExceptionHandlerPort,
     @Inject(FIND_REPOSITORY_PORT)
     private readonly findUserRepositoryAdapter: FindUserRepositoryAdapter,
-  ) { }
+  ) {}
 
   async update(id: string, dto: UpdateUserDto): Promise<UserResponseDto> {
     try {

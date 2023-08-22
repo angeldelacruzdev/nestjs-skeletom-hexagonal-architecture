@@ -17,16 +17,12 @@ export class UserMapper {
     return entity;
   }
 
-
-
   public static toEntityDetail(dto: any): UserDetails {
     const entity = new UserDetails();
     entity.firstName = dto.firstName;
     entity.lastName = dto.lastName;
     return entity;
   }
-
-
 
   public static async toDto(entity: User): Promise<UserResponseDto> {
     const dto = new UserResponseDto();
