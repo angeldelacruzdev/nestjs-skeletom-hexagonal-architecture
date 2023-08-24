@@ -1,12 +1,8 @@
 import { Module } from '@nestjs/common';
-
 import {
   NestjsExceptionHandlerAdapter,
   EXCEPTION_HANDLER_PORT,
 } from './exceptions';
-
-import { LoggerAdapter } from './logger/logger.adapter';
-import { LOGGER_TOKEN } from './logger/logger.token';
 
 @Module({
   providers: [
@@ -14,19 +10,11 @@ import { LOGGER_TOKEN } from './logger/logger.token';
       provide: EXCEPTION_HANDLER_PORT,
       useClass: NestjsExceptionHandlerAdapter,
     },
-    {
-      provide: LOGGER_TOKEN,
-      useClass: LoggerAdapter,
-    },
   ],
   exports: [
     {
       provide: EXCEPTION_HANDLER_PORT,
       useClass: NestjsExceptionHandlerAdapter,
-    },
-    {
-      provide: LOGGER_TOKEN,
-      useClass: LoggerAdapter,
     },
   ],
 })

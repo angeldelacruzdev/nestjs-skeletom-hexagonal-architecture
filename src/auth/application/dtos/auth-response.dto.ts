@@ -1,7 +1,7 @@
 import { TokenDto } from './token-reponse.dto';
 
 export class AuthResponseDto {
-  id: number;
-  name: string;
+  id: string;
+  email: string;
   tokens: TokenDto;
 }

@@ -1,4 +1,4 @@
-import { UserDetailDto } from "users/application";
+import { UserDetailDto } from '../../../users/application';
 
 export class RegisterReponseDto {
   id: string;
@@ -6,5 +6,5 @@ export class RegisterReponseDto {
   password: string;
   terms: boolean;
   status: boolean;
-  details: UserDetailDto
+  details: UserDetailDto;
 }

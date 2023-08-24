@@ -1,6 +1,3 @@
-import { LoggerRepositoryPort } from './../../../common/logger/logger-repository.port';
-import { LOGGER_TOKEN } from './../../../common/logger/logger.token';
-
 import { Repository } from 'typeorm';
 import {
   EXCEPTION_HANDLER_PORT,
@@ -13,11 +10,12 @@ import {
   CreateUserRepositoryPort,
 } from '../../application';
 
-import { UserMapper } from '../mappers/user.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Inject } from '@nestjs/common';
 
-import { User } from './../../../users/domain/entities/user.entity';
+import { UserMapper } from '../mappers';
+import { User } from '../../domain/entities/user.entity';
+import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
 
 export class CreateUserRepositoryAdapter implements CreateUserRepositoryPort {
   constructor(
@@ -25,14 +23,18 @@ export class CreateUserRepositoryAdapter implements CreateUserRepositoryPort {
     private readonly userRepository: Repository<User>,
     @Inject(EXCEPTION_HANDLER_PORT)
     private readonly exceptionHandler: ExceptionHandlerPort,
+    @Inject(TOKEN_LOGGER_PORT)
+    private readonly logger: LoggerPort,
   ) {}
 
   async create(dto: CreateUserDto): Promise<UserResponseDto> {
     try {
       const entity = await UserMapper.toEntity(dto);
       const response = await this.userRepository.save(entity);
+
       return UserMapper.toDto(response);
     } catch (error) {
+      this.logger.log(error);
       return this.exceptionHandler.handle(error);
     }
   }

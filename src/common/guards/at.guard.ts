@@ -1,10 +1,13 @@
+import { Reflector } from '@nestjs/core';
 import {
   Injectable,
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
+
 import { AuthGuard } from '@nestjs/passport';
+
+import { Request } from 'express';
 import { IS_PUBLIC_KEY } from '../decorator';
 
 @Injectable()
@@ -22,15 +25,5 @@ export class AtGuard extends AuthGuard('jwt') {
     if (isPublic) return true;
 
     return super.canActivate(context);
-  }
-
-  handleRequest(err, user, info) {
-    // You can throw an exception based on either "info" or "err" arguments
-    if (err || !user) {
-      throw err || new UnauthorizedException('Access Denied.');
-    }
-
-    console.log(info);
-    return user;
   }
 }

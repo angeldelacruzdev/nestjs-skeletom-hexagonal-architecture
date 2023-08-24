@@ -1,4 +1,3 @@
-import { ExceptionHandlerPort } from './../../../common/exceptions/exception-handler.port';
 import { RegisterDto } from '../dtos';
 import { RegisterRepositoryPort } from '../ports';
 

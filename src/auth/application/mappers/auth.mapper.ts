@@ -1,4 +1,4 @@
-import { UserResponseDto } from 'users/application';
+import { UserResponseDto } from '../../../users/application';
 import { AuthResponseDto, TokenDto } from '../dtos';
 
 export class AuthMapper {
@@ -8,7 +8,7 @@ export class AuthMapper {
   ): AuthResponseDto {
     const dto = new AuthResponseDto();
     dto.id = dtoParam.id;
-    dto.name = dtoParam.user_name;
+    dto.email = dtoParam.email;
     dto.tokens = token;
     return dto;
   }

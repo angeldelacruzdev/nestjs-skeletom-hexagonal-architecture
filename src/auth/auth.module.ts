@@ -1,5 +1,3 @@
-import { LoggerAdapter } from './../common/logger/logger.adapter';
-import { LOGGER_TOKEN } from './../common/logger/logger.token';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -18,12 +16,6 @@ import { AuthController } from './http-server/auth.controller';
 import { AuthRepositoryAdapter } from './infrastructure/adapters/auth-repository.adapter';
 
 import {
-  EXCEPTION_HANDLER_PORT,
-  ExceptionHandlerPort,
-  NestjsExceptionHandlerAdapter,
-} from './../common/exceptions';
-
-import {
   CREATE_REPOSITORY_PORT,
   FIND_REPOSITORY_PORT,
   FindUserRepositoryPort,
@@ -40,12 +32,19 @@ import { UserDetails } from './../users/domain/entities/user-details.entity';
 import { RegisterUseCase } from './application/use-case/register.use-case';
 import { REGISTER_USER_REPOSITORY } from './application/token/auth-repository-token';
 import { RegisterRepositoryAdapter } from './infrastructure/adapters/register-repository.adapter';
+import {
+  EXCEPTION_HANDLER_PORT,
+  ExceptionHandlerPort,
+  NestjsExceptionHandlerAdapter,
+} from '../common';
+import { LoggerAdapter, LoggerPort, TOKEN_LOGGER_PORT } from '../utils';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, UserDetails]),
     JwtModule.registerAsync({
       useFactory: () => ({
+        global: true,
         secret: process.env.SECRET,
         signOptions: { expiresIn: '24h' },
       }),
@@ -57,8 +56,8 @@ import { RegisterRepositoryAdapter } from './infrastructure/adapters/register-re
       useClass: NestjsExceptionHandlerAdapter,
     },
     {
-      provide: LOGGER_TOKEN,
-      useClass: LoggerAdapter, // Provee el manejador de excepciones
+      provide: TOKEN_LOGGER_PORT,
+      useClass: LoggerAdapter,
     },
     {
       provide: AT_STRATEGIEST,
@@ -84,24 +83,28 @@ import { RegisterRepositoryAdapter } from './infrastructure/adapters/register-re
       provide: REGISTER_USER_REPOSITORY,
       useClass: RegisterRepositoryAdapter,
     },
+
     {
       provide: AuthUseCase,
       useFactory: (
         repository: AuthRepositoryPort,
         findUserRepositoryPort: FindUserRepositoryPort,
         exceptionHandlerPort: ExceptionHandlerPort,
+        loggerPort: LoggerPort,
       ) => {
         const findUserUseCase = new FindUserUseCase(findUserRepositoryPort);
         return new AuthUseCase(
           repository,
           findUserUseCase,
           exceptionHandlerPort,
+          loggerPort,
         );
       },
       inject: [
         LOGIN_USER_REPOSITORY,
         FIND_REPOSITORY_PORT,
         EXCEPTION_HANDLER_PORT,
+        TOKEN_LOGGER_PORT,
       ],
     },
     {

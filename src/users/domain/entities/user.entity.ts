@@ -5,7 +5,6 @@ import {
   Index,
   OneToOne,
   Relation,
-  JoinColumn,
 } from 'typeorm';
 import { UserDetails } from './user-details.entity';
 

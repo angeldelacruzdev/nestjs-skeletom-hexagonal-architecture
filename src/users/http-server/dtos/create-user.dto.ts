@@ -11,7 +11,6 @@ export class CreateUserDto {
   @IsBoolean()
   status: boolean;
 
-
   @IsOptional()
-  details: UserDetailDto
+  details: UserDetailDto;
 }
