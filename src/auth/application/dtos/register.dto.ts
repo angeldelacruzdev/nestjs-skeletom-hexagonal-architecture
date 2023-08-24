@@ -1,4 +1,4 @@
-import { UserDetailDto } from 'users/application';
+import { UserDetailDto } from '../../../users/application';
 
 export interface RegisterDto {
   email: string;

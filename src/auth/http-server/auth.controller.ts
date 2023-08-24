@@ -32,6 +32,7 @@ export class AuthController {
   async login(@Body() dto: LoginHttpDto): Promise<AuthResponseHttpDto> {
     return await this.authUseCase.login(dto);
   }
+
   @Public()
   @Post('register')
   async register(@Body() dto: RegisterDto): Promise<AuthResponseHttpDto> {

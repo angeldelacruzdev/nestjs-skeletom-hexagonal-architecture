@@ -9,7 +9,7 @@ import { CommonModule } from './common/common.module';
 
 import { AtGuard } from './common/guards/at.guard';
 import { AuthModule } from './auth/auth.module';
-import { LoggingModule } from './app/utils/logger';
+import { LoggingModule } from './utils';
 
 @Module({
   imports: [
@@ -29,4 +29,4 @@ import { LoggingModule } from './app/utils/logger';
     AppService,
   ],
 })
-export class AppModule { }
+export class AppModule {}

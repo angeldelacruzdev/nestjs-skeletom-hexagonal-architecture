@@ -1,12 +1,12 @@
+import { ExceptionHandlerPort } from '../../../common';
 import { UserResponseDto } from '../dtos';
 import { FindUserRepositoryPort, UpdateUserRepository } from '../ports';
-import { ExceptionHandlerPort } from '@common/exceptions';
 
 export class DeleteUserUserCase {
   constructor(
     private readonly updateUserRepository: UpdateUserRepository,
     private readonly findUserRepositoryPort: FindUserRepositoryPort,
-    private exceptionHandlerPort: ExceptionHandlerPort,
+    private readonly exceptionHandlerPort: ExceptionHandlerPort,
   ) {}
 
   async delete(id: string): Promise<UserResponseDto> {

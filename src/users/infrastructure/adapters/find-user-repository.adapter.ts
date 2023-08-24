@@ -9,6 +9,7 @@ import {
 
 import { UserMapper } from '../mappers/user.mapper';
 import { User } from './../../../users/domain/entities/user.entity';
+import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
 
 export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
   constructor(
@@ -16,6 +17,8 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     private readonly userRepository: Repository<User>,
     @Inject(EXCEPTION_HANDLER_PORT)
     private readonly exceptionHandler: ExceptionHandlerPort,
+    @Inject(TOKEN_LOGGER_PORT)
+    private readonly logger: LoggerPort,
   ) {}
 
   async findByEmail(email: string): Promise<UserResponseDto> {
@@ -30,6 +33,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
 
       return null;
     } catch (error) {
+      this.logger.error(error);
       return this.exceptionHandler.handle(error);
     }
   }
@@ -39,6 +43,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       const response = await this.userRepository.find();
       return await Promise.all(response.map(UserMapper.toDto));
     } catch (error) {
+      this.logger.error(error);
       return this.exceptionHandler.handle(error);
     }
   }
@@ -50,6 +55,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       });
       return UserMapper.toDto(response);
     } catch (error) {
+      this.logger.error(error);
       return this.exceptionHandler.handle(error);
     }
   }

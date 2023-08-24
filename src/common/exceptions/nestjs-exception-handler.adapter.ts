@@ -23,7 +23,10 @@ export class NestjsExceptionHandlerAdapter implements ExceptionHandlerPort {
       }
     }
 
-    // Manejo genérico para otras excepciones
+    if (exception instanceof Error) {
+      throw new HttpException(exception.message, 401);
+    }
+
     throw new HttpException(
       'Error interno del servidor',
       HttpStatus.INTERNAL_SERVER_ERROR,
