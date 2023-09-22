@@ -5,6 +5,7 @@ import {
   Index,
   OneToOne,
   Relation,
+  CreateDateColumn,
 } from 'typeorm';
 import { UserDetails } from './user-details.entity';
 
@@ -26,8 +27,17 @@ export class User {
   @Column({ type: 'boolean' })
   status: boolean;
 
-  @Column({ type: 'boolean' })
-  created_at: boolean;
+  @CreateDateColumn({
+    nullable: false,
+    name: 'created_at',
+  })
+  created_at: Date;
+
+  @CreateDateColumn({
+    nullable: false,
+    name: 'updated_at',
+  })
+  updated_at: Date;
 
   @OneToOne(() => UserDetails, (metadata) => metadata.user, { cascade: true })
   details: Relation<UserDetails>;
