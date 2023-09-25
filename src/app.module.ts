@@ -10,6 +10,7 @@ import { CommonModule } from './common/common.module';
 import { AtGuard } from './common/guards/at.guard';
 import { AuthModule } from './auth/auth.module';
 import { LoggingModule } from './utils';
+import { RolesModule } from './roles/role.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { LoggingModule } from './utils';
     LoggingModule,
     AuthModule,
     UserModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [

@@ -4,6 +4,6 @@ import { Controller, VERSION_NEUTRAL } from '@nestjs/common';
   path: 'v1/roles',
   version: VERSION_NEUTRAL,
 })
-export class UserController {
+export class RolesController {
   constructor() {}
 }
