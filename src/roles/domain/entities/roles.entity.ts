@@ -6,8 +6,8 @@ import {
   JoinTable,
   CreateDateColumn,
 } from 'typeorm';
-import { Permission } from './permission.entity';
-
+import { Permission } from '../../../permissions/domain/permission.entity';
+ 
 @Entity({ name: 'roles', schema: 'security' })
 export class Role {
   @PrimaryGeneratedColumn()
