@@ -30,7 +30,7 @@ export class Role {
 
   @ManyToMany(() => Permission)
   @JoinTable({
-    name: 'security.role_permissions',
+    name: 'role_permissions',
     joinColumn: { name: 'role_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'permission_id', referencedColumnName: 'id' },
   })

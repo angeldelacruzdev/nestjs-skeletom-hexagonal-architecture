@@ -1,5 +1,5 @@
 import { ExceptionHandlerPort } from '../../../common';
-import { PaginationDto } from '../../../utils';
+import { PaginationDto, PaginationResponseDto } from '../../../utils';
 import { RolesReponseDto } from '../dtos';
 import { FindRolesRepositoryPort } from '../ports';
 
@@ -9,7 +9,9 @@ export class FindRolesUseCase {
     private readonly exceptionHandlerPort: ExceptionHandlerPort,
   ) {}
 
-  async findMany(pagination: PaginationDto): Promise<RolesReponseDto[] | null> {
-    return;
+  async findMany(
+    pagination: PaginationDto,
+  ): Promise<PaginationResponseDto<RolesReponseDto> | null> {
+    return await this.findRolesRepositoryPort.findMany(pagination);
   }
 }
