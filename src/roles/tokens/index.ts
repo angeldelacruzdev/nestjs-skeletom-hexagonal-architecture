@@ -1,3 +1,6 @@
-import { CREATE_ROLE_REPOSITORY } from './token-injection';
+import {
+  CREATE_ROLE_REPOSITORY,
+  FIND_ROLE_REPOSITORY,
+} from './token-injection';
 
-export { CREATE_ROLE_REPOSITORY };
+export { CREATE_ROLE_REPOSITORY, FIND_ROLE_REPOSITORY };

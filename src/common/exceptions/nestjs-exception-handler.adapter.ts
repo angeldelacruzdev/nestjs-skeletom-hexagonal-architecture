@@ -8,7 +8,10 @@ export class NestjsExceptionHandlerAdapter implements ExceptionHandlerPort {
     if (exception instanceof QueryFailedError) {
       // Lógica para manejar la excepción personalizada
       if (exceptions.code === '23505') {
-        throw new HttpException('El email ya está en uso.', 401);
+        throw new HttpException(
+          'Ya existe la información que está intentado guardar.',
+          401,
+        );
       }
 
       if (exceptions.code === '42703') {

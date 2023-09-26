@@ -10,6 +10,7 @@ export class CreateUserRolesTable1695414521717 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
+            isGenerated: true,
           },
           {
             name: 'user_id',

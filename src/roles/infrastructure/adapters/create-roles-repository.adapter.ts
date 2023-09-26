@@ -25,11 +25,10 @@ export class CreateRolesRepositoryAdapter implements CreateRolesRepositoryPort {
     try {
       const entity = RolesMapper.toEntity(dto);
       const response = await this.roleRepository.save(entity);
-      console.log(response);
-      return;
+      return RolesMapper.toDto(response);
     } catch (e) {
       this.logger.error(e);
-      return this.exceptionHandler.handle(e?.message);
+      return this.exceptionHandler.handle(e);
     }
   }
 }

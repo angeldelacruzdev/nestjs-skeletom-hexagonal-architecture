@@ -10,6 +10,7 @@ export class CreatePermissionsTable1695413411317 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
+            isGenerated: true,
           },
           {
             name: 'name',

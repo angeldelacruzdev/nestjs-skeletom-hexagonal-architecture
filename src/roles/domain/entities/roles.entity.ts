@@ -7,7 +7,7 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { Permission } from '../../../permissions/domain/permission.entity';
- 
+
 @Entity({ name: 'roles', schema: 'security' })
 export class Role {
   @PrimaryGeneratedColumn()
@@ -34,5 +34,5 @@ export class Role {
     joinColumn: { name: 'role_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'permission_id', referencedColumnName: 'id' },
   })
-  permissions: Permission[];
+  permissions?: Permission[];
 }

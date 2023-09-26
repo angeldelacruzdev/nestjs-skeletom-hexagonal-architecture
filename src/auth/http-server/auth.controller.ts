@@ -28,7 +28,7 @@ export class AuthController {
   ) {}
 
   @Public()
-  @Post()
+  @Post('login')
   async login(@Body() dto: LoginHttpDto): Promise<AuthResponseHttpDto> {
     return await this.authUseCase.login(dto);
   }

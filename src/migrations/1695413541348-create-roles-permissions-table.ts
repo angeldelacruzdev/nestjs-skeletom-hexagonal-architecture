@@ -12,15 +12,18 @@ export class CreateRolesPermissionsTable1695413541348
           {
             name: 'id',
             type: 'int',
-            isPrimary: true
+            isPrimary: true,
+            isGenerated: true,
           },
           {
             name: 'role_id',
             type: 'int',
+            isNullable: true,
           },
           {
             name: 'permission_id',
             type: 'int',
+            isNullable: true,
           },
         ],
         foreignKeys: [
