@@ -15,7 +15,16 @@ export class FindRolesUseCase {
     try {
       return await this.findRolesRepositoryPort.findMany(pagination);
     } catch (e) {
-      return this.exceptionHandlerPort.handle(e)
+      return this.exceptionHandlerPort.handle(e);
+    }
+  }
+
+  async findOne(id: number): Promise<RolesReponseDto | null> {
+    try {
+      const response = await this.findRolesRepositoryPort.findOne(id);
+      return response;
+    } catch (e) {
+      return this.exceptionHandlerPort.handle(e);
     }
   }
 }

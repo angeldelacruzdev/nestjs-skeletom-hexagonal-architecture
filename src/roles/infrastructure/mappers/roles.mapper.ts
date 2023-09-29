@@ -1,7 +1,6 @@
-import { PermissionMapper } from './../../../permissions/infrastructure/mapper/permissions.mapper';
-import { CreateRolesDto } from '../../application';
+import { PermissionMapper } from '../../../permissions';
+import { CreateRolesDto, RolesReponseDto } from '../../application';
 import { Role } from '../../domain/entities/roles.entity';
-import { RolesReponseDto } from '../../http-server/dtos';
 
 export class RolesMapper {
   public static toEntity(dto: CreateRolesDto): Role {

@@ -23,7 +23,10 @@ export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
 
   async findOne(id: number): Promise<RolesReponseDto | null> {
     try {
-      const response = await this.roleRepository.findOne({ where: { id } });
+      const response = await this.roleRepository.findOne({
+        where: { id },
+        relations: ['permissions'],
+      });
       return RolesMapper.toDto(response);
     } catch (e) {
       this.logger.error(e);
@@ -37,27 +40,30 @@ export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
     search = '',
     sort = 'id',
   }: PaginationDto): Promise<PaginationResponseDto<RolesReponseDto>> {
-    const LimitPage = (page - 1) * limit;
-
-    const options: FindManyOptions<Role> = {
-      where: {
-        ...(search && { name: ILike(`%${search}%`) }),
-      },
-      take: limit,
-      skip: isNaN(LimitPage) ? 1 : LimitPage,
-      order: {
-        [sort]: 'ASC', // Puedes cambiar a 'DESC' si se desea orden descendente
-      },
-      relations: ['permissions'],
-    };
-    const [result, total] = await this.roleRepository.findAndCount(options);
-    const resultDto = result.map(RolesMapper.toDto);
-    const response: PaginationResponseDto<RolesReponseDto> = {
-      data: resultDto,
-      page,
-      limit,
-      total,
-    };
-    return response;
+    try {
+      const options: FindManyOptions<Role> = {
+        where: {
+          ...(search && { name: ILike(`%${search}%`) }),
+        },
+        take: limit,
+        skip: (page - 1) * limit,
+        order: {
+          [sort]: 'ASC', // Puedes cambiar a 'DESC' si se desea orden descendente
+        },
+        relations: ['permissions'],
+      };
+      const [result, total] = await this.roleRepository.findAndCount(options);
+      const resultDto = result.map(RolesMapper.toDto);
+      const response: PaginationResponseDto<RolesReponseDto> = {
+        data: resultDto,
+        page,
+        limit,
+        total,
+      };
+      return response;
+    } catch (e) {
+      this.logger.error(e);
+      return this.exceptionHandler.handle(e);
+    }
   }
 }

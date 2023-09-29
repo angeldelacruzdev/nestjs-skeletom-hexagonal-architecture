@@ -1,6 +1,6 @@
-import { PermissionsReponseDto } from '../../../permissions/application';
+import { PermissionsReponseDto } from '../../../permissions';
 
-export class RolesReponseDto {
+export class RolesReponseDocDto {
   id: number;
   name: string;
   permissions: PermissionsReponseDto[];
