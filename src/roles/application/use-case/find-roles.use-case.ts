@@ -12,6 +12,10 @@ export class FindRolesUseCase {
   async findMany(
     pagination: PaginationDto,
   ): Promise<PaginationResponseDto<RolesReponseDto> | null> {
-    return await this.findRolesRepositoryPort.findMany(pagination);
+    try {
+      return await this.findRolesRepositoryPort.findMany(pagination);
+    } catch (e) {
+      return this.exceptionHandlerPort.handle(e)
+    }
   }
 }

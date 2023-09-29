@@ -25,5 +25,4 @@ export class Permission {
   })
   updated_at: Date;
 
-  // Puedes añadir más propiedades si es necesario, como descripción, ámbitos, etc.
 }
