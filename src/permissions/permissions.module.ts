@@ -3,10 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
  
 import { Permission } from './domain/permission.entity';
 import { providers } from './providers';
+import { PermissionsController } from './http-server';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Permission])],
   providers: [...providers],
-  controllers: [],
+  controllers: [PermissionsController],
 })
-export class RolesModule {}
+export class PermissionsModule {}

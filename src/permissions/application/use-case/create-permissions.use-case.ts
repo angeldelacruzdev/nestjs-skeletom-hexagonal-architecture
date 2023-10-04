@@ -6,7 +6,9 @@ export class CreatePermissionUseCase {
     private readonly createPermissionsRepositoryPort: CreatePermissionsRepositoryPort,
   ) {}
 
-  create(dto: CreatePermissionDto): Promise<PermissionsReponseDto | null> {
-    return;
+  async create(
+    dto: CreatePermissionDto,
+  ): Promise<PermissionsReponseDto | null> {
+    return await this.createPermissionsRepositoryPort.create(dto);
   }
 }

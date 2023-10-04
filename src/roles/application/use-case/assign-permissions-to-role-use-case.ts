@@ -12,6 +12,9 @@ export class AssignPermissionsToRoleUseCase {
     roleId: number,
     permissionIds: number[],
   ): Promise<RolesReponseDto> {
+    console.log(roleId);
+
+    console.log(permissionIds);
     return;
   }
 }

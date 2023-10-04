@@ -10,18 +10,21 @@ export class NestjsExceptionHandlerAdapter implements ExceptionHandlerPort {
       if (exceptions.code === '23505') {
         throw new HttpException(
           'Ya existe la información que está intentado guardar.',
-          401,
+          HttpStatus.BAD_REQUEST,
         );
       }
 
       if (exceptions.code === '42703') {
-        throw new HttpException('No existe una relación en las tablas.', 401);
+        throw new HttpException(
+          'No existe una relación en las tablas.',
+          HttpStatus.BAD_REQUEST,
+        );
       }
 
       if (exceptions.code === '23502') {
         throw new HttpException(
           'Lo datos no pueden contener datos nulos.',
-          401,
+          HttpStatus.BAD_REQUEST,
         );
       }
     }

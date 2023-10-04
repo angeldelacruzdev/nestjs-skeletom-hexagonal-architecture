@@ -11,6 +11,7 @@ import { AtGuard } from './common/guards/at.guard';
 import { AuthModule } from './auth/auth.module';
 import { LoggingModule } from './utils';
 import { RolesModule } from './roles/role.module';
+import { PermissionsModule } from './permissions';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { RolesModule } from './roles/role.module';
     AuthModule,
     UserModule,
     RolesModule,
+    PermissionsModule,
   ],
   controllers: [AppController],
   providers: [
