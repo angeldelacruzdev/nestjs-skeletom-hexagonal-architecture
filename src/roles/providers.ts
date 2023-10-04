@@ -1,13 +1,22 @@
 import { Provider } from '@nestjs/common';
 
-import { CREATE_ROLE_REPOSITORY, FIND_ROLE_REPOSITORY } from './tokens';
+import {
+  ASSIGN_ROLE_PERMISSION_REPOSITORY,
+  CREATE_ROLE_REPOSITORY,
+  FIND_ROLE_REPOSITORY,
+} from './tokens';
 
 import {
+  AssignPermissionsToRoleRepositoryAdapter,
   CreateRolesRepositoryAdapter,
   FindRolesRepositoryAdapter,
-} from './infrastructure/adapters';
+} from './infrastructure';
 
-import { CreateRolesUseCase, FindRolesUseCase } from './application/use-case';
+import {
+  AssignPermissionsToRoleRepositoryPort,
+  CreateRolesUseCase,
+  FindRolesUseCase,
+} from './application';
 
 import {
   CreateRolesRepositoryPort,
@@ -21,6 +30,7 @@ import {
 } from '../common';
 
 import { LoggerAdapter, TOKEN_LOGGER_PORT } from '../utils';
+import { AssignPermissionsToRoleUseCase } from './application/use-case/assign-permissions-to-role-use-case';
 
 export const provideres: Provider[] = [
   {
@@ -40,6 +50,10 @@ export const provideres: Provider[] = [
     useClass: FindRolesRepositoryAdapter,
   },
   {
+    provide: ASSIGN_ROLE_PERMISSION_REPOSITORY,
+    useClass: AssignPermissionsToRoleRepositoryAdapter,
+  },
+  {
     provide: CreateRolesUseCase,
     useFactory: (
       createRolesRepositoryPort: CreateRolesRepositoryPort,
@@ -55,5 +69,18 @@ export const provideres: Provider[] = [
       exceptionHandlerPort: ExceptionHandlerPort,
     ) => new FindRolesUseCase(findRolesRepositoryPort, exceptionHandlerPort),
     inject: [FIND_ROLE_REPOSITORY, EXCEPTION_HANDLER_PORT, TOKEN_LOGGER_PORT],
+  },
+
+  {
+    provide: AssignPermissionsToRoleUseCase,
+    useFactory: (
+      assignPermissionsToRoleRepositoryPort: AssignPermissionsToRoleRepositoryPort,
+      exceptionHandlerPort: ExceptionHandlerPort,
+    ) =>
+      new AssignPermissionsToRoleUseCase(
+        assignPermissionsToRoleRepositoryPort,
+        exceptionHandlerPort,
+      ),
+    inject: [ASSIGN_ROLE_PERMISSION_REPOSITORY, EXCEPTION_HANDLER_PORT],
   },
 ];

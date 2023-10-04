@@ -20,7 +20,10 @@ async function bootstrap() {
   });
 
   app.use(function (request: Request, response: Response, next: NextFunction) {
-    response.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    response.setHeader(
+      'Access-Control-Allow-Origin',
+      `http://localhost:${process.env.PORT}`,
+    );
     next();
   });
 

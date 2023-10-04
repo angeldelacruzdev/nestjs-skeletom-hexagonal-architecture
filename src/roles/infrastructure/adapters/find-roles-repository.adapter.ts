@@ -35,10 +35,10 @@ export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
   }
 
   async findMany({
-    limit = 10,
-    page = 1,
-    search = '',
-    sort = 'id',
+    limit,
+    page,
+    search,
+    sort,
   }: PaginationDto): Promise<PaginationResponseDto<RolesReponseDto>> {
     try {
       const options: FindManyOptions<Role> = {
@@ -48,7 +48,7 @@ export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
         take: limit,
         skip: (page - 1) * limit,
         order: {
-          [sort]: 'ASC', // Puedes cambiar a 'DESC' si se desea orden descendente
+          [sort]: 'ASC',
         },
         relations: ['permissions'],
       };

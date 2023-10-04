@@ -30,6 +30,7 @@ export class AssignPermissionsToRoleRepositoryAdapter
   ): Promise<RolesReponseDto> {
     try {
       console.log(roleId, permissionIds);
+      
 
       return;
     } catch (e) {
