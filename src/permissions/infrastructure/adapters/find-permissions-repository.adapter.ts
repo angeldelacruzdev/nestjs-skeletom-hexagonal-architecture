@@ -28,6 +28,19 @@ export class FindPermissionsRepositoryAdapter
     private readonly logger: LoggerPort,
   ) {}
 
+  async findOne(id: number): Promise<PermissionsReponseDto> {
+    try {
+      const response = await this.permissionsRepository.findOne({
+        where: { id },
+      });
+
+      return PermissionMapper.toDto(response);
+    } catch (e) {
+      this.logger.error(e);
+      return this.exceptionHandler.handle(e);
+    }
+  }
+
   async findMany({
     limit,
     page,

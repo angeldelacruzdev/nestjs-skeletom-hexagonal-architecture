@@ -1,4 +1,8 @@
-import { CreatePermissionDto, PermissionsReponseDto } from '../../application';
+import {
+  CreatePermissionDto,
+  PermissionsReponseDto,
+  UpdatePermissionsDto,
+} from '../../application';
 import { Permission } from '../../domain/permission.entity';
 
 export class PermissionMapper {
@@ -15,6 +19,13 @@ export class PermissionMapper {
     const entity = new Permission();
     entity.name = dto.name;
     entity.created_at = new Date();
+    return entity;
+  }
+
+  public static toUpdate(id: number, dto: UpdatePermissionsDto) {
+    const entity = new Permission();
+    entity.id = id;
+    entity.name = dto.name;
     return entity;
   }
 }

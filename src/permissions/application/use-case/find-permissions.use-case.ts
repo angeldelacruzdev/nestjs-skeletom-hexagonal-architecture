@@ -7,10 +7,9 @@ export class FindPermissionsUseCase {
     private readonly findPermissionsRepositoryPort: FindPermissionsRepositoryPort,
   ) {}
 
-  findMany(
+  async findMany(
     pagination: PaginationDto,
   ): Promise<PaginationResponseDto<PermissionsReponseDto> | null> {
-    console.log(pagination);
-    return;
+    return await this.findPermissionsRepositoryPort.findMany(pagination);
   }
 }

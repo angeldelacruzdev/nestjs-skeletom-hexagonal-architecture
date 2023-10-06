@@ -1,8 +1,16 @@
-import { Body, Controller, Get, Post, VERSION_NEUTRAL } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  VERSION_NEUTRAL,
+} from '@nestjs/common';
 import { CreatePermissionDocDto, PermissionsReponseDocDto } from './dto';
 import {
   CreatePermissionUseCase,
   FindPermissionsUseCase,
+  UpdatePermissionsUseCase,
 } from '../application';
 import { Pagination } from '../../common';
 import { PaginationDocDto } from '../../utils/dto/pagination-doc.dto';
@@ -16,6 +24,7 @@ export class PermissionsController {
   constructor(
     private readonly createPermissionUseCase: CreatePermissionUseCase,
     private readonly findPermissionsUseCase: FindPermissionsUseCase,
+    private readonly updatePermissionsUseCase: UpdatePermissionsUseCase,
   ) {}
 
   @Post()
@@ -31,4 +40,11 @@ export class PermissionsController {
   ): Promise<PaginationResponseDto<PermissionsReponseDocDto>> {
     return await this.findPermissionsUseCase.findMany(pagination);
   }
+
+  // @Put(':id')
+  // async updateOne(
+  //   @Body() dto: CreatePermissionDocDto,
+  // ): Promise<PermissionsReponseDocDto> {
+  //   return  await this.updatePermissionsUseCase.
+  // }
 }
