@@ -12,4 +12,8 @@ export class FindPermissionsUseCase {
   ): Promise<PaginationResponseDto<PermissionsReponseDto> | null> {
     return await this.findPermissionsRepositoryPort.findMany(pagination);
   }
+
+  async findOne(id: number): Promise<PermissionsReponseDto | null> {
+    return await this.findPermissionsRepositoryPort.findOne(id);
+  }
 }

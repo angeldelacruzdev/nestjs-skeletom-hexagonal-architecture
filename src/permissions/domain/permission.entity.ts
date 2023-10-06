@@ -24,5 +24,4 @@ export class Permission {
     name: 'updated_at',
   })
   updated_at: Date;
-
 }

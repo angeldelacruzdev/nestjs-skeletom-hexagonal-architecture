@@ -28,11 +28,15 @@ export class FindPermissionsRepositoryAdapter
     private readonly logger: LoggerPort,
   ) {}
 
-  async findOne(id: number): Promise<PermissionsReponseDto> {
+  async findOne(id: number): Promise<PermissionsReponseDto | null> {
     try {
       const response = await this.permissionsRepository.findOne({
         where: { id },
       });
+
+      if (!response) {
+        return null;
+      }
 
       return PermissionMapper.toDto(response);
     } catch (e) {

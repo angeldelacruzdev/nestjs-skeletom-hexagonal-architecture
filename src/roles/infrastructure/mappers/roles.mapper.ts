@@ -1,6 +1,7 @@
-import { PermissionMapper } from '../../../permissions';
+import { Permission } from '../../../permissions/domain/permission.entity';
 import { CreateRolesDto, RolesReponseDto } from '../../application';
 import { Role } from '../../domain/entities/roles.entity';
+import { PermissionMapper } from '../../../permissions';
 
 export class RolesMapper {
   public static toEntity(dto: CreateRolesDto): Role {
@@ -18,5 +19,17 @@ export class RolesMapper {
     dto.permissions = entity.permissions.map(PermissionMapper.toDto);
     dto.created_at = entity.created_at;
     return dto;
+  }
+
+  public static assignPermissionsEntity(
+    id: number,
+    permissionIds: number[],
+  ): Role {
+    const entity = new Role();
+    entity.id = id;
+    entity.permissions = permissionIds.map((id) => {
+      return PermissionMapper.toEntityRole(id);
+    });
+    return entity;
   }
 }

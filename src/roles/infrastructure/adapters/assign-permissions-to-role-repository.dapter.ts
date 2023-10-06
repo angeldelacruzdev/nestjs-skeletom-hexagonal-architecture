@@ -11,6 +11,7 @@ import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort } from '../../../common';
 import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
 
 import { Role } from '../../domain/entities/roles.entity';
+import { RolesMapper } from '../mappers';
 
 export class AssignPermissionsToRoleRepositoryAdapter
   implements AssignPermissionsToRoleRepositoryPort
@@ -24,13 +25,14 @@ export class AssignPermissionsToRoleRepositoryAdapter
     private readonly logger: LoggerPort,
   ) {}
 
-  assignPermissionsToRole(
+  async assignPermissionsToRole(
     roleId: number,
     permissionIds: number[],
   ): Promise<RolesReponseDto> {
     try {
-      console.log(roleId, permissionIds);
-      
+      const entity = RolesMapper.assignPermissionsEntity(roleId, permissionIds);
+      console.log(entity)
+      await this.roleRepository.save(entity);
 
       return;
     } catch (e) {

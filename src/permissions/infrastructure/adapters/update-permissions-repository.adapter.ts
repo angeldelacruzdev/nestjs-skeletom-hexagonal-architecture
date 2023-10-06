@@ -37,7 +37,7 @@ export class UpdatePermissionsRepositoryAdapter
       const entity = PermissionMapper.toUpdate(id, dto);
       const response = await this.permissionsRepository.save(entity);
 
-      return this.findPermissionsRepositoryPort.findOne(response.id);
+      return await this.findPermissionsRepositoryPort.findOne(response.id);
     } catch (e) {
       this.logger.error(e);
       return this.exceptionHandler.handle(e);

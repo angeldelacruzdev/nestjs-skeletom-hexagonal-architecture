@@ -8,13 +8,13 @@ export class AssignPermissionsToRoleUseCase {
     private readonly exceptionHandlerPort: ExceptionHandlerPort,
   ) {}
 
-  assignPermissionsToRole(
+  async assignPermissionsToRole(
     roleId: number,
     permissionIds: number[],
   ): Promise<RolesReponseDto> {
-    console.log(roleId);
-
-    console.log(permissionIds);
-    return;
+    return await this.assignPermissionsToRoleRepositoryPort.assignPermissionsToRole(
+      roleId,
+      permissionIds,
+    );
   }
 }

@@ -22,6 +22,12 @@ export class PermissionMapper {
     return entity;
   }
 
+  public static toEntityRole(id: number) {
+    const entity = new Permission();
+    entity.id = id;
+    return entity;
+  }
+
   public static toUpdate(id: number, dto: UpdatePermissionsDto) {
     const entity = new Permission();
     entity.id = id;

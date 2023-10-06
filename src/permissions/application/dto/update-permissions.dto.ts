@@ -1,4 +1,4 @@
 export class UpdatePermissionsDto {
-  id: number;
+  id?: number;
   name: string;
 }

@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
   Put,
   VERSION_NEUTRAL,
@@ -37,14 +39,22 @@ export class PermissionsController {
   @Get()
   async findMany(
     @Pagination() pagination: PaginationDocDto,
-  ): Promise<PaginationResponseDto<PermissionsReponseDocDto>> {
+  ): Promise<PaginationResponseDto<PermissionsReponseDocDto> | null> {
     return await this.findPermissionsUseCase.findMany(pagination);
   }
 
-  // @Put(':id')
-  // async updateOne(
-  //   @Body() dto: CreatePermissionDocDto,
-  // ): Promise<PermissionsReponseDocDto> {
-  //   return  await this.updatePermissionsUseCase.
-  // }
+  @Get(':id')
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<PermissionsReponseDocDto | null> {
+    return await this.findPermissionsUseCase.findOne(id);
+  }
+
+  @Put(':id')
+  async updateOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: CreatePermissionDocDto,
+  ): Promise<PermissionsReponseDocDto | null> {
+    return await this.updatePermissionsUseCase.update(id, dto);
+  }
 }
