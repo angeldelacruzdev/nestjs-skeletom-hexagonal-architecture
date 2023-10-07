@@ -12,6 +12,7 @@ import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
 
 import { Role } from '../../domain/entities/roles.entity';
 import { RolesMapper } from '../mappers';
+import { PermissionsReponseDto } from '../../../permissions';
 
 export class AssignPermissionsToRoleRepositoryAdapter
   implements AssignPermissionsToRoleRepositoryPort
@@ -27,11 +28,14 @@ export class AssignPermissionsToRoleRepositoryAdapter
 
   async assignPermissionsToRole(
     roleId: number,
-    permissionIds: number[],
+    permissionIds: PermissionsReponseDto[],
   ): Promise<RolesReponseDto> {
     try {
       const entity = RolesMapper.assignPermissionsEntity(roleId, permissionIds);
-      console.log(entity)
+      console.log(entity);
+
+
+      return;
       await this.roleRepository.save(entity);
 
       return;

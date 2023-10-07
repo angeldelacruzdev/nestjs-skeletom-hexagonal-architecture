@@ -6,4 +6,5 @@ export interface FindPermissionsRepositoryPort {
     pagination: PaginationDto,
   ): Promise<PaginationResponseDto<PermissionsReponseDto> | null>;
   findOne(id: number): Promise<PermissionsReponseDto | null>;
+  findByIds(ids: number[]): Promise<PermissionsReponseDto[] | null>;
 }

@@ -14,6 +14,13 @@ export class NestjsExceptionHandlerAdapter implements ExceptionHandlerPort {
         );
       }
 
+      if (exceptions.code === '10776') {
+        throw new HttpException(
+          'Error de sintaxis en la base de datos.',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
       if (exceptions.code === '42703') {
         throw new HttpException(
           'No existe una relación en las tablas.',

@@ -16,4 +16,8 @@ export class FindPermissionsUseCase {
   async findOne(id: number): Promise<PermissionsReponseDto | null> {
     return await this.findPermissionsRepositoryPort.findOne(id);
   }
+
+  async findByIds(ids: number[]): Promise<PermissionsReponseDto[] | null> {
+    return await this.findPermissionsRepositoryPort.findByIds(ids);
+  }
 }

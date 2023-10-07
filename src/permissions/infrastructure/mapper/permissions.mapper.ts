@@ -22,6 +22,13 @@ export class PermissionMapper {
     return entity;
   }
 
+  public static toEntityResponse(dto: PermissionsReponseDto) {
+    const entity = new Permission();
+    entity.name = dto.name;
+    entity.created_at = new Date();
+    return entity;
+  }
+
   public static toEntityRole(id: number) {
     const entity = new Permission();
     entity.id = id;

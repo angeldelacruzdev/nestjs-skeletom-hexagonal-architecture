@@ -28,6 +28,20 @@ export class FindPermissionsRepositoryAdapter
     private readonly logger: LoggerPort,
   ) {}
 
+  async findByIds(ids: number[]): Promise<PermissionsReponseDto[] | null> {
+    try {
+      const response = await this.permissionsRepository
+        .createQueryBuilder('p')
+        .where('p.id IN (:...ids)', { ids })
+        .getMany();
+
+      return response.map(PermissionMapper.toDto);
+    } catch (e) {
+      this.logger.error(e);
+      return this.exceptionHandler.handle(e);
+    }
+  }
+
   async findOne(id: number): Promise<PermissionsReponseDto | null> {
     try {
       const response = await this.permissionsRepository.findOne({

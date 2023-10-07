@@ -31,6 +31,12 @@ import {
 
 import { LoggerAdapter, TOKEN_LOGGER_PORT } from '../utils';
 import { AssignPermissionsToRoleUseCase } from './application/use-case/assign-permissions-to-role-use-case';
+import { FIND_PERMISSION_REPOSITORY } from '../permissions/tokens';
+import {
+  FindPermissionsRepositoryAdapter,
+  FindPermissionsRepositoryPort,
+  FindPermissionsUseCase,
+} from '../permissions';
 
 export const provideres: Provider[] = [
   {
@@ -41,6 +47,7 @@ export const provideres: Provider[] = [
     provide: TOKEN_LOGGER_PORT,
     useClass: LoggerAdapter,
   },
+
   {
     provide: CREATE_ROLE_REPOSITORY,
     useClass: CreateRolesRepositoryAdapter,
@@ -52,6 +59,10 @@ export const provideres: Provider[] = [
   {
     provide: ASSIGN_ROLE_PERMISSION_REPOSITORY,
     useClass: AssignPermissionsToRoleRepositoryAdapter,
+  },
+  {
+    provide: FIND_PERMISSION_REPOSITORY,
+    useClass: FindPermissionsRepositoryAdapter,
   },
   {
     provide: CreateRolesUseCase,
@@ -76,11 +87,22 @@ export const provideres: Provider[] = [
     useFactory: (
       assignPermissionsToRoleRepositoryPort: AssignPermissionsToRoleRepositoryPort,
       exceptionHandlerPort: ExceptionHandlerPort,
-    ) =>
-      new AssignPermissionsToRoleUseCase(
+      findPermissionsRepositoryPort: FindPermissionsRepositoryPort,
+    ) => {
+      const findPermissionsUseCase = new FindPermissionsUseCase(
+        findPermissionsRepositoryPort,
+      );
+
+      return new AssignPermissionsToRoleUseCase(
         assignPermissionsToRoleRepositoryPort,
         exceptionHandlerPort,
-      ),
-    inject: [ASSIGN_ROLE_PERMISSION_REPOSITORY, EXCEPTION_HANDLER_PORT],
+        findPermissionsUseCase,
+      );
+    },
+    inject: [
+      ASSIGN_ROLE_PERMISSION_REPOSITORY,
+      EXCEPTION_HANDLER_PORT,
+      FIND_PERMISSION_REPOSITORY,
+    ],
   },
 ];
