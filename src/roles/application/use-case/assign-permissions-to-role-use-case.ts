@@ -17,12 +17,9 @@ export class AssignPermissionsToRoleUseCase {
     const responseFindPermissionIds =
       await this.findPermissionsUseCase.findByIds(permissionIds);
 
-      console.log(responseFindPermissionIds)
-
-    return;
     return await this.assignPermissionsToRoleRepositoryPort.assignPermissionsToRole(
       roleId,
-      permissionIds,
+      responseFindPermissionIds,
     );
   }
 }
