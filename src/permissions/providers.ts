@@ -9,12 +9,14 @@ import { LoggerAdapter, TOKEN_LOGGER_PORT } from '../utils';
 
 import {
   CREATE_PERMISSION_REPOSITORY,
+  DELETE_PERMISSION_REPOSITORY,
   FIND_PERMISSION_REPOSITORY,
   UPDATE_PERMISSION_REPOSITORY,
 } from './tokens';
 
 import {
   CreatePermissionsRepositoryAdapter,
+  DeletePermissionsRepositoryAdapter,
   FindPermissionsRepositoryAdapter,
   UpdatePermissionsRepositoryAdapter,
 } from './infrastructure';
@@ -22,6 +24,8 @@ import {
 import {
   CreatePermissionUseCase,
   CreatePermissionsRepositoryPort,
+  DeletePermissionsRepositoryPort,
+  DeletePermissionsUseCase,
   FindPermissionsRepositoryPort,
   FindPermissionsUseCase,
   UpdatePermissionsRepositoryPort,
@@ -51,6 +55,10 @@ export const providers: Provider[] = [
     useClass: UpdatePermissionsRepositoryAdapter,
   },
   {
+    provide: DELETE_PERMISSION_REPOSITORY,
+    useClass: DeletePermissionsRepositoryAdapter,
+  },
+  {
     provide: CreatePermissionUseCase,
     useFactory: (
       createPermissionsRepositoryPort: CreatePermissionsRepositoryPort,
@@ -70,5 +78,12 @@ export const providers: Provider[] = [
       updatePermissionsRepositoryPort: UpdatePermissionsRepositoryPort,
     ) => new UpdatePermissionsUseCase(updatePermissionsRepositoryPort),
     inject: [UPDATE_PERMISSION_REPOSITORY],
+  },
+  {
+    provide: DeletePermissionsUseCase,
+    useFactory: (
+      deletePermissionsRepositoryPort: DeletePermissionsRepositoryPort,
+    ) => new DeletePermissionsUseCase(deletePermissionsRepositoryPort),
+    inject: [DELETE_PERMISSION_REPOSITORY],
   },
 ];

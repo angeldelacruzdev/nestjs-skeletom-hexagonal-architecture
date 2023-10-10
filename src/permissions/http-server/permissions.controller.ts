@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -11,6 +12,7 @@ import {
 import { CreatePermissionDocDto, PermissionsReponseDocDto } from './dto';
 import {
   CreatePermissionUseCase,
+  DeletePermissionsUseCase,
   FindPermissionsUseCase,
   UpdatePermissionsUseCase,
 } from '../application';
@@ -27,6 +29,7 @@ export class PermissionsController {
     private readonly createPermissionUseCase: CreatePermissionUseCase,
     private readonly findPermissionsUseCase: FindPermissionsUseCase,
     private readonly updatePermissionsUseCase: UpdatePermissionsUseCase,
+    private readonly deletePermissionsUseCase: DeletePermissionsUseCase,
   ) {}
 
   @Post()
@@ -56,5 +59,12 @@ export class PermissionsController {
     @Body() dto: CreatePermissionDocDto,
   ): Promise<PermissionsReponseDocDto | null> {
     return await this.updatePermissionsUseCase.update(id, dto);
+  }
+
+  @Delete(':id')
+  async deleteOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<boolean | null> {
+    return await this.deletePermissionsUseCase.delete(id);
   }
 }
