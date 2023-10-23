@@ -10,12 +10,15 @@ import {
   AssignPermissionsToRoleRepositoryAdapter,
   CreateRolesRepositoryAdapter,
   FindRolesRepositoryAdapter,
+  RolesPermissionsAdapter,
 } from './infrastructure';
 
 import {
   AssignPermissionsToRoleRepositoryPort,
   CreateRolesUseCase,
   FindRolesUseCase,
+  RolesPermissionsPort,
+  RolesPermissionsUseCase,
 } from './application';
 
 import {
@@ -37,6 +40,7 @@ import {
   FindPermissionsRepositoryPort,
   FindPermissionsUseCase,
 } from '../permissions';
+import { ROLES_PERMISSIONS } from './tokens/token-injection';
 
 export const provideres: Provider[] = [
   {
@@ -65,6 +69,10 @@ export const provideres: Provider[] = [
     useClass: FindPermissionsRepositoryAdapter,
   },
   {
+    provide: ROLES_PERMISSIONS,
+    useClass: RolesPermissionsAdapter,
+  },
+  {
     provide: CreateRolesUseCase,
     useFactory: (
       createRolesRepositoryPort: CreateRolesRepositoryPort,
@@ -81,28 +89,28 @@ export const provideres: Provider[] = [
     ) => new FindRolesUseCase(findRolesRepositoryPort, exceptionHandlerPort),
     inject: [FIND_ROLE_REPOSITORY, EXCEPTION_HANDLER_PORT, TOKEN_LOGGER_PORT],
   },
-
   {
-    provide: AssignPermissionsToRoleUseCase,
+    provide: RolesPermissionsUseCase,
     useFactory: (
-      assignPermissionsToRoleRepositoryPort: AssignPermissionsToRoleRepositoryPort,
+      rolesPermissionsPort: RolesPermissionsPort,
       exceptionHandlerPort: ExceptionHandlerPort,
-      findPermissionsRepositoryPort: FindPermissionsRepositoryPort,
+      findPermissions: FindPermissionsRepositoryPort,
     ) => {
       const findPermissionsUseCase = new FindPermissionsUseCase(
-        findPermissionsRepositoryPort,
+        findPermissions,
       );
 
-      return new AssignPermissionsToRoleUseCase(
-        assignPermissionsToRoleRepositoryPort,
+      return new RolesPermissionsUseCase(
+        rolesPermissionsPort,
         exceptionHandlerPort,
         findPermissionsUseCase,
       );
     },
     inject: [
-      ASSIGN_ROLE_PERMISSION_REPOSITORY,
-      EXCEPTION_HANDLER_PORT,
+      ROLES_PERMISSIONS,
       FIND_PERMISSION_REPOSITORY,
+      EXCEPTION_HANDLER_PORT,
+      TOKEN_LOGGER_PORT,
     ],
   },
 ];
