@@ -3,6 +3,7 @@ import { Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import {
   FIND_REPOSITORY_PORT,
+  FindUserRepositoryPort,
   UpdateUserDto,
   UpdateUserRepository,
   UserResponseDto,
@@ -13,7 +14,7 @@ import {
   ExceptionHandlerPort,
 } from '../../../common/exceptions';
 import { UserMapper } from '../mappers';
-import { FindUserRepositoryAdapter } from './find-user-repository.adapter';
+
 export class UpdateUserRepositoryAdapter implements UpdateUserRepository {
   constructor(
     @InjectRepository(User)
@@ -21,15 +22,15 @@ export class UpdateUserRepositoryAdapter implements UpdateUserRepository {
     @Inject(EXCEPTION_HANDLER_PORT)
     private readonly exceptionHandler: ExceptionHandlerPort,
     @Inject(FIND_REPOSITORY_PORT)
-    private readonly findUserRepositoryAdapter: FindUserRepositoryAdapter,
+    private readonly findUserRepository: FindUserRepositoryPort,
   ) {}
 
-  async update(id: string, dto: UpdateUserDto): Promise<UserResponseDto> {
+  async update(id: string, dto: UpdateUserDto): Promise<UserResponseDto | null> {
     try {
       const entity = await UserMapper.toUpdateEntity(dto);
       const response = await this.userRepository.update(id, entity);
       if (response) {
-        return await this.findUserRepositoryAdapter.findUserByid(id);
+        return this.findUserRepository.findUserByid(id);
       }
       return null;
     } catch (error) {
@@ -37,11 +38,14 @@ export class UpdateUserRepositoryAdapter implements UpdateUserRepository {
     }
   }
 
-  async updateStatus(id: string, status: boolean): Promise<UserResponseDto> {
+  async updateStatus(
+    id: string,
+    status: boolean,
+  ): Promise<UserResponseDto | null> {
     try {
       const response = await this.userRepository.update(id, { status });
       if (response) {
-        return await this.findUserRepositoryAdapter.findUserByid(id);
+        return this.findUserRepository.findUserByid(id);
       }
       return null;
     } catch (error) {
