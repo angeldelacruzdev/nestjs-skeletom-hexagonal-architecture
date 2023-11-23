@@ -1,4 +1,4 @@
-export class PermissionsReponseDto {
+export class PermissionsResponseDto {
   id: number;
   name: string;
   created_at: Date;

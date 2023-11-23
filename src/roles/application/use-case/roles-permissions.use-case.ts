@@ -1,6 +1,6 @@
 import { ExceptionHandlerPort } from '../../../common';
 import { FindPermissionsUseCase } from '../../../permissions';
-import { RolesReponseDto } from '../dtos';
+import { RolesResponseDto } from '../dtos';
 import { RolesPermissionsPort } from '../ports';
 
 export class RolesPermissionsUseCase {
@@ -23,7 +23,7 @@ export class RolesPermissionsUseCase {
   async assignPermissionsToRole(
     roleId: number,
     permissionIds: number[],
-  ): Promise<RolesReponseDto> {
+  ): Promise<RolesResponseDto> {
     try {
       const responseFindPermissionIds =
         await this.findPermissionsUseCase.findByIds(permissionIds);

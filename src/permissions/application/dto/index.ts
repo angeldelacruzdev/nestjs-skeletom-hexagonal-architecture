@@ -1,5 +1,5 @@
 import { UpdatePermissionsDto } from './update-permissions.dto';
 import { CreatePermissionDto } from './create-permission.dto';
-import { PermissionsReponseDto } from './permissions-reponse.dto';
+import { PermissionsResponseDto } from './permissions-response.dto';
 
-export { CreatePermissionDto, PermissionsReponseDto, UpdatePermissionsDto };
+export { CreatePermissionDto, PermissionsResponseDto, UpdatePermissionsDto };

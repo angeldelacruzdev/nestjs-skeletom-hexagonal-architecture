@@ -1,9 +1,9 @@
-import { PermissionsReponseDto } from '../../../permissions/application';
+import { PermissionsResponseDto } from '../../../permissions/application';
 
-export class RolesReponseDto {
+export class RolesResponseDto {
   id: number;
   name: string;
-  permissions: PermissionsReponseDto[];
+  permissions: PermissionsResponseDto[];
   created_at: Date;
   updated_at: Date;
 }

@@ -15,6 +15,7 @@ import {
 
 import {
   AssignPermissionsToRoleRepositoryPort,
+  AssignPermissionsToRoleUseCase,
   CreateRolesUseCase,
   FindRolesUseCase,
   RolesPermissionsPort,
@@ -33,7 +34,6 @@ import {
 } from '../common';
 
 import { LoggerAdapter, TOKEN_LOGGER_PORT } from '../utils';
-import { AssignPermissionsToRoleUseCase } from './application/use-case/assign-permissions-to-role-use-case';
 import { FIND_PERMISSION_REPOSITORY } from '../permissions/tokens';
 import {
   FindPermissionsRepositoryAdapter,
@@ -42,7 +42,7 @@ import {
 } from '../permissions';
 import { ROLES_PERMISSIONS } from './tokens/token-injection';
 
-export const provideres: Provider[] = [
+export const providers: Provider[] = [
   {
     provide: EXCEPTION_HANDLER_PORT,
     useClass: NestjsExceptionHandlerAdapter,
@@ -112,5 +112,22 @@ export const provideres: Provider[] = [
       EXCEPTION_HANDLER_PORT,
       TOKEN_LOGGER_PORT,
     ],
+  },
+  {
+    provide: AssignPermissionsToRoleUseCase,
+    useFactory: (
+      rolesPermissionsPort: AssignPermissionsToRoleRepositoryPort,
+      findPermissions: FindPermissionsRepositoryPort,
+    ) => {
+      const findPermissionsUseCase = new FindPermissionsUseCase(
+        findPermissions,
+      );
+
+      return new AssignPermissionsToRoleUseCase(
+        rolesPermissionsPort,
+        findPermissionsUseCase,
+      );
+    },
+    inject: [ASSIGN_ROLE_PERMISSION_REPOSITORY, FIND_PERMISSION_REPOSITORY],
   },
 ];
