@@ -1,5 +1,5 @@
 import { ExceptionHandlerPort } from '../../../common';
-import { CreateRolesDto, RolesReponseDto } from '../dtos';
+import { CreateRolesDto, RolesResponseDto } from '../dto';
 import { CreateRolesRepositoryPort } from './../ports';
 
 export class CreateRolesUseCase {
@@ -8,7 +8,7 @@ export class CreateRolesUseCase {
     private readonly exceptionHandlerPort: ExceptionHandlerPort,
   ) {}
 
-  async create(dto: CreateRolesDto): Promise<RolesReponseDto | null> {
+  async create(dto: CreateRolesDto): Promise<RolesResponseDto | null> {
     try {
       const createResult = await this.createRolesRepositoryPort.create(dto);
       return createResult;

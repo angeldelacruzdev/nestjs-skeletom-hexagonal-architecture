@@ -16,6 +16,7 @@ export class AuthUseCase {
   async login(dto: LoginDto): Promise<AuthResponseDto> {
     try {
       const responseFind = await this.findUserUseCase.findByEmail(dto.email);
+      console.log(responseFind)
       if (!responseFind) {
         throw new Error('Ha olvidada la contraseña o no está disponible.');
       }

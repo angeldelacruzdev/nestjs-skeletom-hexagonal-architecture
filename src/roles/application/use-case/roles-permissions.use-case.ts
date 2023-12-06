@@ -1,6 +1,7 @@
 import { ExceptionHandlerPort } from '../../../common';
+import { HttpException } from '../../../common/http-exceptions/http-exception';
 import { FindPermissionsUseCase } from '../../../permissions';
-import { RolesResponseDto } from '../dtos';
+import { RolesResponseDto } from '../dto';
 import { RolesPermissionsPort } from '../ports';
 
 export class RolesPermissionsUseCase {
@@ -33,7 +34,7 @@ export class RolesPermissionsUseCase {
         responseFindPermissionIds,
       );
     } catch (error) {
-      this.exceptionHandlerPort.handle(error);
+       new HttpException("Error del servidor", "No sabemos cual es el error", "stacks.....");
     }
   }
 }

@@ -1,5 +1,5 @@
 import { FindPermissionsUseCase } from '../../../permissions';
-import { RolesResponseDto } from '../dtos';
+import { RolesResponseDto } from '../dto';
 import { AssignPermissionsToRoleRepositoryPort } from '../ports';
 
 export class AssignPermissionsToRoleUseCase {
