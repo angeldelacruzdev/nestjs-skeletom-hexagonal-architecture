@@ -8,9 +8,10 @@ export class CreatePermissionsTable1695413411317 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'uuid',
             isPrimary: true,
             isGenerated: true,
+            generationStrategy: 'uuid',
           },
           {
             name: 'name',

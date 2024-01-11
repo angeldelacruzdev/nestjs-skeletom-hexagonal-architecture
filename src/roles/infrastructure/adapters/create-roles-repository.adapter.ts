@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   CreateRolesDto,
   CreateRolesRepositoryPort,
-  RolesReponseDto,
+  RolesResponseDto,
 } from '../../application';
 import { Repository } from 'typeorm';
 import { Role } from '../../domain/entities/roles.entity';
@@ -21,7 +21,7 @@ export class CreateRolesRepositoryAdapter implements CreateRolesRepositoryPort {
     private readonly logger: LoggerPort,
   ) {}
 
-  async create(dto: CreateRolesDto): Promise<RolesReponseDto> {
+  async create(dto: CreateRolesDto): Promise<RolesResponseDto | null> {
     try {
       const entity = RolesMapper.toEntity(dto);
       const response = await this.roleRepository.save(entity);

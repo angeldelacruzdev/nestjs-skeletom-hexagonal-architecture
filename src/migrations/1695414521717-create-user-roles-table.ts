@@ -8,9 +8,10 @@ export class CreateUserRolesTable1695414521717 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'uuid',
             isPrimary: true,
             isGenerated: true,
+            generationStrategy: 'uuid',
           },
           {
             name: 'user_id',
@@ -19,7 +20,7 @@ export class CreateUserRolesTable1695414521717 implements MigrationInterface {
           },
           {
             name: 'role_id',
-            type: 'int',
+            type: 'uuid',
             isUnique: true, // Asegura que cada rol esté asignado a un único usuario
           },
         ],

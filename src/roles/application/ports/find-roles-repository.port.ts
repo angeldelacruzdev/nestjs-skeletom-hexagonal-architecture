@@ -1,9 +1,9 @@
 import { PaginationDto, PaginationResponseDto } from '../../../utils';
-import { RolesReponseDto } from '../dtos';
+import { RolesResponseDto } from '../dto';
 
 export interface FindRolesRepositoryPort {
   findMany(
     pagination: PaginationDto,
-  ): Promise<PaginationResponseDto<RolesReponseDto> | null>;
-  findOne(id: number): Promise<RolesReponseDto | null>;
+  ): Promise<PaginationResponseDto<RolesResponseDto> | null>;
+  findOne(id: string): Promise<RolesResponseDto | null>;
 }

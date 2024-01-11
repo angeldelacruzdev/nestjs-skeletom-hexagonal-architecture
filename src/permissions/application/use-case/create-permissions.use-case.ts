@@ -1,4 +1,4 @@
-import { CreatePermissionDto, PermissionsReponseDto } from '../dto';
+import { CreatePermissionDto, PermissionsResponseDto } from '../dto';
 import { CreatePermissionsRepositoryPort } from '../ports';
 
 export class CreatePermissionUseCase {
@@ -8,7 +8,7 @@ export class CreatePermissionUseCase {
 
   async create(
     dto: CreatePermissionDto,
-  ): Promise<PermissionsReponseDto | null> {
+  ): Promise<PermissionsResponseDto | null> {
     return await this.createPermissionsRepositoryPort.create(dto);
   }
 }

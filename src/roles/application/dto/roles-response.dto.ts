@@ -1,7 +1,7 @@
 import { PermissionsResponseDto } from '../../../permissions/application';
 
 export class RolesResponseDto {
-  id: number;
+  id: string;
   name: string;
   permissions: PermissionsResponseDto[];
   created_at: Date;

@@ -9,7 +9,7 @@ import { Permission } from '../../domain/permission.entity';
 
 import {
   FindPermissionsRepositoryPort,
-  PermissionsReponseDto,
+  PermissionsResponseDto,
 } from './../../application';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Inject } from '@nestjs/common';
@@ -28,7 +28,7 @@ export class FindPermissionsRepositoryAdapter
     private readonly logger: LoggerPort,
   ) {}
 
-  async findByIds(ids: number[]): Promise<PermissionsReponseDto[] | null> {
+  async findByIds(ids: string[]): Promise<PermissionsResponseDto[] | null> {
     try {
       const response = await this.permissionsRepository
         .createQueryBuilder('p')
@@ -42,7 +42,7 @@ export class FindPermissionsRepositoryAdapter
     }
   }
 
-  async findOne(id: number): Promise<PermissionsReponseDto | null> {
+  async findOne(id: string): Promise<PermissionsResponseDto | null> {
     try {
       const response = await this.permissionsRepository.findOne({
         where: { id },
@@ -64,7 +64,7 @@ export class FindPermissionsRepositoryAdapter
     page,
     search,
     sort,
-  }: PaginationDto): Promise<PaginationResponseDto<PermissionsReponseDto>> {
+  }: PaginationDto): Promise<PaginationResponseDto<PermissionsResponseDto>> {
     try {
       const options: FindManyOptions<Permission> = {
         where: {
@@ -79,7 +79,7 @@ export class FindPermissionsRepositoryAdapter
       const [result, total] =
         await this.permissionsRepository.findAndCount(options);
       const resultDto = result.map(PermissionMapper.toDto);
-      const response: PaginationResponseDto<PermissionsReponseDto> = {
+      const response: PaginationResponseDto<PermissionsResponseDto> = {
         data: resultDto,
         page,
         limit,

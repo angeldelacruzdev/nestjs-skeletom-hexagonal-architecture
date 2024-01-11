@@ -10,7 +10,7 @@ import { User } from './user.entity';
 
 @Entity({ name: 'user_details', schema: 'auth' })
 export class UserDetails {
-  @PrimaryGeneratedColumn('uuid') // Usar UUID como clave primaria para escalabilidad
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', length: 100 })

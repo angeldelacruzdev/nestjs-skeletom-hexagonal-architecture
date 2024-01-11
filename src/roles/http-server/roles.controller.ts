@@ -8,17 +8,18 @@ import {
   VERSION_NEUTRAL,
 } from '@nestjs/common';
 import { CreateRolesDocDto, RolesReponseDocDto } from './dtos';
+
+import { Pagination } from '../../common';
+import { PaginationDocDto } from '../../utils/dto/pagination-doc.dto';
+import { PaginationResponseDto } from '../../utils';
+
+import { PermissionsIdsDocDto } from '../../permissions/http-server';
 import {
   AssignPermissionsToRoleUseCase,
   CreateRolesUseCase,
   FindRolesUseCase,
-} from '../application/use-case';
-import { Pagination } from '../../common';
-import { PaginationDocDto } from '../../utils/dto/pagination-doc.dto';
-import { PaginationResponseDto } from '../../utils';
-import { RolesReponseDto } from '../application';
-
-import { PermissionsIdsDocDto } from '../../permissions/http-server';
+  RolesResponseDto,
+} from '../application';
 
 @Controller({
   path: 'v1/roles',
@@ -28,7 +29,7 @@ export class RolesController {
   constructor(
     private readonly createRolesUseCase: CreateRolesUseCase,
     private readonly findRolesUseCase: FindRolesUseCase,
-    private readonly AssignPermissionsToRoleUseCase: AssignPermissionsToRoleUseCase,
+    private readonly assignPermissionsToRoleUseCase: AssignPermissionsToRoleUseCase,
   ) {}
 
   @Post()
@@ -39,7 +40,7 @@ export class RolesController {
   @Get()
   async findMany(
     @Pagination() pagination: PaginationDocDto,
-  ): Promise<PaginationResponseDto<RolesReponseDto>> {
+  ): Promise<PaginationResponseDto<RolesResponseDto>> {
     return await this.findRolesUseCase.findMany(pagination);
   }
 
@@ -55,7 +56,7 @@ export class RolesController {
     @Param('id') id: number,
     @Body() { permissionIds }: PermissionsIdsDocDto,
   ): Promise<RolesReponseDocDto> {
-    return await this.AssignPermissionsToRoleUseCase.assignPermissionsToRole(
+    return await this.assignPermissionsToRoleUseCase.assignPermissionsToRole(
       id,
       permissionIds,
     );

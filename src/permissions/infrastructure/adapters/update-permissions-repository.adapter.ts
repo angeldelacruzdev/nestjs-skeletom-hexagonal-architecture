@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   FindPermissionsRepositoryPort,
-  PermissionsReponseDto,
+  PermissionsResponseDto,
   UpdatePermissionsDto,
   UpdatePermissionsRepositoryPort,
 } from './../../application';
@@ -30,9 +30,9 @@ export class UpdatePermissionsRepositoryAdapter
   ) {}
 
   async update(
-    id: number,
+    id: string,
     dto: UpdatePermissionsDto,
-  ): Promise<PermissionsReponseDto> {
+  ): Promise<PermissionsResponseDto> {
     try {
       const entity = PermissionMapper.toUpdate(id, dto);
       const response = await this.permissionsRepository.save(entity);

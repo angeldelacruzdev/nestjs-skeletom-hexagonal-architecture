@@ -7,8 +7,8 @@ import {
 
 @Entity({ name: 'permissions', schema: 'security' })
 export class Permission {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'varchar', length: 50, unique: true })
   name: string;

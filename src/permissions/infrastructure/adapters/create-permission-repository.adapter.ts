@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import {
   CreatePermissionDto,
   CreatePermissionsRepositoryPort,
-  PermissionsReponseDto,
+  PermissionsResponseDto,
 } from '../../application';
 import { Permission } from '../../domain/permission.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,7 +23,7 @@ export class CreatePermissionsRepositoryAdapter
     private readonly logger: LoggerPort,
   ) {}
 
-  async create(dto: CreatePermissionDto): Promise<PermissionsReponseDto> {
+  async create(dto: CreatePermissionDto): Promise<PermissionsResponseDto> {
     try {
       const entity = PermissionMapper.toEntity(dto);
       const saved = await this.permissionsRepository.save(entity);

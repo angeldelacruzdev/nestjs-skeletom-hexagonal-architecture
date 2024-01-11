@@ -6,7 +6,7 @@ import {
   PaginationResponseDto,
   TOKEN_LOGGER_PORT,
 } from '../../../utils';
-import { FindRolesRepositoryPort, RolesReponseDto } from '../../application';
+import { FindRolesRepositoryPort, RolesResponseDto } from '../../application';
 import { Role } from '../../domain/entities/roles.entity';
 import { RolesMapper } from '../mappers';
 import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort } from '../../../common';
@@ -21,7 +21,7 @@ export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
     private readonly logger: LoggerPort,
   ) {}
 
-  async findOne(id: number): Promise<RolesReponseDto | null> {
+  async findOne(id: string): Promise<RolesResponseDto | null> {
     try {
       const response = await this.roleRepository.findOne({
         where: { id },
@@ -39,7 +39,7 @@ export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
     page,
     search,
     sort,
-  }: PaginationDto): Promise<PaginationResponseDto<RolesReponseDto>> {
+  }: PaginationDto): Promise<PaginationResponseDto<RolesResponseDto>> {
     try {
       const options: FindManyOptions<Role> = {
         where: {
@@ -54,7 +54,7 @@ export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
       };
       const [result, total] = await this.roleRepository.findAndCount(options);
       const resultDto = result.map(RolesMapper.toDto);
-      const response: PaginationResponseDto<RolesReponseDto> = {
+      const response: PaginationResponseDto<RolesResponseDto> = {
         data: resultDto,
         page,
         limit,

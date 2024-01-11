@@ -1,3 +1,3 @@
 export interface DeletePermissionsRepositoryPort {
-  delete(id: number): Promise<boolean | null>;
+  delete(id: string): Promise<boolean | null>;
 }

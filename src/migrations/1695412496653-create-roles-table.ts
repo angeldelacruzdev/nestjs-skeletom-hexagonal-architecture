@@ -8,9 +8,10 @@ export class CreateRolesTable1695412496653 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'uuid',
             isPrimary: true,
             isGenerated: true,
+            generationStrategy: 'uuid',
           },
           { name: 'name', type: 'varchar', length: '50', isUnique: true },
           {

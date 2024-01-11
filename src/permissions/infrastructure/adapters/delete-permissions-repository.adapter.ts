@@ -18,7 +18,7 @@ export class DeletePermissionsRepositoryAdapter
     private readonly logger: LoggerPort,
   ) {}
 
-  async delete(id: number): Promise<boolean | null> {
+  async delete(id: string): Promise<boolean | null> {
     try {
       const response = await this.permissionsRepository.delete(id);
       if (response.affected === 1) {

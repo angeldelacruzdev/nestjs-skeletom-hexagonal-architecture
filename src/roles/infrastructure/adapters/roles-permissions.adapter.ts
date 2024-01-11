@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { PermissionsReponseDto } from '../../../permissions';
-import { RolesPermissionsPort, RolesReponseDto } from '../../application';
+import { PermissionsResponseDto } from '../../../permissions';
+import { RolesPermissionsPort, RolesResponseDto } from '../../application';
 import { Role } from '../../domain/entities/roles.entity';
 import { Repository } from 'typeorm';
 import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort } from '../../../common';
@@ -19,9 +19,9 @@ export class RolesPermissionsAdapter implements RolesPermissionsPort {
   ) {}
 
   async assignPermissionsToRole(
-    roleId: number,
-    permissionIds: PermissionsReponseDto[],
-  ): Promise<RolesReponseDto> {
+    roleId: string,
+    permissionIds: PermissionsResponseDto[],
+  ): Promise<RolesResponseDto> {
     try {
       const entity = RolesMapper.assignPermissionsEntity(roleId, permissionIds);
       console.log(entity);
@@ -35,6 +35,8 @@ export class RolesPermissionsAdapter implements RolesPermissionsPort {
       return this.exceptionHandler.handle(e);
     }
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   hasRole(userId: string, roleId: string): Promise<boolean> {
     throw new Error('Method not implemented.');
   }

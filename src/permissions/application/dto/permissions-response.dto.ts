@@ -1,5 +1,5 @@
 export class PermissionsResponseDto {
-  id: number;
+  id: string;
   name: string;
   created_at: Date;
   updated_At: Date;

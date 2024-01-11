@@ -1,9 +1,9 @@
 import { PermissionsResponseDto } from '../../../permissions';
-import { RolesResponseDto } from '../dtos';
+import { RolesResponseDto } from '../dto';
 
 export interface AssignPermissionsToRoleRepositoryPort {
   assignPermissionsToRole(
-    roleId: number,
+    roleId: string,
     permissionIds: PermissionsResponseDto[],
   ): Promise<RolesResponseDto>;
 }

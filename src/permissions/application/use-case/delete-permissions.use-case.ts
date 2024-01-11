@@ -5,7 +5,7 @@ export class DeletePermissionsUseCase {
     private readonly deletePermissionsRepositoryPort: DeletePermissionsRepositoryPort,
   ) {}
 
-  async delete(id: number): Promise<boolean | null> {
+  async delete(id: string): Promise<boolean | null> {
     return await this.deletePermissionsRepositoryPort.delete(id);
   }
 }

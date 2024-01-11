@@ -1,8 +1,8 @@
-import { PermissionsReponseDto, UpdatePermissionsDto } from '../dto';
+import { PermissionsResponseDto, UpdatePermissionsDto } from '../dto';
 
 export interface UpdatePermissionsRepositoryPort {
   update(
-    id: number,
+    id: string,
     dto: UpdatePermissionsDto,
-  ): Promise<PermissionsReponseDto | null>;
+  ): Promise<PermissionsResponseDto | null>;
 }

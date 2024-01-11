@@ -1,13 +1,13 @@
 import {
   CreatePermissionDto,
-  PermissionsReponseDto,
+  PermissionsResponseDto,
   UpdatePermissionsDto,
 } from '../../application';
 import { Permission } from '../../domain/permission.entity';
 
 export class PermissionMapper {
-  public static toDto(entity: Permission): PermissionsReponseDto {
-    const dto = new PermissionsReponseDto();
+  public static toDto(entity: Permission): PermissionsResponseDto {
+    const dto = new PermissionsResponseDto();
     dto.id = entity.id;
     dto.name = entity.name;
     dto.created_at = entity.created_at;
@@ -22,20 +22,20 @@ export class PermissionMapper {
     return entity;
   }
 
-  public static toEntityResponse(dto: PermissionsReponseDto) {
+  public static toEntityResponse(dto: PermissionsResponseDto) {
     const entity = new Permission();
     entity.name = dto.name;
     entity.created_at = new Date();
     return entity;
   }
 
-  public static toEntityRole(id: number) {
+  public static toEntityRole(id: string) {
     const entity = new Permission();
     entity.id = id;
     return entity;
   }
 
-  public static toUpdate(id: number, dto: UpdatePermissionsDto) {
+  public static toUpdate(id: string, dto: UpdatePermissionsDto) {
     const entity = new Permission();
     entity.id = id;
     entity.name = dto.name;

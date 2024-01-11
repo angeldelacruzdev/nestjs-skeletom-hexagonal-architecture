@@ -10,8 +10,8 @@ import { Permission } from '../../../permissions/domain/permission.entity';
 
 @Entity({ name: 'roles', schema: 'security' })
 export class Role {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'varchar', length: 50, unique: true })
   name: string;

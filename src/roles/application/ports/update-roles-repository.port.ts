@@ -1,3 +1,3 @@
 export interface UpdateRolesRepositoryPort {
-  updateOne(id: number, dto: any): Promise<any>;
+  updateOne(id: string, dto: any): Promise<any>;
 }

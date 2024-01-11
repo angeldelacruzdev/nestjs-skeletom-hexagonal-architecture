@@ -1,5 +1,5 @@
 import { PaginationDto, PaginationResponseDto } from '../../../utils';
-import { PermissionsReponseDto } from '../dto';
+import { PermissionsResponseDto } from '../dto';
 import { FindPermissionsRepositoryPort } from '../ports';
 
 export class FindPermissionsUseCase {
@@ -9,15 +9,15 @@ export class FindPermissionsUseCase {
 
   async findMany(
     pagination: PaginationDto,
-  ): Promise<PaginationResponseDto<PermissionsReponseDto> | null> {
+  ): Promise<PaginationResponseDto<PermissionsResponseDto> | null> {
     return await this.findPermissionsRepositoryPort.findMany(pagination);
   }
 
-  async findOne(id: number): Promise<PermissionsReponseDto | null> {
+  async findOne(id: string): Promise<PermissionsResponseDto | null> {
     return await this.findPermissionsRepositoryPort.findOne(id);
   }
 
-  async findByIds(ids: number[]): Promise<PermissionsReponseDto[] | null> {
+  async findByIds(ids: string[]): Promise<PermissionsResponseDto[] | null> {
     return await this.findPermissionsRepositoryPort.findByIds(ids);
   }
 }

@@ -1,4 +1,4 @@
-import { PermissionsReponseDto, UpdatePermissionsDto } from '../dto';
+import { PermissionsResponseDto, UpdatePermissionsDto } from '../dto';
 import { UpdatePermissionsRepositoryPort } from '../ports';
 
 export class UpdatePermissionsUseCase {
@@ -7,9 +7,9 @@ export class UpdatePermissionsUseCase {
   ) {}
 
   async update(
-    id: number,
+    id: string,
     dto: UpdatePermissionsDto,
-  ): Promise<PermissionsReponseDto | null> {
+  ): Promise<PermissionsResponseDto | null> {
     return await this.updatePermissionsRepositoryPort.update(id, dto);
   }
 }

@@ -1,4 +1,3 @@
-import { query } from 'express';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateRolesPermissionsTable1695413541348
@@ -11,18 +10,19 @@ export class CreateRolesPermissionsTable1695413541348
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'uuid',
             isPrimary: true,
             isGenerated: true,
+            generationStrategy: 'uuid',
           },
           {
             name: 'role_id',
-            type: 'int',
+            type: 'uuid',
             isNullable: true,
           },
           {
             name: 'permission_id',
-            type: 'int',
+            type: 'uuid',
             isNullable: true,
           },
         ],

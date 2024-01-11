@@ -1,9 +1,9 @@
-import { PermissionsReponseDto } from '../../../permissions';
+import { PermissionsResponseDto } from '../../../permissions';
 
 export class RolesReponseDocDto {
-  id: number;
+  id: string;
   name: string;
-  permissions: PermissionsReponseDto[];
+  permissions: PermissionsResponseDto[];
   created_at: Date;
   updated_at: Date;
 }

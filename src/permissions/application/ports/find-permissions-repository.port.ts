@@ -1,10 +1,10 @@
 import { PaginationDto, PaginationResponseDto } from '../../../utils';
-import { PermissionsReponseDto } from '../dto';
+import { PermissionsResponseDto } from '../dto';
 
 export interface FindPermissionsRepositoryPort {
   findMany(
     pagination: PaginationDto,
-  ): Promise<PaginationResponseDto<PermissionsReponseDto> | null>;
-  findOne(id: number): Promise<PermissionsReponseDto | null>;
-  findByIds(ids: number[]): Promise<PermissionsReponseDto[] | null>;
+  ): Promise<PaginationResponseDto<PermissionsResponseDto> | null>;
+  findOne(id: string): Promise<PermissionsResponseDto | null>;
+  findByIds(ids: string[]): Promise<PermissionsResponseDto[] | null>;
 }
