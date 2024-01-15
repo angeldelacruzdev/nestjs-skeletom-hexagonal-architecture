@@ -1,5 +1,5 @@
-import { RegisterDto } from '../dtos';
+import { AuthRegisterDto } from '../dtos';
 
 export interface RegisterRepositoryPort {
-  register(dto: RegisterDto): Promise<RegisterDto>;
+  register(dto: AuthRegisterDto): Promise<AuthRegisterDto>;
 }

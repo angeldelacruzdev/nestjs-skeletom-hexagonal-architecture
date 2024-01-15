@@ -3,16 +3,16 @@ import { AuthDto } from './auth.dto';
 import { LoginResponseDto } from './login-response.dto';
 import { LoginDto } from './login.dto';
 import { RefreshTokenDto } from './refresh-token.dto';
-import { RegisterReponseDto } from './register-response.dto';
-import { RegisterDto } from './register.dto';
-import { TokenDto } from './token-reponse.dto';
+import { RegisterResponseDto } from './register-response.dto';
+import { AuthRegisterDto } from './auth-register.dto';
+import { TokenResponseDto } from './token-response.dto';
 export {
   LoginDto,
   LoginResponseDto,
-  RegisterDto,
-  TokenDto,
+  AuthRegisterDto,
+  TokenResponseDto,
   AuthResponseDto,
   AuthDto,
   RefreshTokenDto,
-  RegisterReponseDto,
+  RegisterResponseDto,
 };

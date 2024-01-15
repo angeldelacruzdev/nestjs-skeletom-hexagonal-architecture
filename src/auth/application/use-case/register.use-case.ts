@@ -1,4 +1,4 @@
-import { RegisterDto } from '../dtos';
+import { AuthRegisterDto } from '../dtos';
 import { RegisterRepositoryPort } from '../ports';
 
 export class RegisterUseCase {
@@ -6,9 +6,8 @@ export class RegisterUseCase {
     private readonly registerRepositoryPort: RegisterRepositoryPort,
   ) {}
 
-  async register(dto: RegisterDto): Promise<any> {
+  async register(dto: AuthRegisterDto): Promise<any> {
     const response = await this.registerRepositoryPort.register(dto);
-
     return response;
   }
 }

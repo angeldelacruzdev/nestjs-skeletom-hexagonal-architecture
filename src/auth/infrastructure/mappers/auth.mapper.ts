@@ -1,9 +1,9 @@
 import { UserResponseDto } from './../../../users/application';
-import { RegisterReponseDto } from './../../../auth/application';
+import { RegisterResponseDto } from './../../../auth/application';
 
 export class AuthMapper {
-  public static toDto(dataDto: UserResponseDto): RegisterReponseDto {
-    const dto = new RegisterReponseDto();
+  public static toDto(dataDto: UserResponseDto): RegisterResponseDto {
+    const dto = new RegisterResponseDto();
     dto.id = dataDto.id;
     dto.email = dataDto.email;
     dto.status = dataDto.status;

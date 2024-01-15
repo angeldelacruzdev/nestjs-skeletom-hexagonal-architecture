@@ -34,6 +34,12 @@ export class NestjsExceptionHandlerAdapter implements ExceptionHandlerPort {
           HttpStatus.BAD_REQUEST,
         );
       }
+      if (exceptions.code === '42P01') {
+        throw new HttpException(
+          'No éxiste una relación de esquema o tabla en la base de datos.',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
     }
 
     if (exception instanceof Error) {

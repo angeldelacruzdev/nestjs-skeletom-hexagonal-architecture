@@ -1,6 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { UserResponseDto, FindUserRepositoryPort } from '../../application';
 import {
   EXCEPTION_HANDLER_PORT,
@@ -20,6 +21,27 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     @Inject(TOKEN_LOGGER_PORT)
     private readonly logger: LoggerPort,
   ) {}
+
+  async findUserRtHash(id: string, token: string): Promise<string> {
+    try {
+      const response = await this.userRepository
+        .createQueryBuilder()
+        .select('rt_hash')
+        .where('id = :id', { id })
+        .getRawOne();
+
+      const isMatch = await bcrypt.compare(token, response.rt_hash);
+
+      if (!isMatch) {
+        throw new Error("No tiene permisos para ejecutar est'a acción.");
+      }
+      return response.rt_hash;
+      // return response;
+    } catch (error) {
+      this.logger.error(error);
+      return this.exceptionHandler.handle(error);
+    }
+  }
 
   async findByEmail(email: string): Promise<UserResponseDto> {
     try {

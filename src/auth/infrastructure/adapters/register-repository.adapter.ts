@@ -1,7 +1,7 @@
 import {
-  RegisterDto,
-  RegisterReponseDto,
+  AuthRegisterDto,
   RegisterRepositoryPort,
+  RegisterResponseDto,
 } from './../../../auth/application';
 import { CreateUserRepositoryAdapter } from './../../../users/infrastructure';
 import { Inject } from '@nestjs/common';
@@ -14,7 +14,7 @@ export class RegisterRepositoryAdapter implements RegisterRepositoryPort {
     private readonly userRepository: CreateUserRepositoryAdapter,
   ) {}
 
-  async register(dto: RegisterDto): Promise<RegisterReponseDto> {
+  async register(dto: AuthRegisterDto): Promise<RegisterResponseDto> {
     const response = await this.userRepository.create(dto);
     return AuthMapper.toDto(response);
   }

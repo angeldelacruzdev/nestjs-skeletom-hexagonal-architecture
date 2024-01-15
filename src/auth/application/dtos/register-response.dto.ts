@@ -1,6 +1,6 @@
 import { UserDetailDto } from '../../../users/application';
 
-export class RegisterReponseDto {
+export class RegisterResponseDto {
   id: string;
   email: string;
   password: string;

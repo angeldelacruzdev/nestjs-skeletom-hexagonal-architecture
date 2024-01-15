@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   UseGuards,
   VERSION_NEUTRAL,
@@ -11,11 +12,17 @@ import {
   Public,
   RtGuard,
 } from '../../common';
-import { AuthUseCase, RegisterDto } from '../../auth/application';
+import {
+  AuthTokenGenerateUseCase,
+  AuthUseCase,
+  LogOutUseCase,
+} from '../../auth/application';
 import { LoginHttpDto } from './dto/login-http.dto';
 import { AuthResponseHttpDto } from './dto/auth-response.dto';
 import { HttpMapper } from './mappers';
 import { RegisterUseCase } from './../../auth/application/use-case/register.use-case';
+import { RegisterHttpDto } from './dto/register-http.dto';
+import { HttpExceptionFilter } from '../../common/exceptions/http-exception.filter';
 
 @Controller({
   path: 'v1/auth',
@@ -25,6 +32,8 @@ export class AuthController {
   constructor(
     private readonly authUseCase: AuthUseCase,
     private readonly registerUseCase: RegisterUseCase,
+    private readonly logOutUseCase: LogOutUseCase,
+    private readonly authTokenGenerateUseCase: AuthTokenGenerateUseCase,
   ) {}
 
   @Public()
@@ -35,7 +44,7 @@ export class AuthController {
 
   @Public()
   @Post('register')
-  async register(@Body() dto: RegisterDto): Promise<AuthResponseHttpDto> {
+  async register(@Body() dto: RegisterHttpDto): Promise<AuthResponseHttpDto> {
     return await this.registerUseCase.register(dto);
   }
 
@@ -44,10 +53,15 @@ export class AuthController {
   @Post('/refresh')
   async refreshTokens(
     @GetCurrentUser('refreshToken') refreshToken: string,
-    @GetCurrentUserId() userId: number,
+    @GetCurrentUserId() userId: string,
   ): Promise<AuthResponseHttpDto> {
-    return await this.authUseCase.refreshToken(
-      HttpMapper.toDto(refreshToken, `${userId}`),
+    return await this.authTokenGenerateUseCase.refreshToken(
+      HttpMapper.toDto(refreshToken, userId),
     );
+  }
+
+  @Get('/logout')
+  async logout(@GetCurrentUserId() userId: string) {
+    return await this.logOutUseCase.logOut(userId);
   }
 }
