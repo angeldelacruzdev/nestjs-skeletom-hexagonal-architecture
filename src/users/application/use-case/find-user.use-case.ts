@@ -19,4 +19,8 @@ export class FindUserUseCase {
   async findUserRtHash(id: string, token: string): Promise<string> {
     return this.userRepository.findUserRtHash(id, token);
   }
+
+  async findRtHashByUserId(id: string): Promise<string> {
+    return await this.userRepository.findRtHashByUserId(id);
+  }
 }

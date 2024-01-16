@@ -6,7 +6,7 @@ import {
 import { CreateUserRepositoryAdapter } from './../../../users/infrastructure';
 import { Inject } from '@nestjs/common';
 import { AuthMapper } from '../mappers/auth.mapper';
-import { CREATE_REPOSITORY_PORT } from './../../../users/application/token/user-repository.token';
+import { CREATE_REPOSITORY_PORT } from '../../../users/application';
 
 export class RegisterRepositoryAdapter implements RegisterRepositoryPort {
   constructor(

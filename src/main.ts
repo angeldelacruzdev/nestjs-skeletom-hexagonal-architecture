@@ -13,8 +13,6 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalFilters(new HttpExceptionFilter());
-
   app.setGlobalPrefix('api');
 
   app.enableVersioning({

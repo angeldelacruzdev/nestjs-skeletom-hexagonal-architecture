@@ -1,6 +1,7 @@
 import { FindUserUseCase } from '../../../users/application';
-import { AuthResponseDto, LoginDto, RefreshTokenDto } from '../dtos';
-import { AuthRepositoryPort, AuthTokenGeneratePort } from '../ports';
+import * as bcrypt from 'bcrypt';
+import { AuthResponseDto, LoginDto } from '../dtos';
+import { AuthTokenGeneratePort } from '../ports';
 import { AuthMapper } from '../mappers';
 import { ExceptionHandlerPort } from '../../../common';
 import { LoggerPort } from '../../../utils';
@@ -17,7 +18,21 @@ export class AuthUseCase {
     try {
       const responseFind = await this.findUserUseCase.findByEmail(dto.email);
       if (!responseFind) {
-        throw new Error('Ha olvidada la contraseña o no está disponible.');
+        return this.exceptionHandlerPort.handle(
+          'Ha olvidada la contraseña o no está disponible.',
+        );
+      }
+
+      const responseRtHash = await this.findUserUseCase.findRtHashByUserId(
+        responseFind.id,
+      );
+
+      const isMatch = await bcrypt.compare(dto.password, responseRtHash);
+
+      if (!isMatch) {
+        return this.exceptionHandlerPort.handle(
+          'Ha olvidada la contraseña o no está disponible.',
+        );
       }
 
       const token = await this.authTokenGeneratePort.token(
@@ -32,13 +47,14 @@ export class AuthUseCase {
         );
 
       if (!responseRefreshToken) {
-        throw new Error(
-          'Lo sentimos, no tiene permisos para realizar está acción.',
+        return this.exceptionHandlerPort.handle(
+          'Ha olvidada la contraseña o no está disponible.',
         );
       }
 
       return AuthMapper.toDto(responseFind, token);
     } catch (error) {
+      console.log(error);
       if (error) {
         this.loggerPort.error(error);
         return this.exceptionHandlerPort.handle(error);

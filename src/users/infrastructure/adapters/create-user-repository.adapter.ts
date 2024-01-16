@@ -1,4 +1,5 @@
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import {
   EXCEPTION_HANDLER_PORT,
   ExceptionHandlerPort,
@@ -29,6 +30,12 @@ export class CreateUserRepositoryAdapter implements CreateUserRepositoryPort {
 
   async create(dto: CreateUserDto): Promise<UserResponseDto> {
     try {
+      const saltOrRounds = 10;
+      const rtTokenHash = dto.password;
+
+      const hash = await bcrypt.hash(rtTokenHash, saltOrRounds);
+      dto.password = hash;
+
       const entity = await UserMapper.toEntity(dto);
       const response = await this.userRepository.save(entity);
 

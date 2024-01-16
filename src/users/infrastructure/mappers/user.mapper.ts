@@ -11,7 +11,7 @@ export class UserMapper {
     const entity = new User();
     entity.password = dto.password;
     entity.email = dto.email;
-    entity.rt_hash = 'asds55511';
+    entity.rt_hash = '';
     entity.status = dto.status;
     entity.details = this.toEntityDetail(dto.details);
     return entity;
@@ -35,7 +35,6 @@ export class UserMapper {
   public static async toUpdateEntity(dto: UpdateUserDto): Promise<User> {
     const entity = new User();
     entity.email = dto.email;
-    entity.rt_hash = 'asds55511';
     entity.status = dto.status;
     return entity;
   }

@@ -22,6 +22,25 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     private readonly logger: LoggerPort,
   ) {}
 
+  async findRtHashByUserId(id: string): Promise<string> {
+    try {
+      const response = await this.userRepository
+        .createQueryBuilder()
+        .select('password')
+        .where('id = :id', { id })
+        .getRawOne();
+      
+      if (!response) {
+        throw new Error("No tiene permisos para ejecutar est'a acción.");
+      }
+      return response.password;
+      // return response;
+    } catch (error) {
+      this.logger.error(error);
+      return this.exceptionHandler.handle(error);
+    }
+  }
+
   async findUserRtHash(id: string, token: string): Promise<string> {
     try {
       const response = await this.userRepository
