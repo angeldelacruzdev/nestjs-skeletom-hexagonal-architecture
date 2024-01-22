@@ -5,6 +5,8 @@ import { AuthTokenGeneratePort } from '../ports';
 import { AuthMapper } from '../mappers';
 import { ExceptionHandlerPort } from '../../../common';
 import { LoggerPort } from '../../../utils';
+ 
+import { AuthNotFoundException } from '../../auth-exceptions';
 
 export class AuthUseCase {
   constructor(
@@ -14,11 +16,11 @@ export class AuthUseCase {
     private readonly authTokenGeneratePort: AuthTokenGeneratePort,
   ) {}
 
-  async login(dto: LoginDto): Promise<AuthResponseDto> {
+  async login(dto: LoginDto): Promise<AuthResponseDto | any> {
     try {
       const responseFind = await this.findUserUseCase.findByEmail(dto.email);
       if (!responseFind) {
-        return this.exceptionHandlerPort.handle(
+        throw new AuthNotFoundException(
           'Ha olvidada la contraseña o no está disponible.',
         );
       }
@@ -30,7 +32,7 @@ export class AuthUseCase {
       const isMatch = await bcrypt.compare(dto.password, responseRtHash);
 
       if (!isMatch) {
-        return this.exceptionHandlerPort.handle(
+        throw new AuthNotFoundException(
           'Ha olvidada la contraseña o no está disponible.',
         );
       }
@@ -47,17 +49,15 @@ export class AuthUseCase {
         );
 
       if (!responseRefreshToken) {
-        return this.exceptionHandlerPort.handle(
+        throw new AuthNotFoundException(
           'Ha olvidada la contraseña o no está disponible.',
         );
       }
 
       return AuthMapper.toDto(responseFind, token);
     } catch (error) {
-      console.log(error);
-      if (error) {
-        this.loggerPort.error(error);
-        return this.exceptionHandlerPort.handle(error);
+      if(error instanceof AuthNotFoundException){
+        throw new AuthNotFoundException(error.message);
       }
     }
   }

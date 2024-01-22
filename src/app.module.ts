@@ -1,5 +1,5 @@
-import { APP_GUARD } from '@nestjs/core';
-import { Module } from '@nestjs/common';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,12 +13,21 @@ import { LoggingModule } from './utils';
 import { RolesModule } from './roles/role.module';
 import { PermissionsModule } from './permissions';
 
+import helmet from 'helmet';
+import { RequestContextModule } from 'nestjs-request-context';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { SlonikModule } from 'nestjs-slonik';
+import { SlonikRootModule } from './database/database.config';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
     DatabaseModule,
     CommonModule,
     LoggingModule,
+    EventEmitterModule.forRoot(),
+    SlonikRootModule,
+    RequestContextModule,
     AuthModule,
     UserModule,
     RolesModule,
@@ -33,4 +42,22 @@ import { PermissionsModule } from './permissions';
     AppService,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(
+        helmet({
+          crossOriginEmbedderPolicy: false,
+          contentSecurityPolicy: {
+            directives: {
+              defaultSrc: [`'self'`],
+              styleSrc: [`'self'`, `'unsafe-inline'`],
+              imgSrc: [`'self'`, 'data:', 'validator.swagger.io'],
+              scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+            },
+          },
+        }),
+      )
+      .forRoutes('*');
+  }
+}

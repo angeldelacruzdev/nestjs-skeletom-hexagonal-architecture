@@ -23,6 +23,7 @@ import { HttpMapper } from './mappers';
 import { RegisterUseCase } from './../../auth/application/use-case/register.use-case';
 import { RegisterHttpDto } from './dto/register-http.dto';
 import { HttpExceptionFilter } from '../../common/exceptions/http-exception.filter';
+import { AuthNotFoundException } from '../auth-exceptions';
 
 @Controller({
   path: 'v1/auth',
@@ -39,7 +40,12 @@ export class AuthController {
   @Public()
   @Post('login')
   async login(@Body() dto: LoginHttpDto): Promise<AuthResponseHttpDto> {
-    return await this.authUseCase.login(dto);
+  
+    try {
+      return await this.authUseCase.login(dto);
+    } catch (error) {
+      throw new AuthNotFoundException(error.message)
+    }
   }
 
   @Public()
