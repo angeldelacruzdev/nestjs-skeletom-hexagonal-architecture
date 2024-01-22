@@ -40,7 +40,6 @@ export class AuthController {
   @Public()
   @Post('login')
   async login(@Body() dto: LoginHttpDto): Promise<AuthResponseHttpDto> {
-  
     try {
       return await this.authUseCase.login(dto);
     } catch (error) {
