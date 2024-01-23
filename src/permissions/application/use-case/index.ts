@@ -7,5 +7,5 @@ export {
   CreatePermissionUseCase,
   FindPermissionsUseCase,
   UpdatePermissionsUseCase,
-  DeletePermissionsUseCase
+  DeletePermissionsUseCase,
 };

@@ -7,5 +7,5 @@ export {
   CreatePermissionsRepositoryAdapter,
   FindPermissionsRepositoryAdapter,
   UpdatePermissionsRepositoryAdapter,
-  DeletePermissionsRepositoryAdapter
+  DeletePermissionsRepositoryAdapter,
 };

@@ -1,7 +1,7 @@
-import { HttpException } from "./http-exception";
+import { HttpException } from './http-exception';
 
 export class ForbiddenException extends HttpException {
-    constructor() {
-      super('ForbiddenException', "Forbidden");
-    }
+  constructor() {
+    super('ForbiddenException', 'Forbidden');
   }
+}

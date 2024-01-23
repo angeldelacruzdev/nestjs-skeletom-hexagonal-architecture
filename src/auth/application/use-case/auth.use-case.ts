@@ -3,16 +3,11 @@ import * as bcrypt from 'bcrypt';
 import { AuthResponseDto, LoginDto } from '../dtos';
 import { AuthTokenGeneratePort } from '../ports';
 import { AuthMapper } from '../mappers';
-import { ExceptionHandlerPort } from '../../../common';
-import { LoggerPort } from '../../../utils';
- 
 import { AuthNotFoundException } from '../../auth-exceptions';
 
 export class AuthUseCase {
   constructor(
     private readonly findUserUseCase: FindUserUseCase,
-    private readonly exceptionHandlerPort: ExceptionHandlerPort,
-    private readonly loggerPort: LoggerPort,
     private readonly authTokenGeneratePort: AuthTokenGeneratePort,
   ) {}
 
@@ -56,7 +51,7 @@ export class AuthUseCase {
 
       return AuthMapper.toDto(responseFind, token);
     } catch (error) {
-      if(error instanceof AuthNotFoundException){
+      if (error instanceof AuthNotFoundException) {
         throw new AuthNotFoundException(error.message);
       }
     }

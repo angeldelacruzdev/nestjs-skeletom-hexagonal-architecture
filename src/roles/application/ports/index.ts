@@ -7,5 +7,5 @@ export {
   CreateRolesRepositoryPort,
   FindRolesRepositoryPort,
   AssignPermissionsToRoleRepositoryPort,
-  RolesPermissionsPort
+  RolesPermissionsPort,
 };

@@ -9,5 +9,5 @@
   "useTabs": false,
   "bracketSpacing": true,
   "jsxBracketSameLine": false,
-  "parser": "flow"
+  "parser": "typescript"
 }

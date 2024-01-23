@@ -13,7 +13,7 @@ function processFile(filePath) {
 
       const imports = {};
       const lines = data.split('\n');
-     
+
       lines.forEach((line) => {
         const match = line.match(/import .* from ['"](.*)['"]/);
         if (match) {
@@ -23,7 +23,7 @@ function processFile(filePath) {
               `El archivo ${importedFile} ha sido importado más de una vez en ${filePath}`,
             );
           } else {
-            console.log("No hay archivos duplicados: ", filePath)
+            console.log('No hay archivos duplicados: ', filePath);
             imports[importedFile] = true;
           }
         }
@@ -52,7 +52,7 @@ function processDirectory(dirPath) {
       });
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 

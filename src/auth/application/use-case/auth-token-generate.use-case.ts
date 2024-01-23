@@ -1,4 +1,3 @@
-import { ExceptionHandlerPort } from '../../../common';
 import { FindUserUseCase } from '../../../users/application';
 import { AuthResponseDto, RefreshTokenDto, TokenResponseDto } from '../dtos';
 import { AuthMapper } from '../mappers';
@@ -8,7 +7,6 @@ export class AuthTokenGenerateUseCase {
   constructor(
     private authTokenGeneratePort: AuthTokenGeneratePort,
     private readonly findUserUseCase: FindUserUseCase,
-    private readonly exceptionHandlerPort: ExceptionHandlerPort,
   ) {}
 
   async token(id: string, email: string): Promise<TokenResponseDto> {
@@ -18,9 +16,6 @@ export class AuthTokenGenerateUseCase {
   async refreshToken(dto: RefreshTokenDto): Promise<AuthResponseDto> {
     const response = await this.findUserUseCase.findUserByid(dto.id);
     if (!response) {
-      return this.exceptionHandlerPort.handle(`
-          Lo sentimos, no puede realizar está acción.
-      `);
     }
 
     const responseHash = await this.findUserUseCase.findUserRtHash(
@@ -28,9 +23,6 @@ export class AuthTokenGenerateUseCase {
       dto.refresh_token,
     );
     if (!responseHash) {
-      return this.exceptionHandlerPort.handle(`
-        No tiene permisos para realizar está acción.
-      `);
     }
 
     const token = await this.token(response.id, response.email);

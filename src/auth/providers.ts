@@ -34,10 +34,9 @@ import {
 import { RegisterRepositoryAdapter } from './infrastructure/adapters/register-repository.adapter';
 import {
   EXCEPTION_HANDLER_PORT,
-  ExceptionHandlerPort,
   NestjsExceptionHandlerAdapter,
 } from '../common';
-import { LoggerAdapter, LoggerPort, TOKEN_LOGGER_PORT } from '../utils';
+import { LoggerAdapter, TOKEN_LOGGER_PORT } from '../utils';
 import { LogOutRepositoryAdapter } from './infrastructure/adapters/log-out.repository.adapter';
 import { AuthTokenGenerateRepositoryAdapter } from './infrastructure/adapters';
 
@@ -82,24 +81,12 @@ export const providers: Provider[] = [
     provide: AuthUseCase,
     useFactory: (
       findUserRepositoryPort: FindUserRepositoryPort,
-      exceptionHandlerPort: ExceptionHandlerPort,
-      loggerPort: LoggerPort,
       authTokenGeneratePort: AuthTokenGeneratePort,
     ) => {
       const findUserUseCase = new FindUserUseCase(findUserRepositoryPort);
-      return new AuthUseCase(
-        findUserUseCase,
-        exceptionHandlerPort,
-        loggerPort,
-        authTokenGeneratePort,
-      );
+      return new AuthUseCase(findUserUseCase, authTokenGeneratePort);
     },
-    inject: [
-      FIND_REPOSITORY_PORT,
-      EXCEPTION_HANDLER_PORT,
-      TOKEN_LOGGER_PORT,
-      TOKEN_GENERATE_REPOSITORY,
-    ],
+    inject: [FIND_REPOSITORY_PORT, TOKEN_GENERATE_REPOSITORY],
   },
   {
     provide: RegisterUseCase,

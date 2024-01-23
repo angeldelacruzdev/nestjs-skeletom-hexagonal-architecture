@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { UserDetailDto } from "./user-detail.dto";
+import { UserDetailDto } from './user-detail.dto';
 
 export class CreateUserDto {
   email: string;

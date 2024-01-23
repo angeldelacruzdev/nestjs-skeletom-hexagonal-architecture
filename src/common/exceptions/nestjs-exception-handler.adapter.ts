@@ -4,7 +4,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class NestjsExceptionHandlerAdapter implements ExceptionHandlerPort {
   handle(exception: any): HttpException {
-    console.log(exception)
+    console.log(exception);
     const exceptions = exception;
     if (exception instanceof QueryFailedError) {
       // Lógica para manejar la excepción personalizada
