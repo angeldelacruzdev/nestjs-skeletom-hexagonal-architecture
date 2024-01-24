@@ -22,8 +22,7 @@ import { AuthResponseHttpDto } from './dto/auth-response.dto';
 import { HttpMapper } from './mappers';
 import { RegisterUseCase } from './../../auth/application/use-case/register.use-case';
 import { RegisterHttpDto } from './dto/register-http.dto';
- 
- 
+
 @Controller({
   path: 'v1/auth',
   version: VERSION_NEUTRAL,
