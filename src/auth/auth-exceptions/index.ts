@@ -1,2 +1,6 @@
-import { AuthNotFoundException } from './auth-exception';
-export { AuthNotFoundException };
+import {
+  AuthBadRequestException,
+  AuthNotFoundException,
+} from './auth-exception';
+
+export { AuthNotFoundException, AuthBadRequestException };
