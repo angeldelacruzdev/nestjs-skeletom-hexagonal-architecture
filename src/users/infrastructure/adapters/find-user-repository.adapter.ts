@@ -29,7 +29,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
         .select('password')
         .where('id = :id', { id })
         .getRawOne();
-      
+
       if (!response) {
         throw new Error("No tiene permisos para ejecutar est'a acción.");
       }
@@ -74,8 +74,9 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
 
       return null;
     } catch (error) {
-      this.logger.error(error);
-      return this.exceptionHandler.handle(error);
+      console.log('error: ', error.message);
+      this.logger.error(error.message);
+      return this.exceptionHandler.handle(error.message);
     }
   }
 

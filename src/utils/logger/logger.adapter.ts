@@ -6,6 +6,12 @@ export class LoggerAdapter implements LoggerPort {
 
   log(message: string, context?: string): void {
     this.logger.log(message, context);
+  }
+
+  error(message: string, trace?: string, context?: string): void {
+    this.logger.error(message, trace, context);
+
+    console.log("Log: ",message);
 
     const logger = winston.createLogger({
       level: 'info',
@@ -27,9 +33,5 @@ export class LoggerAdapter implements LoggerPort {
         }),
       );
     }
-  }
-
-  error(message: string, trace?: string, context?: string): void {
-    this.logger.error(message, trace, context);
   }
 }

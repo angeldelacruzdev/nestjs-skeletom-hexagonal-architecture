@@ -14,6 +14,10 @@ export class AuthUseCase {
   async login(dto: LoginDto): Promise<AuthResponseDto | any> {
     try {
       const responseFind = await this.findUserUseCase.findByEmail(dto.email);
+
+      
+      console.log(responseFind);
+
       if (!responseFind) {
         throw new AuthNotFoundException(
           'Ha olvidada la contraseña o no está disponible.',
@@ -23,6 +27,8 @@ export class AuthUseCase {
       const responseRtHash = await this.findUserUseCase.findRtHashByUserId(
         responseFind.id,
       );
+
+      console.log(responseRtHash);
 
       const isMatch = await bcrypt.compare(dto.password, responseRtHash);
 
