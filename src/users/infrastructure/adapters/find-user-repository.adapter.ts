@@ -1,6 +1,6 @@
 import { Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindManyOptions, ILike, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UserResponseDto, FindUserRepositoryPort } from '../../application';
 import {
@@ -10,7 +10,12 @@ import {
 
 import { UserMapper } from '../mappers/user.mapper';
 import { User } from './../../../users/domain/entities/user.entity';
-import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
+import {
+  LoggerPort,
+  PaginationDto,
+  PaginationResponseDto,
+  TOKEN_LOGGER_PORT,
+} from '../../../utils';
 
 export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
   constructor(
@@ -29,7 +34,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
         .select('password')
         .where('id = :id', { id })
         .getRawOne();
-      
+
       if (!response) {
         throw new Error("No tiene permisos para ejecutar est'a acción.");
       }
@@ -79,10 +84,36 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     }
   }
 
-  async findAll(): Promise<UserResponseDto[]> {
+  async findMany({
+    limit,
+    page,
+    search,
+    sort,
+  }: PaginationDto): Promise<PaginationResponseDto<UserResponseDto>> {
     try {
-      const response = await this.userRepository.find();
-      return await Promise.all(response.map(UserMapper.toDto));
+      const options: FindManyOptions<User> = {
+        where: {
+          ...(search && { email: ILike(`%${search}%`) }),
+          details: { firstName: ILike(`%${search}%`) },
+        },
+        take: limit,
+        skip: (page - 1) * limit,
+        order: {
+          [sort]: 'ASC',
+        },
+      };
+
+      const [result, total] = await this.userRepository.findAndCount(options);
+      const resultDto = result.map(UserMapper.toDto);
+
+      const response: PaginationResponseDto<UserResponseDto> = {
+        data: resultDto,
+        page,
+        limit,
+        total,
+      };
+
+      return response;
     } catch (error) {
       this.logger.error(error);
       return this.exceptionHandler.handle(error);

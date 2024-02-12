@@ -54,12 +54,14 @@ export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
       };
       const [result, total] = await this.roleRepository.findAndCount(options);
       const resultDto = result.map(RolesMapper.toDto);
+
       const response: PaginationResponseDto<RolesResponseDto> = {
         data: resultDto,
         page,
         limit,
         total,
       };
+
       return response;
     } catch (e) {
       this.logger.error(e);

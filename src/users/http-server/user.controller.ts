@@ -15,6 +15,9 @@ import {
   DeleteUserUserCase,
 } from '../application';
 import { CreateUserDto, UpdateUserServerDto, UserResponseDto } from './dtos';
+import { Pagination } from '../../common';
+import { PaginationDocDto } from '../../utils/dto/pagination-doc.dto';
+import { PaginationResponseDto } from '../../utils';
 
 @Controller({
   path: 'v1/users',
@@ -34,8 +37,10 @@ export class UserController {
   }
 
   @Get()
-  async findAll(): Promise<UserResponseDto[]> {
-    return await this.findUserUseCase.findAll();
+  async findAll(
+    @Pagination() pagination: PaginationDocDto,
+  ): Promise<PaginationResponseDto<UserResponseDto> | null> {
+    return await this.findUserUseCase.findMany(pagination);
   }
 
   @Get(':id')

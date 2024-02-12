@@ -1,3 +1,4 @@
+import { PaginationDto, PaginationResponseDto } from '../../../utils';
 import { UserResponseDto } from '../dtos';
 import { FindUserRepositoryPort } from '../ports';
 
@@ -8,8 +9,10 @@ export class FindUserUseCase {
     return await this.userRepository.findUserByid(id);
   }
 
-  async findAll(): Promise<UserResponseDto[]> {
-    return await this.userRepository.findAll();
+  async findMany(
+    pagination: PaginationDto,
+  ): Promise<PaginationResponseDto<UserResponseDto> | null> {
+    return await this.userRepository.findMany(pagination);
   }
 
   async findByEmail(email: string): Promise<UserResponseDto> {

@@ -24,7 +24,7 @@ export class UserMapper {
     return entity;
   }
 
-  public static async toDto(entity: User): Promise<UserResponseDto> {
+  public static toDto(entity: User): UserResponseDto {
     const dto = new UserResponseDto();
     dto.id = entity.id;
     dto.email = entity.email;

@@ -50,15 +50,4 @@ export class RolesController {
   ): Promise<RolesReponseDocDto> {
     return await this.findRolesUseCase.findOne(id);
   }
-
-  @Get(':id/assign-permissions')
-  async assignPermissions(
-    @Param('id') id: number,
-    @Body() { permissionIds }: PermissionsIdsDocDto,
-  ): Promise<RolesReponseDocDto> {
-    return await this.assignPermissionsToRoleUseCase.assignPermissionsToRole(
-      id,
-      permissionIds,
-    );
-  }
 }
