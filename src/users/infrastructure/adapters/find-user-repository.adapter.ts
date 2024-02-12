@@ -79,8 +79,9 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
 
       return null;
     } catch (error) {
-      this.logger.error(error);
-      return this.exceptionHandler.handle(error);
+      console.log('error: ', error.message);
+      this.logger.error(error.message);
+      return this.exceptionHandler.handle(error.message);
     }
   }
 

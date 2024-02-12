@@ -1,7 +1,8 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { AuthNotFoundException } from './auth/auth-exceptions';
+import { UserBadRequestException } from './users/user-exception';
 
-@Catch(AuthNotFoundException)
+@Catch(AuthNotFoundException, UserBadRequestException)
 export class AnyExceptionFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();

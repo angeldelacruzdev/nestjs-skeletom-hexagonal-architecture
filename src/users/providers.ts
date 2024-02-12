@@ -64,7 +64,7 @@ export const provideres: Provider[] = [
     provide: CreateUserUseCase,
     useFactory: (createRepository: CreateUserRepositoryPort) =>
       new CreateUserUseCase(createRepository),
-    inject: [CREATE_REPOSITORY_PORT, EXCEPTION_HANDLER_PORT],
+    inject: [CREATE_REPOSITORY_PORT],
   },
   {
     provide: UpdateUserUseCase,
