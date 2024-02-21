@@ -7,7 +7,6 @@ export class AuthMapper {
     token: TokenResponseDto,
   ): AuthResponseDto {
     const dto = new AuthResponseDto();
-    dto.id = paramsDto.id;
     dto.email = paramsDto.email;
     dto.tokens = token;
     return dto;
