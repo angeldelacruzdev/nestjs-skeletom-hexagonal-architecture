@@ -34,15 +34,17 @@ export class CreateUserRepositoryAdapter implements CreateUserRepositoryPort {
       const response = await this.userRepository.save(entity);
 
       if (!response) {
-        throw new UserBadRequestException();
+        throw new UserBadRequestException(
+          'Lo sentimos, no pudimos procesar el registro.',
+          400,
+        );
       }
 
       return UserMapper.toDto(response);
     } catch (error) {
       this.logger.log(error);
-      if (error instanceof UserBadRequestException) {
-        throw new UserBadRequestException();
-      }
+
+      throw new UserBadRequestException(error.message, error.code);
     }
   }
 }

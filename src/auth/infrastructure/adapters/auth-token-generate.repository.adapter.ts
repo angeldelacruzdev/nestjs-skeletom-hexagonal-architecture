@@ -1,12 +1,13 @@
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { AuthTokenGeneratePort, TokenResponseDto } from '../../application';
-import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort } from '../../../common';
+
 import { Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../../users/domain/entities/user.entity';
 import { Repository } from 'typeorm';
 import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
+import { InternalErrorException } from '../../auth-exceptions';
 
 export class AuthTokenGenerateRepositoryAdapter
   implements AuthTokenGeneratePort
@@ -15,8 +16,6 @@ export class AuthTokenGenerateRepositoryAdapter
     private jwtService: JwtService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @Inject(EXCEPTION_HANDLER_PORT)
-    private readonly exceptionHandler: ExceptionHandlerPort,
     @Inject(TOKEN_LOGGER_PORT)
     private readonly logger: LoggerPort,
   ) {}
@@ -46,7 +45,7 @@ export class AuthTokenGenerateRepositoryAdapter
       return true;
     } catch (error) {
       this.logger.error(error);
-      return this.exceptionHandler.handle(error);
+      throw new InternalErrorException();
     }
   }
 
@@ -80,7 +79,7 @@ export class AuthTokenGenerateRepositoryAdapter
         refresh_token: rt,
       };
     } catch (error) {
-      return this.exceptionHandler.handle(error);
+      throw new InternalErrorException();
     }
   }
 }

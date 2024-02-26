@@ -24,9 +24,7 @@ export class RegisterRepositoryAdapter implements RegisterRepositoryPort {
       }
       return AuthMapper.toDto(response);
     } catch (error) {
-      if (error instanceof AuthBadRequestException) {
-        throw new AuthBadRequestException();
-      }
+      throw new AuthBadRequestException(error.message, 400);
     }
   }
 }
