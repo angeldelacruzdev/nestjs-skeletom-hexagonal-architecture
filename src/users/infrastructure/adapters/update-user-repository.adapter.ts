@@ -9,23 +9,23 @@ import {
   UserResponseDto,
 } from './../../application';
 import { User } from '../../domain/entities/user.entity';
-import {
-  EXCEPTION_HANDLER_PORT,
-  ExceptionHandlerPort,
-} from '../../../common/exceptions';
+
 import { UserMapper } from '../mappers';
+import { UserInternalErrorException } from '../../user-exception';
 
 export class UpdateUserRepositoryAdapter implements UpdateUserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @Inject(EXCEPTION_HANDLER_PORT)
-    private readonly exceptionHandler: ExceptionHandlerPort,
+
     @Inject(FIND_REPOSITORY_PORT)
     private readonly findUserRepository: FindUserRepositoryPort,
   ) {}
 
-  async update(id: string, dto: UpdateUserDto): Promise<UserResponseDto | null> {
+  async update(
+    id: string,
+    dto: UpdateUserDto,
+  ): Promise<UserResponseDto | null> {
     try {
       const entity = await UserMapper.toUpdateEntity(dto);
       const response = await this.userRepository.update(id, entity);
@@ -34,7 +34,7 @@ export class UpdateUserRepositoryAdapter implements UpdateUserRepository {
       }
       return null;
     } catch (error) {
-      return this.exceptionHandler.handle(error);
+      throw new UserInternalErrorException();
     }
   }
 
@@ -49,7 +49,7 @@ export class UpdateUserRepositoryAdapter implements UpdateUserRepository {
       }
       return null;
     } catch (error) {
-      return this.exceptionHandler.handle(error);
+      throw new UserInternalErrorException();
     }
   }
 }

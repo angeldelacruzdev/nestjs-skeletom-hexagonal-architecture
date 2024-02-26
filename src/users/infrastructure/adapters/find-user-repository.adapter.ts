@@ -3,10 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, ILike, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UserResponseDto, FindUserRepositoryPort } from '../../application';
-import {
-  EXCEPTION_HANDLER_PORT,
-  ExceptionHandlerPort,
-} from '../../../common/exceptions';
 
 import { UserMapper } from '../mappers/user.mapper';
 import { User } from './../../../users/domain/entities/user.entity';
@@ -16,13 +12,12 @@ import {
   PaginationResponseDto,
   TOKEN_LOGGER_PORT,
 } from '../../../utils';
+import { UserBadRequestException, UserInternalErrorException } from '../../user-exception';
 
 export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @Inject(EXCEPTION_HANDLER_PORT)
-    private readonly exceptionHandler: ExceptionHandlerPort,
     @Inject(TOKEN_LOGGER_PORT)
     private readonly logger: LoggerPort,
   ) {}
@@ -42,7 +37,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       // return response;
     } catch (error) {
       this.logger.error(error);
-      return this.exceptionHandler.handle(error);
+      throw new UserInternalErrorException();
     }
   }
 
@@ -57,13 +52,13 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       const isMatch = await bcrypt.compare(token, response.rt_hash);
 
       if (!isMatch) {
-        throw new Error("No tiene permisos para ejecutar est'a acción.");
+        throw new UserBadRequestException("No tiene permisos para ejecutar est'a acción.");
       }
       return response.rt_hash;
       // return response;
     } catch (error) {
       this.logger.error(error);
-      return this.exceptionHandler.handle(error);
+      throw new UserInternalErrorException();
     }
   }
 
@@ -81,7 +76,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     } catch (error) {
       console.log('error: ', error.message);
       this.logger.error(error.message);
-      return this.exceptionHandler.handle(error.message);
+      throw new UserInternalErrorException();
     }
   }
 
@@ -117,7 +112,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       return response;
     } catch (error) {
       this.logger.error(error);
-      return this.exceptionHandler.handle(error);
+      throw new UserInternalErrorException();
     }
   }
 
@@ -129,7 +124,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       return UserMapper.toDto(response);
     } catch (error) {
       this.logger.error(error);
-      return this.exceptionHandler.handle(error);
+      throw new UserInternalErrorException();
     }
   }
 }

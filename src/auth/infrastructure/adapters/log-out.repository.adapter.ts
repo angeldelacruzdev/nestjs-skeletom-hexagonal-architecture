@@ -4,15 +4,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { LogOutPort } from '../../application';
 import { User } from '../../../users/domain/entities/user.entity';
 
-import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort } from '../../../common';
 import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
+import { InternalErrorException } from '../../auth-exceptions';
 
 export class LogOutRepositoryAdapter implements LogOutPort {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @Inject(EXCEPTION_HANDLER_PORT)
-    private readonly exceptionHandler: ExceptionHandlerPort,
     @Inject(TOKEN_LOGGER_PORT)
     private readonly logger: LoggerPort,
   ) {}
@@ -33,7 +31,7 @@ export class LogOutRepositoryAdapter implements LogOutPort {
       return true;
     } catch (error) {
       this.logger.log(error);
-      return this.exceptionHandler.handle(error);
+      throw new InternalErrorException();
     }
   }
 }

@@ -23,3 +23,20 @@ export class AuthBadRequestException extends Error {
     }
   }
 }
+
+export class InternalErrorException extends Error {
+  statusCode: number;
+
+  constructor(message?: string, code?: number) {
+    super(message);
+
+    if (code) {
+      this.message = message;
+      this.statusCode = code;
+    } else {
+      this.message = 'Ha ocurrido un interno en el servidor.';
+      this.name = 'InternalErrorException';
+      this.statusCode = 500;
+    }
+  }
+}

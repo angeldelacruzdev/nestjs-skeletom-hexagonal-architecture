@@ -24,16 +24,8 @@ import {
 } from './application';
 import { Provider } from '@nestjs/common';
 import { LoggerAdapter, TOKEN_LOGGER_PORT } from '../utils';
-import {
-  EXCEPTION_HANDLER_PORT,
-  NestjsExceptionHandlerAdapter,
-} from '../common';
 
 export const provideres: Provider[] = [
-  {
-    provide: EXCEPTION_HANDLER_PORT,
-    useClass: NestjsExceptionHandlerAdapter,
-  },
   {
     provide: TOKEN_LOGGER_PORT,
     useClass: LoggerAdapter,
@@ -86,10 +78,6 @@ export const provideres: Provider[] = [
         exceptionHandlerPort,
       );
     },
-    inject: [
-      UPDATE_USER_REPOSITORY_PORT,
-      FIND_REPOSITORY_PORT,
-      EXCEPTION_HANDLER_PORT,
-    ],
+    inject: [UPDATE_USER_REPOSITORY_PORT, FIND_REPOSITORY_PORT],
   },
 ];
