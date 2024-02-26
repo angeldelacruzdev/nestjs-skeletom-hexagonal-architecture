@@ -1,13 +1,11 @@
-import { ExceptionHandlerPort } from '../../../common';
-import { HttpException } from '../../../common/http-exceptions/http-exception';
 import { FindPermissionsUseCase } from '../../../permissions';
+import { RoleInternalErrorException } from '../../role-exception';
 import { RolesResponseDto } from '../dto';
 import { RolesPermissionsPort } from '../ports';
 
 export class RolesPermissionsUseCase {
   constructor(
     private readonly rolesPermissionsPort: RolesPermissionsPort,
-    private readonly exceptionHandlerPort: ExceptionHandlerPort,
     private readonly findPermissionsUseCase: FindPermissionsUseCase,
   ) {}
 
@@ -26,15 +24,18 @@ export class RolesPermissionsUseCase {
     permissionIds: number[],
   ): Promise<RolesResponseDto> {
     try {
-      const responseFindPermissionIds =
-        await this.findPermissionsUseCase.findByIds(permissionIds);
+      console.log(roleId, permissionIds);
+      // const responseFindPermissionIds =
+      //   await this.findPermissionsUseCase.findByIds(permissionIds);
 
-      return await this.rolesPermissionsPort.assignPermissionsToRole(
-        roleId,
-        responseFindPermissionIds,
-      );
+      // return await this.rolesPermissionsPort.assignPermissionsToRole(
+      //   roleId,
+      //   responseFindPermissionIds,
+      // );
+
+      return;
     } catch (error) {
-       new HttpException("Error del servidor", "No sabemos cual es el error", "stacks.....");
+      throw new RoleInternalErrorException();
     }
   }
 }

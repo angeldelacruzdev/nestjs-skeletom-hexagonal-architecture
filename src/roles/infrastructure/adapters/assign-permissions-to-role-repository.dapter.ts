@@ -7,12 +7,12 @@ import {
   RolesResponseDto,
 } from '../../application';
 
-import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort } from '../../../common';
 import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
 
 import { Role } from '../../domain/entities/roles.entity';
 import { RolesMapper } from '../mappers';
 import { PermissionsResponseDto } from '../../../permissions';
+import { RoleInternalErrorException } from '../../role-exception';
 
 export class AssignPermissionsToRoleRepositoryAdapter
   implements AssignPermissionsToRoleRepositoryPort
@@ -20,8 +20,6 @@ export class AssignPermissionsToRoleRepositoryAdapter
   constructor(
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
-    @Inject(EXCEPTION_HANDLER_PORT)
-    private readonly exceptionHandler: ExceptionHandlerPort,
     @Inject(TOKEN_LOGGER_PORT)
     private readonly logger: LoggerPort,
   ) {}
@@ -39,7 +37,7 @@ export class AssignPermissionsToRoleRepositoryAdapter
       return;
     } catch (e) {
       this.logger.error(e);
-      return this.exceptionHandler.handle(e);
+      throw new RoleInternalErrorException();
     }
   }
 }

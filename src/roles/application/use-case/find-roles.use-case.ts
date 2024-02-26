@@ -1,12 +1,11 @@
-import { ExceptionHandlerPort } from '../../../common';
 import { PaginationDto, PaginationResponseDto } from '../../../utils';
+import { RoleInternalErrorException } from '../../role-exception';
 import { RolesResponseDto } from '../dto';
 import { FindRolesRepositoryPort } from '../ports';
 
 export class FindRolesUseCase {
   constructor(
     private readonly findRolesRepositoryPort: FindRolesRepositoryPort,
-    private readonly exceptionHandlerPort: ExceptionHandlerPort,
   ) {}
 
   async findMany(
@@ -15,16 +14,16 @@ export class FindRolesUseCase {
     try {
       return await this.findRolesRepositoryPort.findMany(pagination);
     } catch (e) {
-      return this.exceptionHandlerPort.handle(e);
+      throw new RoleInternalErrorException();
     }
   }
 
-  async findOne(id: number): Promise<RolesResponseDto | null> {
+  async findOne(id: string): Promise<RolesResponseDto | null> {
     try {
       const response = await this.findRolesRepositoryPort.findOne(id);
       return response;
     } catch (e) {
-      return this.exceptionHandlerPort.handle(e);
+      throw new RoleInternalErrorException();
     }
   }
 }

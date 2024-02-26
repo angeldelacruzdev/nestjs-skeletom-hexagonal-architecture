@@ -1,4 +1,5 @@
 import { FindPermissionsUseCase } from '../../../permissions';
+import { RoleInternalErrorException } from '../../role-exception';
 import { RolesResponseDto } from '../dto';
 import { AssignPermissionsToRoleRepositoryPort } from '../ports';
 
@@ -12,12 +13,19 @@ export class AssignPermissionsToRoleUseCase {
     roleId: number,
     permissionIds: number[],
   ): Promise<RolesResponseDto> {
-    const responseFindPermissionIds =
-      await this.findPermissionsUseCase.findByIds(permissionIds);
+    try {
+      console.log(roleId, permissionIds);
+      // const responseFindPermissionIds =
+      //   await this.findPermissionsUseCase.findByIds(permissionIds);
 
-    return await this.assignPermissionsToRoleRepositoryPort.assignPermissionsToRole(
-      roleId,
-      responseFindPermissionIds,
-    );
+      // return await this.assignPermissionsToRoleRepositoryPort.assignPermissionsToRole(
+      //   roleId,
+      //   responseFindPermissionIds,
+      // );
+
+      return;
+    } catch (error) {
+      throw new RoleInternalErrorException();
+    }
   }
 }

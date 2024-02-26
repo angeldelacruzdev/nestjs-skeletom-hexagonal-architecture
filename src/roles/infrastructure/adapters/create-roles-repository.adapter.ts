@@ -7,16 +7,15 @@ import {
 import { Repository } from 'typeorm';
 import { Role } from '../../domain/entities/roles.entity';
 import { RolesMapper } from '../mappers';
-import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort } from '../../../common';
+
 import { Inject } from '@nestjs/common';
 import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
+import { RoleInternalErrorException } from '../../role-exception';
 
 export class CreateRolesRepositoryAdapter implements CreateRolesRepositoryPort {
   constructor(
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
-    @Inject(EXCEPTION_HANDLER_PORT)
-    private readonly exceptionHandler: ExceptionHandlerPort,
     @Inject(TOKEN_LOGGER_PORT)
     private readonly logger: LoggerPort,
   ) {}
@@ -28,7 +27,7 @@ export class CreateRolesRepositoryAdapter implements CreateRolesRepositoryPort {
       return RolesMapper.toDto(response);
     } catch (e) {
       this.logger.error(e);
-      return this.exceptionHandler.handle(e);
+      throw new RoleInternalErrorException();
     }
   }
 }

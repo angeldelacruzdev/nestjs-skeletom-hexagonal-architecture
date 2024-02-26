@@ -3,17 +3,15 @@ import { PermissionsResponseDto } from '../../../permissions';
 import { RolesPermissionsPort, RolesResponseDto } from '../../application';
 import { Role } from '../../domain/entities/roles.entity';
 import { Repository } from 'typeorm';
-import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort } from '../../../common';
 import { Inject } from '@nestjs/common';
 import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
 import { RolesMapper } from '../mappers';
+import { RoleInternalErrorException } from '../../role-exception';
 
 export class RolesPermissionsAdapter implements RolesPermissionsPort {
   constructor(
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
-    @Inject(EXCEPTION_HANDLER_PORT)
-    private readonly exceptionHandler: ExceptionHandlerPort,
     @Inject(TOKEN_LOGGER_PORT)
     private readonly logger: LoggerPort,
   ) {}
@@ -32,7 +30,7 @@ export class RolesPermissionsAdapter implements RolesPermissionsPort {
       return;
     } catch (e) {
       this.logger.error(e);
-      return this.exceptionHandler.handle(e);
+      throw new RoleInternalErrorException();
     }
   }
 

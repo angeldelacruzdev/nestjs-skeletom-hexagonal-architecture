@@ -29,7 +29,6 @@ import {
 
 import {
   EXCEPTION_HANDLER_PORT,
-  ExceptionHandlerPort,
   NestjsExceptionHandlerAdapter,
 } from '../common';
 
@@ -74,26 +73,20 @@ export const providers: Provider[] = [
   },
   {
     provide: CreateRolesUseCase,
-    useFactory: (
-      createRolesRepositoryPort: CreateRolesRepositoryPort,
-      exceptionHandlerPort: ExceptionHandlerPort,
-    ) =>
-      new CreateRolesUseCase(createRolesRepositoryPort, exceptionHandlerPort),
-    inject: [CREATE_ROLE_REPOSITORY, EXCEPTION_HANDLER_PORT, TOKEN_LOGGER_PORT],
+    useFactory: (createRolesRepositoryPort: CreateRolesRepositoryPort) =>
+      new CreateRolesUseCase(createRolesRepositoryPort),
+    inject: [CREATE_ROLE_REPOSITORY, TOKEN_LOGGER_PORT],
   },
   {
     provide: FindRolesUseCase,
-    useFactory: (
-      findRolesRepositoryPort: FindRolesRepositoryPort,
-      exceptionHandlerPort: ExceptionHandlerPort,
-    ) => new FindRolesUseCase(findRolesRepositoryPort, exceptionHandlerPort),
-    inject: [FIND_ROLE_REPOSITORY, EXCEPTION_HANDLER_PORT, TOKEN_LOGGER_PORT],
+    useFactory: (findRolesRepositoryPort: FindRolesRepositoryPort) =>
+      new FindRolesUseCase(findRolesRepositoryPort),
+    inject: [FIND_ROLE_REPOSITORY, TOKEN_LOGGER_PORT],
   },
   {
     provide: RolesPermissionsUseCase,
     useFactory: (
       rolesPermissionsPort: RolesPermissionsPort,
-      exceptionHandlerPort: ExceptionHandlerPort,
       findPermissions: FindPermissionsRepositoryPort,
     ) => {
       const findPermissionsUseCase = new FindPermissionsUseCase(
@@ -102,16 +95,10 @@ export const providers: Provider[] = [
 
       return new RolesPermissionsUseCase(
         rolesPermissionsPort,
-        exceptionHandlerPort,
         findPermissionsUseCase,
       );
     },
-    inject: [
-      ROLES_PERMISSIONS,
-      FIND_PERMISSION_REPOSITORY,
-      EXCEPTION_HANDLER_PORT,
-      TOKEN_LOGGER_PORT,
-    ],
+    inject: [ROLES_PERMISSIONS, FIND_PERMISSION_REPOSITORY, TOKEN_LOGGER_PORT],
   },
   {
     provide: AssignPermissionsToRoleUseCase,

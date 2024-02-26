@@ -1,11 +1,10 @@
-import { ExceptionHandlerPort } from '../../../common';
+import { RoleInternalErrorException } from '../../role-exception';
 import { CreateRolesDto, RolesResponseDto } from '../dto';
 import { CreateRolesRepositoryPort } from './../ports';
 
 export class CreateRolesUseCase {
   constructor(
     private readonly createRolesRepositoryPort: CreateRolesRepositoryPort,
-    private readonly exceptionHandlerPort: ExceptionHandlerPort,
   ) {}
 
   async create(dto: CreateRolesDto): Promise<RolesResponseDto | null> {
@@ -13,7 +12,7 @@ export class CreateRolesUseCase {
       const createResult = await this.createRolesRepositoryPort.create(dto);
       return createResult;
     } catch (e) {
-      return this.exceptionHandlerPort.handle(e);
+      throw new RoleInternalErrorException();
     }
   }
 }

@@ -9,14 +9,12 @@ import {
 import { FindRolesRepositoryPort, RolesResponseDto } from '../../application';
 import { Role } from '../../domain/entities/roles.entity';
 import { RolesMapper } from '../mappers';
-import { EXCEPTION_HANDLER_PORT, ExceptionHandlerPort } from '../../../common';
 import { Inject } from '@nestjs/common';
+import { RoleInternalErrorException } from '../../role-exception';
 export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
   constructor(
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
-    @Inject(EXCEPTION_HANDLER_PORT)
-    private readonly exceptionHandler: ExceptionHandlerPort,
     @Inject(TOKEN_LOGGER_PORT)
     private readonly logger: LoggerPort,
   ) {}
@@ -30,7 +28,7 @@ export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
       return RolesMapper.toDto(response);
     } catch (e) {
       this.logger.error(e);
-      return this.exceptionHandler.handle(e);
+      throw new RoleInternalErrorException();
     }
   }
 
@@ -65,7 +63,7 @@ export class FindRolesRepositoryAdapter implements FindRolesRepositoryPort {
       return response;
     } catch (e) {
       this.logger.error(e);
-      return this.exceptionHandler.handle(e);
+      throw new RoleInternalErrorException();
     }
   }
 }
