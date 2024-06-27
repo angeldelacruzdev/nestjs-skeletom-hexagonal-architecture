@@ -1,5 +1,7 @@
-import { ExceptionHandlerPort } from '../../../common';
-import { UserBadRequestException, UserInternalErrorException } from '../../user-exception';
+import {
+  UserBadRequestException,
+  UserInternalErrorException,
+} from '../../user-exception';
 import { UserResponseDto } from '../dtos';
 import { FindUserRepositoryPort, UpdateUserRepository } from '../ports';
 
@@ -7,7 +9,6 @@ export class DeleteUserUserCase {
   constructor(
     private readonly updateUserRepository: UpdateUserRepository,
     private readonly findUserRepositoryPort: FindUserRepositoryPort,
-    private readonly exceptionHandlerPort: ExceptionHandlerPort,
   ) {}
 
   async delete(id: string): Promise<UserResponseDto> {
@@ -21,7 +22,9 @@ export class DeleteUserUserCase {
       }
 
       if (!responseFind.status) {
-        throw new UserBadRequestException('El usuario ya se encuentra eliminado.');
+        throw new UserBadRequestException(
+          'El usuario ya se encuentra eliminado.',
+        );
       }
 
       const response = await this.updateUserRepository.updateStatus(id, false);

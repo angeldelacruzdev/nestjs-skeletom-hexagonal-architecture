@@ -11,13 +11,13 @@ import { AtGuard } from './common/guards/at.guard';
 
 import { AuthModule } from './auth/auth.module';
 import { LoggingModule } from './utils';
-import { RolesModule } from './roles/role.module';
+
 import { UserModule } from './users/user.module';
 import { DatabaseModule } from './database/database.module';
 import { CommonModule } from './common/common.module';
-import { PermissionsModule } from './permissions';
 
 import helmet from 'helmet';
+import { PermissionsModule, RolesModule } from './authorization';
 
 @Module({
   imports: [

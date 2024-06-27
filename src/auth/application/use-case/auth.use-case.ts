@@ -16,9 +16,7 @@ export class AuthUseCase {
       const responseFind = await this.findUserUseCase.findByEmail(dto.email);
 
       if (!responseFind) {
-        throw new AuthNotFoundException(
-          'Ha olvidada la contraseña o no está disponible.',
-        );
+        throw new AuthNotFoundException('Has olvidada la contraseña.');
       }
 
       const responseRtHash = await this.findUserUseCase.findRtHashByUserId(
@@ -28,9 +26,7 @@ export class AuthUseCase {
       const isMatch = await bcrypt.compare(dto.password, responseRtHash);
 
       if (!isMatch) {
-        throw new AuthNotFoundException(
-          'Ha olvidada la contraseña o no está disponible.',
-        );
+        throw new AuthNotFoundException('Has olvidada la contraseña.');
       }
 
       const token = await this.authTokenGeneratePort.token(
@@ -45,9 +41,7 @@ export class AuthUseCase {
         );
 
       if (!responseRefreshToken) {
-        throw new AuthNotFoundException(
-          'Ha olvidada la contraseña o no está disponible.',
-        );
+        throw new AuthNotFoundException('Has olvidada la contraseña.');
       }
 
       return AuthMapper.toDto(responseFind, token);
