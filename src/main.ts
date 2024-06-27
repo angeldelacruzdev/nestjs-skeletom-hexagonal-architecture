@@ -28,10 +28,9 @@ async function bootstrap() {
     next();
   });
 
-  app.enableShutdownHooks();
-
   await app.listen(process.env.PORT || 3001, () => {
     logger.log(`App started on http://localhost:${process.env.PORT}`);
   });
 }
+
 bootstrap();
