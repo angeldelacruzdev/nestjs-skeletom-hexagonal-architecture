@@ -1,4 +1,3 @@
-import { ExceptionHandlerPort } from './../common/exceptions/exception-handler.port';
 import { UpdateUserRepository } from './application/ports/update-user.repository';
 import { FindUserRepositoryAdapter } from './infrastructure/adapters/find-user-repository.adapter';
 
@@ -69,14 +68,9 @@ export const provideres: Provider[] = [
     useFactory: (
       createRepository: UpdateUserRepository,
       findUserRepositoryPort: FindUserRepositoryPort,
-      exceptionHandlerPort: ExceptionHandlerPort,
     ) => {
       const findUserUseCase = new FindUserUseCase(findUserRepositoryPort);
-      return new DeleteUserUserCase(
-        createRepository,
-        findUserUseCase,
-        exceptionHandlerPort,
-      );
+      return new DeleteUserUserCase(createRepository, findUserUseCase);
     },
     inject: [UPDATE_USER_REPOSITORY_PORT, FIND_REPOSITORY_PORT],
   },
