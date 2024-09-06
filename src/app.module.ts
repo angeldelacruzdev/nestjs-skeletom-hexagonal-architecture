@@ -18,7 +18,8 @@ import { CommonModule } from './common/common.module';
 
 import helmet from 'helmet';
 import { PermissionsModule, RolesModule } from './authorization';
-
+import { LoggerMiddleware } from './utils/middleware/logger.middleware';
+ 
 @Module({
   imports: [
     GracefulShutdownModule.forRoot(),
@@ -55,6 +56,7 @@ export class AppModule {
             },
           },
         }),
+        LoggerMiddleware
       )
       .forRoutes('*');
   }
