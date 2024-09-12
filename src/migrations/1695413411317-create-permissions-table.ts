@@ -20,6 +20,17 @@ export class CreatePermissionsTable1695413411317 implements MigrationInterface {
             isUnique: true,
           },
           {
+            name: 'route_path',
+            type: 'varchar',
+            length: '255',
+            isUnique: true,
+          },
+          {
+            name: 'http_method',
+            type: 'varchar',
+            length: '10',
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
