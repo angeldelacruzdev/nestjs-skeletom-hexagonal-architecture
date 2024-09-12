@@ -18,7 +18,7 @@ export class RegisterUseCase {
       }
       return response;
     } catch (error) {
-      throw new AuthBadRequestException(error.message, 400);
+      throw new AuthBadRequestException("El usuario no puede registrarse.", 400);
     }
   }
 }
