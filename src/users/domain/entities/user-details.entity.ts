@@ -20,6 +20,6 @@ export class UserDetails {
   lastName: string;
 
   @OneToOne(() => User, (user) => user.id)
-  @JoinColumn()
+  @JoinColumn({foreignKeyConstraintName: 'FK_USER_DETAILS_USER_ID', name: 'id'})
   user: Relation<User>; // Relación con la entidad de usuario
 }

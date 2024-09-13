@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { UserDetails } from './user-details.entity';
 
-@Entity({ name: 'user', schema: 'auth' })
+@Entity({ name: 'users', schema: 'auth' })
 @Index('IDX_USER_EMAIL', ['email'])
 export class User {
   @PrimaryGeneratedColumn('uuid')

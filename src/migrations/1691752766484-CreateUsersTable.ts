@@ -35,7 +35,7 @@ export class CreateUsersTable1691752766484 implements MigrationInterface {
     );
 
     await queryRunner.createIndex(
-      'auth.user',
+      'auth.users',
       new TableIndex({
         name: 'IDX_USER_EMAIL',
         columnNames: ['email'],
