@@ -4,6 +4,5 @@ export interface AuthRegisterDto {
   email: string;
   password: string;
   terms: boolean;
-  status: boolean;
-  details: UserDetailDto;
+  status?: boolean;
 }

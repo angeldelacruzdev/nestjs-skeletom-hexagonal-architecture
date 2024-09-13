@@ -43,7 +43,7 @@ export class AuthController {
 
   @Public()
   @Post('register')
-  async register(@Body() dto: RegisterHttpDto): Promise<AuthResponseHttpDto> {
+  async register(@Body() dto: RegisterHttpDto): Promise<RegisterHttpDto> {
     return await this.registerUseCase.register(dto);
   }
 

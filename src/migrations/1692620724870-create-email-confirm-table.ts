@@ -28,7 +28,7 @@ export class CreateEmailConfirmTable1692620724870
             name: 'FK_EMAIL_CONFIRM_USER_ID',
             columnNames: ['userId'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'user',
+            referencedTableName: 'users',
             referencedSchema: 'auth',
           },
         ],

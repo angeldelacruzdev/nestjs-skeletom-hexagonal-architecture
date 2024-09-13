@@ -1,6 +1,7 @@
 import { FindUserUseCase } from '../../../users/application';
 import { AuthBadRequestException } from '../../auth-exceptions';
-import { AuthRegisterDto } from '../dtos';
+import { AuthRegisterDto, AuthResponseDto, RegisterResponseDto } from '../dtos';
+import { AuthMapper } from '../mappers';
 import { RegisterRepositoryPort } from '../ports';
 
 export class RegisterUseCase {
@@ -9,7 +10,8 @@ export class RegisterUseCase {
     private readonly findUserUseCase: FindUserUseCase,
   ) {}
 
-  async register(dto: AuthRegisterDto): Promise<AuthRegisterDto> {
+  async register(dto: AuthRegisterDto): Promise<RegisterResponseDto> {
+    dto.status = true;
     try {
       const user = await this.findUserUseCase.findByEmail(dto.email);
 
@@ -19,7 +21,6 @@ export class RegisterUseCase {
           400,
         );
       }
-
       const response = await this.registerRepositoryPort.register(dto);
       return response;
     } catch (error) {

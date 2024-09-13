@@ -1,6 +1,7 @@
-import { TokenDto } from '../../application';
+import { TokenResponseDto } from '../../application';
+
 export class AuthResponseHttpDto {
   id: string;
   email: string;
-  tokens: TokenDto;
+  tokens: TokenResponseDto;
 }

@@ -29,7 +29,7 @@ export class CreateUserRolesTable1695414521717 implements MigrationInterface {
             name: 'FK_USER_ROLE_USER_ID',
             columnNames: ['user_id'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'auth.user',
+            referencedTableName: 'auth.users',
           },
           {
             name: 'FK_USER_ROLE_ROLE_ID',
@@ -44,6 +44,6 @@ export class CreateUserRolesTable1695414521717 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('security.user_roles');
+    await queryRunner.dropTable('security.users_roles');
   }
 }

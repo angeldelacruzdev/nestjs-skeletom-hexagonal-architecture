@@ -10,10 +10,4 @@ export class RegisterHttpDto {
 
   @IsNotEmpty()
   terms: boolean;
-
-  @IsNotEmpty()
-  status: boolean;
-
-  @IsOptional()
-  details: UserDetailDto;
 }

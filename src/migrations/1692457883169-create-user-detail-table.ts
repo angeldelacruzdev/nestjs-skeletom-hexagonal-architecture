@@ -22,7 +22,7 @@ export class CreateUserDetailTable1692457883169 implements MigrationInterface {
             name: 'FK_USER_DETAILS_USER_ID',
             columnNames: ['userId'],
             referencedColumnNames: ['id'],
-            referencedTableName: 'user',
+            referencedTableName: 'users',
             referencedSchema: 'auth',
           },
         ],
