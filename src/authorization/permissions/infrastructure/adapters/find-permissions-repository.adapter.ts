@@ -1,3 +1,5 @@
+import { InjectRepository } from '@nestjs/typeorm';
+import { Inject } from '@nestjs/common';
 import { FindManyOptions, ILike, Repository } from 'typeorm';
 
 import { Permission } from '../../domain/permission.entity';
@@ -6,8 +8,6 @@ import {
   FindPermissionsRepositoryPort,
   PermissionsResponseDto,
 } from './../../application';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Inject } from '@nestjs/common';
 
 import { PermissionMapper } from '../mapper';
 

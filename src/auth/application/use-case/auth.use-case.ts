@@ -11,7 +11,7 @@ export class AuthUseCase {
     private readonly authTokenGeneratePort: AuthTokenGeneratePort,
   ) {}
 
-  async login(dto: LoginDto): Promise<AuthResponseDto | any> {
+  async login(dto: LoginDto): Promise<AuthResponseDto> {
     try {
       const responseFind = await this.findUserUseCase.findByEmail(dto.email);
 

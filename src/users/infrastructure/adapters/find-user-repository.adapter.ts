@@ -12,7 +12,10 @@ import {
   PaginationResponseDto,
   TOKEN_LOGGER_PORT,
 } from '../../../utils';
-import { UserBadRequestException, UserInternalErrorException } from '../../user-exception';
+import {
+  UserBadRequestException,
+  UserInternalErrorException,
+} from '../../user-exception';
 
 export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
   constructor(
@@ -52,7 +55,9 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       const isMatch = await bcrypt.compare(token, response.rt_hash);
 
       if (!isMatch) {
-        throw new UserBadRequestException("No tiene permisos para ejecutar est'a acción.");
+        throw new UserBadRequestException(
+          "No tiene permisos para ejecutar est'a acción.",
+        );
       }
       return response.rt_hash;
       // return response;
@@ -74,7 +79,6 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
 
       return null;
     } catch (error) {
-      console.log('error: ', error.message);
       this.logger.error(error.message);
       throw new UserInternalErrorException();
     }
@@ -127,4 +131,12 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       throw new UserInternalErrorException();
     }
   }
+
+  // async findUserRoles(userId: string): Promise<string[]> {
+  //   const user = await this.userRepository.findOne({
+  //     where: { id: userId },
+  //     relations: ['roles'], // Asegurarse de cargar los roles del usuario
+  //   });
+  //   return user.roles.map((role) => role.role_name);
+  // }
 }

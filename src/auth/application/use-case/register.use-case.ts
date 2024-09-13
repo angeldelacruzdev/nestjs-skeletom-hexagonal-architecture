@@ -1,3 +1,4 @@
+import { FindUserUseCase } from '../../../users/application';
 import { AuthBadRequestException } from '../../auth-exceptions';
 import { AuthRegisterDto } from '../dtos';
 import { RegisterRepositoryPort } from '../ports';
@@ -5,20 +6,24 @@ import { RegisterRepositoryPort } from '../ports';
 export class RegisterUseCase {
   constructor(
     private readonly registerRepositoryPort: RegisterRepositoryPort,
+    private readonly findUserUseCase: FindUserUseCase,
   ) {}
 
-  async register(dto: AuthRegisterDto): Promise<any> {
+  async register(dto: AuthRegisterDto): Promise<AuthRegisterDto> {
     try {
-      const response = await this.registerRepositoryPort.register(dto);
-      if (!response) {
+      const user = await this.findUserUseCase.findByEmail(dto.email);
+
+      if (user) {
         throw new AuthBadRequestException(
-          'Lo sentimos, no pudimos procesar la información, intente de nuevo.',
+          'El correo electrónico que has ingresado ya está registrado. Por favor, utiliza uno diferente o intenta iniciar sesión.',
           400,
         );
       }
+
+      const response = await this.registerRepositoryPort.register(dto);
       return response;
     } catch (error) {
-      throw new AuthBadRequestException("El usuario no puede registrarse.", 400);
+      throw new AuthBadRequestException(error.message, 400);
     }
   }
 }

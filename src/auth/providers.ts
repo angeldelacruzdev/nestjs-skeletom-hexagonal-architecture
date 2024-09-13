@@ -82,10 +82,15 @@ export const providers: Provider[] = [
   },
   {
     provide: RegisterUseCase,
-    useFactory: (registerRepositoryPort: RegisterRepositoryPort) => {
-      return new RegisterUseCase(registerRepositoryPort);
+    useFactory: (
+      registerRepositoryPort: RegisterRepositoryPort,
+      findUserRepositoryPort: FindUserRepositoryPort,
+    ) => {
+      const findUserUseCase = new FindUserUseCase(findUserRepositoryPort);
+
+      return new RegisterUseCase(registerRepositoryPort, findUserUseCase);
     },
-    inject: [REGISTER_USER_REPOSITORY],
+    inject: [REGISTER_USER_REPOSITORY, FIND_REPOSITORY_PORT],
   },
   {
     provide: LogOutUseCase,
