@@ -11,40 +11,40 @@ export class AuthUseCase {
     private readonly authTokenGeneratePort: AuthTokenGeneratePort,
   ) {}
 
-  async login(dto: LoginDto): Promise<AuthResponseDto | any> {
+  async login(dto: LoginDto): Promise<AuthResponseDto> {
     try {
-      const responseFind = await this.findUserUseCase.findByEmail(dto.email);
+      const findUserByEmail = await this.findUserUseCase.findByEmail(dto.email);
 
-      if (!responseFind) {
+      if (!findUserByEmail) {
         throw new AuthNotFoundException('Has olvidada la contraseña.');
       }
 
-      const responseRtHash = await this.findUserUseCase.findRtHashByUserId(
-        responseFind.id,
+      const findUserById = await this.findUserUseCase.findRtHashByUserId(
+        findUserByEmail.id,
       );
 
-      const isMatch = await bcrypt.compare(dto.password, responseRtHash);
+      const passwordIsMatch = await bcrypt.compare(dto.password, findUserById);
 
-      if (!isMatch) {
+      if (!passwordIsMatch) {
         throw new AuthNotFoundException('Has olvidada la contraseña.');
       }
 
-      const token = await this.authTokenGeneratePort.token(
-        responseFind.id,
-        responseFind.email,
+      const getToken = await this.authTokenGeneratePort.token(
+        findUserByEmail.id,
+        findUserByEmail.email,
       );
 
       const responseRefreshToken =
         await this.authTokenGeneratePort.setRefreshTokenToUser(
-          token.refresh_token,
-          responseFind.id,
+          getToken.refresh_token,
+          findUserByEmail.id,
         );
 
       if (!responseRefreshToken) {
         throw new AuthNotFoundException('Has olvidada la contraseña.');
       }
 
-      return AuthMapper.toDto(responseFind, token);
+      return AuthMapper.toDto(findUserByEmail, getToken);
     } catch (error) {
       if (error instanceof AuthNotFoundException) {
         throw new AuthNotFoundException(error.message);
