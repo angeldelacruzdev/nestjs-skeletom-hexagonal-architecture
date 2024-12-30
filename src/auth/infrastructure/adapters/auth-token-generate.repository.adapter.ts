@@ -69,7 +69,7 @@ export class AuthTokenGenerateRepositoryAdapter
           },
           {
             secret: process.env.JWT_REFRESH_SECRET,
-            expiresIn: '30d',
+            expiresIn: '15d',
           },
         ),
       ]);
