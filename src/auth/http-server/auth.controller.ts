@@ -36,14 +36,15 @@ export class AuthController {
   ) {}
 
   @Public()
-  @Post('login')
+  @Post('signin')
   async login(@Body() dto: LoginHttpDto): Promise<AuthResponseHttpDto> {
-    return await this.authUseCase.login(dto);
+    return await this.authUseCase.signin(dto);
   }
 
   @Public()
-  @Post('register')
+  @Post('signup')
   async register(@Body() dto: RegisterHttpDto): Promise<AuthResponseHttpDto> {
+    dto.status =  true;
     return await this.registerUseCase.register(dto);
   }
 

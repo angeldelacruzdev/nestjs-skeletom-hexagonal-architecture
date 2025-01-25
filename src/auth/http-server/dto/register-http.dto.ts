@@ -11,7 +11,7 @@ export class RegisterHttpDto {
   @IsNotEmpty()
   terms: boolean;
 
-  @IsNotEmpty()
+  @IsOptional()
   status: boolean;
 
   @IsOptional()

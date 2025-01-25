@@ -40,5 +40,5 @@ export class User {
   updated_at: Date;
 
   @OneToOne(() => UserDetails, (metadata) => metadata.user, { cascade: true })
-  details: Relation<UserDetails>;
+  details: Relation<UserDetails>;            
 }
