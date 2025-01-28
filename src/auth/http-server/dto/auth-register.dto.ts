@@ -1,7 +1,6 @@
 import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
-import { UserDetailDto } from './auth-user-detail.dto';
 
-export class RegisterHttpDto {
+export class AuthRegisterDto {
   @IsEmail()
   email: string;
 
@@ -14,6 +13,5 @@ export class RegisterHttpDto {
   @IsOptional()
   status: boolean;
 
-  @IsOptional()
-  details: UserDetailDto;
+
 }

@@ -1,9 +1,7 @@
-import { UserDetailDto } from '../../../users/application';
 
-export interface AuthRegisterDto {
+export class AuthRegisterDto {
   email: string;
   password: string;
   terms: boolean;
   status: boolean;
-  details: UserDetailDto;
 }

@@ -21,7 +21,7 @@ import { LoginHttpDto } from './dto/login-http.dto';
 import { AuthResponseHttpDto } from './dto/auth-response.dto';
 import { HttpMapper } from './mappers';
 import { RegisterUseCase } from './../../auth/application/use-case/register.use-case';
-import { RegisterHttpDto } from './dto/register-http.dto';
+import { AuthRegisterDto } from './dto/auth-register.dto';
 
 @Controller({
   path: 'v1/auth',
@@ -33,7 +33,7 @@ export class AuthController {
     private readonly registerUseCase: RegisterUseCase,
     private readonly logOutUseCase: LogOutUseCase,
     private readonly authTokenGenerateUseCase: AuthTokenGenerateUseCase,
-  ) {}
+  ) { }
 
   @Public()
   @Post('signin')
@@ -43,8 +43,8 @@ export class AuthController {
 
   @Public()
   @Post('signup')
-  async register(@Body() dto: RegisterHttpDto): Promise<AuthResponseHttpDto> {
-    dto.status =  true;
+  async register(@Body() dto: AuthRegisterDto): Promise<AuthResponseHttpDto> {
+    dto.status = true;
     return await this.registerUseCase.register(dto);
   }
 
