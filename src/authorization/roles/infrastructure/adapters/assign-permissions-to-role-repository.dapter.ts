@@ -7,7 +7,7 @@ import {
   RolesResponseDto,
 } from '../../application';
 
-import { Role } from '../../domain/entities/roles.entity';
+import { Role } from '../entities/roles.entity';
 import { RolesMapper } from '../mappers';
 import { PermissionsResponseDto } from '../../../permissions';
 import { RoleInternalErrorException } from '../../role-exception';

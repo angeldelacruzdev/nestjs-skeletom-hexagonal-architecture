@@ -46,9 +46,7 @@ export class AuthUseCase {
 
       return AuthMapper.toDto(findUserByEmail, getToken);
     } catch (error) {
-      if (error instanceof AuthNotFoundException) {
-        throw new AuthNotFoundException(error.message);
-      }
+      throw error;
     }
   }
 }

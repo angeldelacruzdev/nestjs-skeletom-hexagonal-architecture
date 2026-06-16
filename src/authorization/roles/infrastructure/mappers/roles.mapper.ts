@@ -1,5 +1,5 @@
 import { CreateRolesDto, RolesResponseDto } from '../../application';
-import { Role } from '../../domain/entities/roles.entity';
+import { Role } from '../entities/roles.entity';
 import { PermissionMapper, PermissionsResponseDto } from '../../../permissions';
 
 export class RolesMapper {

@@ -1,4 +1,3 @@
-import { ExceptionHandlerPort } from './../common/exceptions/exception-handler.port';
 import { UpdateUserRepository } from './application/ports/update-user.repository';
 import { FindUserRepositoryAdapter } from './infrastructure/adapters/find-user-repository.adapter';
 
@@ -6,7 +5,6 @@ import {
   FIND_REPOSITORY_PORT,
   CREATE_REPOSITORY_PORT,
   UPDATE_USER_REPOSITORY_PORT,
-  DELETE_USER_REPOSITORY_PORT,
 } from './application/token/user-repository.token';
 
 import {
@@ -17,7 +15,7 @@ import {
 import {
   CreateUserRepositoryPort,
   CreateUserUseCase,
-  DeleteUserUserCase,
+  DeleteUserUseCase,
   FindUserRepositoryPort,
   FindUserUseCase,
   UpdateUserUseCase,
@@ -25,7 +23,7 @@ import {
 import { Provider } from '@nestjs/common';
 import { LoggerAdapter, TOKEN_LOGGER_PORT } from '../utils';
 
-export const provideres: Provider[] = [
+export const providers: Provider[] = [
   {
     provide: TOKEN_LOGGER_PORT,
     useClass: LoggerAdapter,
@@ -43,10 +41,6 @@ export const provideres: Provider[] = [
     useClass: UpdateUserRepositoryAdapter,
   },
   {
-    provide: DELETE_USER_REPOSITORY_PORT,
-    useClass: UpdateUserRepositoryAdapter,
-  },
-  {
     provide: FindUserUseCase,
     useFactory: (findUserRepositoryPort: FindUserRepositoryPort) =>
       new FindUserUseCase(findUserRepositoryPort),
@@ -60,24 +54,16 @@ export const provideres: Provider[] = [
   },
   {
     provide: UpdateUserUseCase,
-    useFactory: (createRepository: UpdateUserRepository) =>
-      new UpdateUserUseCase(createRepository),
+    useFactory: (updateRepository: UpdateUserRepository) =>
+      new UpdateUserUseCase(updateRepository),
     inject: [UPDATE_USER_REPOSITORY_PORT],
   },
   {
-    provide: DeleteUserUserCase,
+    provide: DeleteUserUseCase,
     useFactory: (
-      createRepository: UpdateUserRepository,
+      updateRepository: UpdateUserRepository,
       findUserRepositoryPort: FindUserRepositoryPort,
-      exceptionHandlerPort: ExceptionHandlerPort,
-    ) => {
-      const findUserUseCase = new FindUserUseCase(findUserRepositoryPort);
-      return new DeleteUserUserCase(
-        createRepository,
-        findUserUseCase,
-        exceptionHandlerPort,
-      );
-    },
+    ) => new DeleteUserUseCase(updateRepository, findUserRepositoryPort),
     inject: [UPDATE_USER_REPOSITORY_PORT, FIND_REPOSITORY_PORT],
   },
 ];

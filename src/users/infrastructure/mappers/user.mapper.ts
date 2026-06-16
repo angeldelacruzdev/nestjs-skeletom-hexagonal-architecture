@@ -1,10 +1,10 @@
-import { User } from './../../../users/domain/entities/user.entity';
+import { User } from '../entities/user.entity';
 import {
   CreateUserDto,
   UpdateUserDto,
   UserResponseDto,
 } from '../../application';
-import { UserDetails } from './../../../users/domain/entities/user-details.entity';
+import { UserDetails } from '../entities/user-details.entity';
 
 export class UserMapper {
   public static async toEntity(dto: CreateUserDto): Promise<User> {

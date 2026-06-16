@@ -1,6 +1,6 @@
 import { FindManyOptions, ILike, Repository } from 'typeorm';
 
-import { Permission } from '../../domain/permission.entity';
+import { Permission } from '../entities/permission.entity';
 
 import {
   FindPermissionsRepositoryPort,

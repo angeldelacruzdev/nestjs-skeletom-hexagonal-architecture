@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { UserResponseDto, FindUserRepositoryPort } from '../../application';
 
 import { UserMapper } from '../mappers/user.mapper';
-import { User } from './../../../users/domain/entities/user.entity';
+import { User } from '../entities/user.entity';
 import {
   LoggerPort,
   PaginationDto,
@@ -20,7 +20,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
     private readonly userRepository: Repository<User>,
     @Inject(TOKEN_LOGGER_PORT)
     private readonly logger: LoggerPort,
-  ) {}
+  ) { }
 
   async findRtHashByUserId(id: string): Promise<string> {
     try {
@@ -35,7 +35,7 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       }
       return response.password;
       // return response;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(error);
       throw new UserInternalErrorException();
     }
@@ -56,13 +56,13 @@ export class FindUserRepositoryAdapter implements FindUserRepositoryPort {
       }
       return response.rt_hash;
       // return response;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(error);
       throw new UserInternalErrorException();
     }
   }
 
-  async findByEmail(email: string): Promise<UserResponseDto> {
+  async findByEmail(email: string): Promise<UserResponseDto | null> {
     try {
       const response = await this.userRepository.findOne({
         where: { email: email },

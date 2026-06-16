@@ -10,7 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Inject } from '@nestjs/common';
 
 import { UserMapper } from '../mappers';
-import { User } from '../../domain/entities/user.entity';
+import { User } from '../entities/user.entity';
 import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
 import { UserBadRequestException } from '../../user-exception';
 
@@ -41,7 +41,7 @@ export class CreateUserRepositoryAdapter implements CreateUserRepositoryPort {
       }
 
       return UserMapper.toDto(response);
-    } catch (error) {
+    } catch (error: any) {
       this.logger.log(error);
 
       throw new UserBadRequestException(error.message, error.code);

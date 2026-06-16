@@ -1,11 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType, Logger } from '@nestjs/common';
-import { NextFunction, Request, Response } from 'express';
+import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
+  const port = process.env.PORT || 3001;
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -20,16 +22,15 @@ async function bootstrap() {
     defaultVersion: '1',
   });
 
-  app.use(function (request: Request, response: Response, next: NextFunction) {
-    response.setHeader(
-      'Access-Control-Allow-Origin',
-      `http://localhost:${process.env.PORT}`,
-    );
-    next();
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN || 'http://localhost:4200',
+    credentials: true,
   });
 
-  await app.listen(process.env.PORT || 3001, () => {
-    logger.log(`App started on http://localhost:${process.env.PORT}`);
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  await app.listen(port, () => {
+    logger.log(`App started on http://localhost:${port}`);
   });
 }
 

@@ -16,7 +16,6 @@ import { AtStrategiest, RtStrategiest } from '../jwt/strategies';
 import {
   CREATE_REPOSITORY_PORT,
   FIND_REPOSITORY_PORT,
-  FindUserRepositoryPort,
   FindUserUseCase,
 } from './../users/application';
 
@@ -43,11 +42,11 @@ export const providers: Provider[] = [
   },
   {
     provide: AT_STRATEGIEST,
-    useClass: RtStrategiest,
+    useClass: AtStrategiest,
   },
   {
     provide: RT_STRATEGIEST,
-    useClass: AtStrategiest,
+    useClass: RtStrategiest,
   },
   {
     provide: LOG_OUT_USER_REPOSITORY,
@@ -72,13 +71,10 @@ export const providers: Provider[] = [
   {
     provide: AuthUseCase,
     useFactory: (
-      findUserRepositoryPort: FindUserRepositoryPort,
+      findUserUseCase: FindUserUseCase,
       authTokenGeneratePort: AuthTokenGeneratePort,
-    ) => {
-      const findUserUseCase = new FindUserUseCase(findUserRepositoryPort);
-      return new AuthUseCase(findUserUseCase, authTokenGeneratePort);
-    },
-    inject: [FIND_REPOSITORY_PORT, TOKEN_GENERATE_REPOSITORY],
+    ) => new AuthUseCase(findUserUseCase, authTokenGeneratePort),
+    inject: [FindUserUseCase, TOKEN_GENERATE_REPOSITORY],
   },
   {
     provide: RegisterUseCase,
@@ -98,15 +94,8 @@ export const providers: Provider[] = [
     provide: AuthTokenGenerateUseCase,
     useFactory: (
       authTokenGeneratePort: AuthTokenGeneratePort,
-      findUserRepositoryPort: FindUserRepositoryPort,
-    ) => {
-      const findUserUseCase = new FindUserUseCase(findUserRepositoryPort);
-
-      return new AuthTokenGenerateUseCase(
-        authTokenGeneratePort,
-        findUserUseCase,
-      );
-    },
-    inject: [TOKEN_GENERATE_REPOSITORY, FIND_REPOSITORY_PORT],
+      findUserUseCase: FindUserUseCase,
+    ) => new AuthTokenGenerateUseCase(authTokenGeneratePort, findUserUseCase),
+    inject: [TOKEN_GENERATE_REPOSITORY, FindUserUseCase],
   },
 ];

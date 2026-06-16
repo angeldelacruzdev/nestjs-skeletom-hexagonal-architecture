@@ -12,7 +12,7 @@ import {
   FindUserUseCase,
   CreateUserUseCase,
   UpdateUserUseCase,
-  DeleteUserUserCase,
+  DeleteUserUseCase,
 } from '../application';
 import { CreateUserDto, UpdateUserServerDto, UserResponseDto } from './dtos';
 import { Pagination } from '../../common';
@@ -28,7 +28,7 @@ export class UserController {
     private readonly findUserUseCase: FindUserUseCase,
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
-    private readonly deleteUseCase: DeleteUserUserCase,
+    private readonly deleteUseCase: DeleteUserUseCase,
   ) {}
 
   @Post()

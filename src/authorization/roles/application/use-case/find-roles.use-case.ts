@@ -1,4 +1,4 @@
-import { PaginationDto, PaginationResponseDto } from '../../../utils';
+import { PaginationDto, PaginationResponseDto } from '../../../../utils';
 import { RoleInternalErrorException } from '../../role-exception';
 import { RolesResponseDto } from '../dto';
 import { FindRolesRepositoryPort } from '../ports';

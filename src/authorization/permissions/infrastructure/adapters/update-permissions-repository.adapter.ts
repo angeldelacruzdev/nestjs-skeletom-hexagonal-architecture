@@ -8,7 +8,7 @@ import {
   UpdatePermissionsRepositoryPort,
 } from './../../application';
 
-import { Permission } from '../../domain/permission.entity';
+import { Permission } from '../entities/permission.entity';
 
 import { PermissionMapper } from '../mapper';
 

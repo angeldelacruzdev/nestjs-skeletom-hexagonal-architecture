@@ -1,50 +1,36 @@
-export class RoleBadRequestException extends Error {
-  statusCode: number;
+import {
+  BadRequestException,
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
+export class RoleBadRequestException extends BadRequestException {
   constructor(message?: string, code?: number) {
-    super(message);
-
-    if (+code == 23505) {
+    if (+code === 23505) {
       throw new RoleDuplicateRegistrationException();
+    }
+    super(message ?? 'Excepción de solicitud incorrecta de rol.');
+  }
+}
+
+export class RoleDuplicateRegistrationException extends ConflictException {
+  constructor(message?: string, code?: number) {
+    if (code) {
+      super(message);
     } else {
-      this.message = 'Excepción de solicitud incorrecta de rol.';
-      this.name = 'RoleBadRequestException';
-      this.statusCode = 400;
+      super(
+        'Señala una violación de la restricción de clave primaria, indicando un duplicado.',
+      );
     }
   }
 }
 
-export class RoleDuplicateRegistrationException extends Error {
-  statusCode: number;
-
+export class RoleInternalErrorException extends InternalServerErrorException {
   constructor(message?: string, code?: number) {
-    super(message);
-
     if (code) {
-      this.message = message;
-      this.statusCode = code;
+      super(message);
     } else {
-      this.message =
-        'Señala una violación de la restricción de clave primaria, indicando un duplicado.';
-      this.name = 'RoleDuplicateRegistrationException';
-      this.statusCode = 500;
-    }
-  }
-}
-
-export class RoleInternalErrorException extends Error {
-  statusCode: number;
-
-  constructor(message?: string, code?: number) {
-    super(message);
-
-    if (code) {
-      this.message = message;
-      this.statusCode = code;
-    } else {
-      this.message = 'Ha ocurrido un interno en el servidor.';
-      this.name = 'RoleInternalErrorException';
-      this.statusCode = 500;
+      super('Ha ocurrido un error interno en el servidor.');
     }
   }
 }

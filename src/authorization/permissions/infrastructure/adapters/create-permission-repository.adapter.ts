@@ -4,7 +4,7 @@ import {
   CreatePermissionsRepositoryPort,
   PermissionsResponseDto,
 } from '../../application';
-import { Permission } from '../../domain/permission.entity';
+import { Permission } from '../entities/permission.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Inject } from '@nestjs/common';
 

@@ -1,42 +1,31 @@
-export class AuthNotFoundException extends Error {
-  statusCode: number;
+import {
+  NotFoundException,
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
+export class AuthNotFoundException extends NotFoundException {
   constructor(message?: string) {
-    super(message ? `Has olvidado el correo o la contraseña.` : message);
-    this.name = 'AuthNotFoundException';
-    this.statusCode = 404;
+    super(message ?? 'Has olvidado el correo o la contraseña.');
   }
 }
 
-export class AuthBadRequestException extends Error {
-  statusCode: number;
-
+export class AuthBadRequestException extends BadRequestException {
   constructor(message?: string, code?: number) {
-    super(message);
-
     if (code) {
-      this.message = message;
-      this.statusCode = code;
+      super(message);
     } else {
-      this.name = 'UserBadRequestException';
-      this.statusCode = 404;
+      super('Solicitud incorrecta.');
     }
   }
 }
 
-export class InternalErrorException extends Error {
-  statusCode: number;
-
+export class InternalErrorException extends InternalServerErrorException {
   constructor(message?: string, code?: number) {
-    super(message);
-
     if (code) {
-      this.message = message;
-      this.statusCode = code;
+      super(message);
     } else {
-      this.message = 'Ha ocurrido un interno en el servidor.';
-      this.name = 'InternalErrorException';
-      this.statusCode = 500;
+      super('Ha ocurrido un error interno en el servidor.');
     }
   }
 }

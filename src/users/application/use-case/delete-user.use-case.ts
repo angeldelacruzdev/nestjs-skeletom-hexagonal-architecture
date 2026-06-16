@@ -5,7 +5,7 @@ import {
 import { UserResponseDto } from '../dtos';
 import { FindUserRepositoryPort, UpdateUserRepository } from '../ports';
 
-export class DeleteUserUserCase {
+export class DeleteUserUseCase {
   constructor(
     private readonly updateUserRepository: UpdateUserRepository,
     private readonly findUserRepositoryPort: FindUserRepositoryPort,

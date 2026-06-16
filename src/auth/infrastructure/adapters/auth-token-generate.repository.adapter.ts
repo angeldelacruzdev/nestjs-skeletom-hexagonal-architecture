@@ -4,7 +4,7 @@ import { AuthTokenGeneratePort, TokenResponseDto } from '../../application';
 
 import { Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../../../users/domain/entities/user.entity';
+import { User } from '../../../users/infrastructure/entities/user.entity';
 import { Repository } from 'typeorm';
 import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
 import { InternalErrorException } from '../../auth-exceptions';

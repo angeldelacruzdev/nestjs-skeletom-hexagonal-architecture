@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { DeletePermissionsRepositoryPort } from '../../application';
-import { Permission } from '../../domain/permission.entity';
+import { Permission } from '../entities/permission.entity';
 import {
   EXCEPTION_HANDLER_PORT,
   ExceptionHandlerPort,

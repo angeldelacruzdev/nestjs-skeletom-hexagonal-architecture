@@ -2,7 +2,7 @@ import { Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LogOutPort } from '../../application';
-import { User } from '../../../users/domain/entities/user.entity';
+import { User } from '../../../users/infrastructure/entities/user.entity';
 
 import { LoggerPort, TOKEN_LOGGER_PORT } from '../../../utils';
 import { InternalErrorException } from '../../auth-exceptions';

@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, ILike, Repository } from 'typeorm';
 
 import { FindRolesRepositoryPort, RolesResponseDto } from '../../application';
-import { Role } from '../../domain/entities/roles.entity';
+import { Role } from '../entities/roles.entity';
 import { RolesMapper } from '../mappers';
 import { Inject } from '@nestjs/common';
 import { RoleInternalErrorException } from '../../role-exception';

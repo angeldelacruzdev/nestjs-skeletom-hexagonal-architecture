@@ -5,7 +5,7 @@ import {
   RolesResponseDto,
 } from '../../application';
 import { Repository } from 'typeorm';
-import { Role } from '../../domain/entities/roles.entity';
+import { Role } from '../entities/roles.entity';
 import { RolesMapper } from '../mappers';
 
 import { Inject } from '@nestjs/common';

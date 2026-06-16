@@ -3,7 +3,7 @@ import {
   PermissionsResponseDto,
   UpdatePermissionsDto,
 } from '../../application';
-import { Permission } from '../../domain/permission.entity';
+import { Permission } from '../entities/permission.entity';
 
 export class PermissionMapper {
   public static toDto(entity: Permission): PermissionsResponseDto {

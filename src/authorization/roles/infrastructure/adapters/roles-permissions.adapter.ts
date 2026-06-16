@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { PermissionsResponseDto } from '../../../permissions';
 import { RolesPermissionsPort, RolesResponseDto } from '../../application';
-import { Role } from '../../domain/entities/roles.entity';
+import { Role } from '../entities/roles.entity';
 import { Repository } from 'typeorm';
 import { Inject } from '@nestjs/common';
 

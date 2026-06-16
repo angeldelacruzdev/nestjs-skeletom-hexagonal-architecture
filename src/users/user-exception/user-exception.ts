@@ -1,32 +1,24 @@
-export class UserBadRequestException extends Error {
-  statusCode: number;
+import {
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
+export class UserBadRequestException extends BadRequestException {
   constructor(message?: string, code?: number) {
-    super(message);
-
-    if (+code == 23505) {
-      this.message = 'Ya existe la información que esta suministrando';
-      this.statusCode = 400;
+    if (+code === 23505) {
+      super('Ya existe la información que esta suministrando');
     } else {
-      this.name = 'UserBadRequestException';
-      this.statusCode = 404;
+      super(message ?? 'Solicitud incorrecta.');
     }
   }
 }
 
-export class UserInternalErrorException extends Error {
-  statusCode: number;
-
+export class UserInternalErrorException extends InternalServerErrorException {
   constructor(message?: string, code?: number) {
-    super(message);
-
     if (code) {
-      this.message = message;
-      this.statusCode = code;
+      super(message);
     } else {
-      this.message = 'Ha ocurrido un interno en el servidor.';
-      this.name = 'InternalErrorException';
-      this.statusCode = 500;
+      super('Ha ocurrido un error interno en el servidor.');
     }
   }
 }

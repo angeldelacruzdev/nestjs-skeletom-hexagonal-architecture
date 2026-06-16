@@ -8,7 +8,7 @@ import {
   UpdateUserRepository,
   UserResponseDto,
 } from './../../application';
-import { User } from '../../domain/entities/user.entity';
+import { User } from '../entities/user.entity';
 
 import { UserMapper } from '../mappers';
 import { UserInternalErrorException } from '../../user-exception';
